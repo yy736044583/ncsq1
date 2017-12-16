@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>
+		<!--<script type="text/javascript" src="__PUBLIC__home//js/lib/jquery1.42.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__home/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/iscroll.js" ></script>
+	</head>
+	<body style="background-color: #f3f4f5;" onload="loaded()" oncontextmenu=self.event.returnValue=false>
+		<div class="cont-box">
+			<div class="main6">
+				<div class="main6-cont clearfix">
+					<div class="pull-left main6-return">
+						<a href="javascript:history.go(-1)"><i></i>返回上一级列表</a>
+					</div>
+					<div class="pull-left main6-contro">
+						<div id="wrapper">
+							<div id="scroller">
+								<div class="main6-tont-text">
+									<span class="bt sucss">提交时间：</span>
+									<span class="lr">{$list.uptime}</span>
+								</div>
+								<div class="main6-tont-text">
+									<span class="bt sucss">是否处理：</span>
+									<span class="lr danger">{if condition="$list['status'] eq 3"}否{else}是{/if}</span>
+								</div>
+								<div class="main6-tont-text">
+									<span class="bt sucss">建议标题：</span>
+									<span class="lr">{$list.title}</span>
+								</div>
+								<div class="main6-tont-text">
+									<span class="bt sucss">建议内容：</span>
+									<span class="lr">{$list.content}</span>
+								</div>
+								<div class="main6-tont-text">
+									<span class="bt sucss">处理结果：</span>
+									<span class="lr">{$list.recontent}</span>
+								</div>								
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myScroll;
+		
+			function loaded () {
+				myScroll = new IScroll('#wrapper', {
+					scrollbars: true,
+					mouseWheel: true,
+					interactiveScrollbars: true,
+					shrinkScrollbars: 'scale',
+					fadeScrollbars: true
+				});
+			}		
+		</script>
+	</body>
+</html>

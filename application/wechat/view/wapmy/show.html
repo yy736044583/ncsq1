@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title>我的预约</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+	</head>
+	<body>
+	<a href="javascript:history.go(-1)" class="prv-main">返回</a>
+		<div class="controller">
+			<div class="banner-img">
+				<img src="__PUBLIC__weixin/images/banner.png"/>
+			</div>
+			<div class="controller-box">
+				<h1>我的预约</h1>
+				{if condition="empty($info['id']) eq false"}
+				<div class="my_yy">
+					<div class="weui-cells">
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">预约编号：</div>
+							<div class="weui-cell__ft color-info">{$info.number}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">姓　　名：</div>
+							<div class="weui-cell__ft color-info">{$info.name}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">预约时间：</div>
+							<div class="weui-cell__ft color-info">{$info.uptime}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">预约业务：</div>
+							<div class="weui-cell__ft color-info">{$info.busName}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">联系电话：</div>
+							<div class="weui-cell__ft color-info">{$info.mobile}</div>
+						</div>
+					</div>
+					{if condition="$info['status'] eq 0"}
+					<a href="javascript:;" class="weui-btn my_yy-btn my_yy-off" data-info="{$info.orderID}">取消预约</a>
+					{else}
+					<a href="{:url('Wapindex/index')}" class="weui-btn my_yy-btn">返回首页</a>
+					{/if}
+				</div>
+				{else}
+					<div class="weui-loadmore weui-loadmore_line">
+			            <span class="weui-loadmore__tips">暂无预约</span>
+			        </div>
+				{/if}
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				$(".my_yy-off").on('click', function(e){
+					e.stopPropagation();
+					my_yys();
+					var my_yyID = $(this).attr('data-info');
+					$("#iosDialog").fadeIn(200);
+					
+					$("#yy_error").off().on("click", function(e){
+						e.stopPropagation();
+						$("#iosDialog").fadeOut(200);
+					})
+					$("#yy_success").off().on("click", function(e){
+							e.stopPropagation();
+							$("#iosDialog").fadeOut(200);
+			//				点击确定后执行ajax
+			//				alert("执行ajax"+my_yyID);
+							$.ajax({
+								type:"post",
+								url:"{:url('Wapmy/delete')}",
+								async:true,
+								data:{"id":my_yyID},
+								success:function(data){
+									if(data){
+										window.location.href = "{:url('Wapindex/index')}";
+									}else{
+										alert("取消失败");
+									}
+								}
+							});
+					})
+				})
+				
+				
+			})
+		</script>
+	</body>
+</html>

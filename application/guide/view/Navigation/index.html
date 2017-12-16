@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<!--<script type="text/javascript" src="../dist/js/lib/jquery-3.1.1.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__guide/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery.SuperSlide.2.1.1.js" ></script>
+	</head>
+	<body>
+		<div class="cont-box">
+			<div class="main3">
+				<div class="main3-cont">
+					<!--楼层切换tab开始-->
+					<div class="lc-tab">
+						<a href="javascript:" class="lc-tab-item on" data-index="0">一楼</a>
+						<a href="javascript:" class="lc-tab-item" data-index="1">二楼</a>
+						<a href="javascript:" class="lc-tab-item" data-index="2">三楼</a>
+						<a href="javascript:" class="lc-tab-item" data-index="3">四楼</a>
+					</div>
+					<!--楼层切换tab结束-->
+					<!--楼梯内容开始-->
+					<div class="lc-cont">
+						<!--第一层开始-->
+						<div class="lc-cont-item cl-one">
+							<!--楼层地图-->
+							<div class="lc-map">
+							{if condition="empty($zb1) neq true"}
+							{volist name="zb1" id="v"}	
+								<img src="__PUBLIC__guide/images/ds.gif"/ style="position: absolute;left: {$v['0']}px;top: {$v['1']}px; z-index: {$v['2']};">
+							{/volist}
+							{/if}
+							</div>
+							<!--部门选择-->
+							<div class="lc-bm">
+								<!--部门-->
+								<div class="lc-bm-box">
+									<div class="bd">
+										<ul class="clearfix">
+											{volist name="info1" key="k" id="v"}
+											<li><a href="javascript:" onclick="mapimg({$v.id})">{$v.name}</a></li>
+											{/volist}
+										</ul>
+									</div>
+									<a href="javascript:" class="prev bm-p"></a>
+									<a href="javascript:" class="next bm-p"></a>
+									<!--服务时间开始-->
+									<p class="main3-size">中心服务时间：上午09:00-12:00　下午13:00-17:00</p>
+									<!--服务时间结束-->
+								</div>
+							</div>
+						</div>
+						<!--第一层结束-->
+						<!--第二层开始-->
+						<div class="lc-cont-item cl-two">
+							<!--楼层地图-->
+							<div class="lc-map">
+							{if condition="empty($zb2) neq true"}
+							{volist name="zb2" id="v"}	
+								<img src="__PUBLIC__guide/images/ds.gif"/ style="position: absolute;left: {$v['0']}px;top: {$v['1']}px; z-index: {$v['2']};">
+							{/volist}
+							{/if}
+							</div>
+							<!--部门选择-->
+							<div class="lc-bm">
+								<!--部门-->
+								<div class="lc-bm-box">
+									<div class="bd">
+										<ul class="clearfix">
+											{volist name="info2" key="k" id="v"}
+											<li><a href="javascript:" onclick="mapimg({$v.id})">{$v.name}</a></li>
+											{/volist}
+										</ul>
+									</div>
+									<a href="javascript:" class="prev bm-p"></a>
+									<a href="javascript:" class="next bm-p"></a>
+									<!--服务时间开始-->
+									<p class="main3-size">中心服务时间：上午09:00-12:00　下午13:00-17:00</p>
+									<!--服务时间结束-->
+								</div>
+							</div>
+						</div>
+						<!--第二层结束-->
+						<!--第三层开始-->
+						<div class="lc-cont-item cl-three">
+							<!--楼层地图-->
+							<div class="lc-map">
+							{if condition="empty($zb3) neq true"}
+							{volist name="zb3" id="v"}	
+								<img src="__PUBLIC__guide/images/ds.gif"/ style="position: absolute;left: {$v['0']}px;top: {$v['1']}px; z-index: {$v['2']};">
+							{/volist}
+							{/if}
+							</div>
+							<!--部门选择-->
+							<div class="lc-bm">
+								<!--部门-->
+								<div class="lc-bm-box">
+									<div class="bd">
+										<ul class="clearfix">
+											{volist name="info3" key="k" id="v"}
+											<li><a href="javascript:" onclick="mapimg({$v.id})">{$v.name}</a></li>
+											{/volist}
+										</ul>
+									</div>
+									<a href="javascript:" class="prev bm-p"></a>
+									<a href="javascript:" class="next bm-p"></a>
+									<!--服务时间开始-->
+									<p class="main3-size">中心服务时间：上午09:00-12:00　下午13:00-17:00</p>
+									<!--服务时间结束-->
+								</div>
+							</div>
+						</div>
+						<!--第三层结束-->
+						<!--第四层开始-->
+						<div class="lc-cont-item cl-four">
+							<!--楼层地图-->
+							<div class="lc-map">
+							{if condition="empty($zb4) neq true"}
+							{volist name="zb4" id="v"}	
+								<img src="__PUBLIC__home/images/ds.gif"/ style="position: absolute;left: {$v['0']}px;top: {$v['1']}px; z-index: {$v['2']};">
+							{/volist}
+							{/if}
+							</div>
+							<!--部门选择-->
+							<div class="lc-bm">
+								<!--部门-->
+								<div class="lc-bm-box">
+									<!--服务时间开始-->
+									<p class="main3-size">中心服务时间：上午09:00-12:00　下午13:00-17:00</p>
+									<!--服务时间结束-->
+								</div>
+							</div>
+						</div>
+						<!--第四层结束-->
+					</div>
+					<!--楼层内容结束-->
+					<!--办事指南开始-->
+					<div class="bs-news" id="bs-news">
+						<div class="bs-news-title clearfix">
+							<span class="pull-left bt">办事指南</span>
+							<a href="{:url('work/index')}" class="pull-right" id="url_id"><span class="gd">更多>></span></a>
+						</div>
+						<div class="bs-news-cont">
+							{volist name="info4" key="k" id="v"}
+							<a href="{:url('work/main4_1_1')}?id={$v.id}" class="bs-news-item">{$v.name}</a>
+							{/volist}
+						</div>
+					</div>
+					<!--办事指南结束-->
+				</div>
+			</div>
+		</div>
+		<script>
+			jQuery(".cl-one .lc-bm-box").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",vis:6,pnLoop:false,trigger:"click"})
+			jQuery(".cl-two .lc-bm-box").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",vis:6,pnLoop:false,trigger:"click"})
+			jQuery(".cl-three .lc-bm-box").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",vis:6,pnLoop:false,trigger:"click"})
+			jQuery(".cl-four .lc-bm-box").slide({titCell:".hd ul",mainCell:".bd ul",autoPage:true,effect:"left",vis:6,pnLoop:false,trigger:"click"})
+			function mapimg(id){
+			$(".zuobiao").remove();				
+				var Html;		
+				// 办事指南 通过部门id请求数据
+				$.ajax({
+					url: "{:url('navigation/branch')}",
+					type: 'GET',
+					dataType: 'json',
+					data: {id: id},
+					success: function(data){
+						// console.log(data);
+						if (data) {
+							$("#bs-news .bs-news-cont").find('a').remove();
+							for(var i=0; i<data.length; i++){
+								var Zhtml = '<a href="../work/main4_1_1?id='+data[i].id+'" class="bs-news-item">'+data[i].name+'</a>';
+								$("#bs-news .bs-news-cont").append(Zhtml);
+							}
+						}
+					}
+				})
+				//通过部门请求id 请求坐标
+				$.ajax({
+					url: "{:url('navigation/maps')}",
+					type: 'GET',
+					dataType: 'json',
+					data: {id: id},
+					success: function(data){
+						if (data) {
+							for(var i=0; i<data.length; i++){
+								Html = '<img src="__PUBLIC__home/images/zuobiao.gif"/ class="zuobiao" style="position: absolute;left: '+data[i]['x']+'px;top: '+data[i]['y']+'px; z-index: 1;">';
+								if(data[i]['z']==1){
+									// $(".zuobiao").remove();
+									$(".cl-one .lc-map").append(Html);
+								}
+								if(data[i]['z']==2){
+									// $(".zuobiao").remove();
+									$(".cl-two .lc-map").append(Html);
+								}
+								if(data[i]['z']==3){
+									// $(".zuobiao").remove();
+									$(".cl-three .lc-map").append(Html);
+								}
+							}
+							
+						}
+					}
+				})				
+
+			}
+			$(function(){
+				$(".lc-tab-item").click(function(){
+					$(".zuobiao").remove();
+					$(this).addClass('on');
+					$(this).siblings().removeClass('on');
+					$(".lc-cont").find('.lc-cont-item').eq($(this).attr('data-index')).show();
+					$(".lc-cont").find('.lc-cont-item').eq($(this).attr('data-index')).siblings().hide();
+				})
+			})
+			window.onload = function(){				
+				$(".lc-cont-item").hide();
+				$(".lc-cont-item:first").show();
+			}
+		</script>
+	</body>
+</html>
+

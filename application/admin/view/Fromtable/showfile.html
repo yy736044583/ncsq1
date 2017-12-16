@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>文件</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+	</head>
+
+
+<body>
+	<div class="admin-main">
+			<div class="layui-inline">
+				<a href="{:url('fromtable/index')}">事项管理</a>->
+				<a href="{:url('fromtable/filelist')}?mid={$mid}">{$m_name}</a>->
+				<a href="{:url('fromtable/filelist')}?mid={$mid}&fid={$fid}">{$f_name}</a>
+			</div>
+			<!-- <br> -->
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+			<a href="{:url('fromtable/upfile')}?fid={$fid}&mid={$mid}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe608;</i> 添加样表
+			</a>
+			</div>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>样表列表</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>目录标题</th>
+							<th>样表别名</th>
+							<th style="width:30%">样表地址</th>
+							<th style="width:30%">填表模板地址</th>
+							<th>排序</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.filetitle}</td>
+							<td class="titles">{$v.title}</td>
+							<!-- <td>{$v.type}</td> -->
+							<td>{$v.url|textlength=100}</td>
+							<td>{$v.nullurl|textlength=90}</td>
+							<td>{$v.sort} <input type="hidden" class="aotuwrite" value="{$v.aotuwrite}"></td>	
+							<td>
+
+								<button value="{$v.id}" class="layui-btn layui-btn-mini uptitle">编辑</button>
+								<button value="{$v.id}" class="layui-btn layui-btn-mini orderasc">升序</button>
+								<button value="{$v.id}" class="layui-btn layui-btn-mini orderdesc">降序</button>
+								<button value="{$v.id}" class="layui-btn layui-btn-mini layui-btn-danger dlfile">删除</button>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+	</div>
+	<div class="showtitle clearfix" style="width:510px;height:200px;display:none;background-color:#fff;position:absolute;top:20%;left:50%;margin-left:-150px;">
+		<p style="float:right;margin:10px 5px;" class="close clearfix">X</p>
+
+		<div class="content" style="width:450px;font-size:18px;word-wrap:break-word;margin-top: 20px;margin-left:30px">
+		<div class="layui-form-item" style="margin-left:-30px;">
+			<label class="layui-form-label">样表别名:</label>
+			<div class="layui-input-block">
+				<input type="text" name="title" class="title layui-input">
+			</div>
+			<input type="hidden" name="id" class="fileid layui-input">
+			<br>
+			<label class="layui-form-label">填充坐标:</label>
+			<div class="layui-input-block">
+				<input type="text" name="aotuwrite" class="aotuwrite layui-input">
+			</div>
+		
+		
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit="" lay-filter="demo1" id="but">立即提交</button>
+				</div>
+			</div>
+		
+		</div>
+	</div>
+	<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form(),
+				layer = layui.layer,
+				layedit = layui.layedit,
+				laydate = layui.laydate;
+		});
+	</script>
+	</body>
+</html>
+<script type="text/javascript">
+	$(function(){
+		$('.dlfile').click(function(){
+			var data={id:$(this).val()}
+			$.ajax({
+				data:data,
+				type:'post',
+				url:"{:url('fromtable/dlfile')}",
+				success:function(data){
+					alert(data);
+					window.location.reload();
+				}
+			})
+		})
+
+		//升序
+		$('.orderasc').click(function(){
+			var data={id:$(this).val(),type:1}
+			$.ajax({
+				data:data,
+				type:'post',
+				url:"{:url('fromtable/orderasc')}",
+				success:function(){
+					window.location.reload();
+				}
+			})
+		})	
+		//降序
+		$('.orderdesc').click(function(){
+			var data={id:$(this).val(),type:2}
+			$.ajax({
+				data:data,
+				type:'post',
+				url:"{:url('fromtable/orderasc')}",
+				success:function(){
+					window.location.reload();
+				}
+			})
+		})
+
+		//显示修改别名
+		$('.uptitle').click(function(){
+			var id = $(this).val();
+			var title = $(this).parent().siblings('.titles').text();
+			var aotuwrite = $(this).parent().siblings().find('.aotuwrite1').val();
+		
+			$('.showtitle').show();
+			$('.title').val(title);
+			$('.aotuwrite').val(aotuwrite);
+			$('.fileid').val(id);
+		})
+		$('#but').click(function(){
+			var data = {
+				title:$('.title').val(),
+				id:$('.fileid').val(),
+				aotuwrite:$('.aotuwrite').val()
+			};
+			$.ajax({
+				data:data,
+				type:'post',
+				url:"{:url('fromtable/uptitle')}",
+				success:function(data){
+					// console.log(data);
+					window.location.reload();
+				}
+			})
+		})
+
+		// 关闭
+		$('.close').click(function(){
+			$('.showtitle').hide();
+		})
+	})
+</script>

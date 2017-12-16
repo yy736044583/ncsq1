@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title>排队情况</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+	</head>
+	<body>
+	<a href="javascript:history.go(-1)" class="prv-main">返回</a>
+		<div class="controller">
+			<div class="banner-img">
+				<img src="__PUBLIC__weixin/images/banner.png"/>
+			</div>
+			<div class="controller-box">
+				<div class="yd-list">
+				{if condition="empty($info) eq false"}
+					<div class="weui-cells">
+					{volist name="info" id="v"}
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">
+								<p class="color-defut">{$v.name}</p>
+								<p class="yd-list-dec">排队人数：<span class="color-info">{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</span> </p>
+							</div>
+						</div>
+					{/volist}
+					</div>
+				{else}
+					<div class="weui-loadmore weui-loadmore_line">
+			            <span class="weui-loadmore__tips">暂无数据</span>
+			        </div>
+				{/if}
+				</div>	
+			</div>
+		</div>
+	</body>
+</html>

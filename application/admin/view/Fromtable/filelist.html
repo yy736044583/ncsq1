@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>目录</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+	</head>
+
+
+<body>
+	<div class="admin-main">
+			<div class="layui-inline">
+			<a href="{:url('fromtable/index')}">事项管理</a>->{$m_name}
+			</div>
+		<blockquote class="layui-elem-quote">
+
+			<div class="layui-inline">
+			<a href="{:url('fromtable/addfile')}?mid={$mid}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe608;</i> 添加
+			</a>
+			</div>
+			<div class="layui-inline">
+			</div>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>目录列表</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>目录标题</th>
+							<th>备注</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td class="title">{$v.title}</td>
+							<td style="overflow: hidden;width: 300px" class="summary">
+								<p style="overflow:hidden;width:300px;white-space: nowrap; height:20px;text-overflow: ellipsis; display: inline-block;">{$v.summary}</p>
+							</td>
+							<td>
+								<a href="{:url('fromtable/showfile')}?fid={$v.id}&mid={$mid}" class="layui-btn layui-btn-mini">管理</a>
+								<button value="{$v.id}" class="layui-btn layui-btn-mini but" >编辑</button>
+								<a href="javascript:;" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini" onclick="delet({$v.id})">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		<!-- 编辑文件名 -->
+		<div class="updateone" style="display:none;width:400px;height:200px;margin:0px auto;background-color:#f2f2f2">
+			<p style="float:right;z-index:22;position:relative" class="colse">X</p>
+			<input type="hidden" id="id">
+			<div class="layui-form-item">
+				<label class="layui-form-label">目录名称</label>
+				<div class="layui-input-block">
+					<input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="文件名称" class="layui-input title1 ">
+				</div>
+			</div>	
+
+			<div class="layui-form-item layui-form-text">
+				<label class="layui-form-label">备注</label>
+				<div class="layui-input-block">
+					<textarea placeholder="请输入内容" name="summary" class="layui-textarea summary1"></textarea>
+				</div>
+			</div>				    
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn but1" lay-submit="" lay-filter="demo1" >立即提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form(),
+				layer = layui.layer,
+				layedit = layui.layedit,
+				laydate = layui.laydate;
+		});
+		function delet(id){
+			layer.confirm('确定删除该目录吗？', {
+			  btn: ['确认','取消'] //按钮
+			}, function(){			  
+			  $.ajax({
+			  	url: "{:url('fromtable/dlfiles')}",
+			  	type: 'POST',
+			  	data: {'id': id},
+			  	success:function(data){
+			  		layer.msg(data, {icon: 1});
+			  	}
+			  })
+			  
+			}, function(){
+			  
+			});
+		}
+	
+
+		//关闭编辑栏
+		$(function(){
+			$('.colse').click(function(){
+				
+				$('.updateone').hide();
+			})
+
+			//编辑内容显示
+			$('.but').click(function(){
+				$('.updateone').show();
+				var id = $(this).val();
+				$.ajax({
+					type:'post',
+					data:{id:id},
+					url:"{:url('fromtable/showtitle')}",
+					dataType:'json',
+					success:function(data){
+						$('.title1').val(data.title);
+						$('.summary1').val(data.summary);
+						$('#id').val(data.id);
+					}
+				})
+			})
+			//编辑提交
+			$('.but1').click(function(){
+				var data={
+					id:$('#id').val(),
+					title:$('.title1').val(),
+					summary:$('.summary1').val(),
+				}
+				$.ajax({
+					type:'post',
+					data:data,
+					url:"{:url('fromtable/upfilename')}",
+					success:function(data){
+						alert(data);
+						window.location.reload();
+					}
+				})
+			})
+		})
+
+	</script>
+	</body>
+</html>

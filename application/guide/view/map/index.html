@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery-3.1.1.min.js" ></script>
+		<!--<script type="text/javascript" src="../dist/js/lib/jquery1.42.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__guide/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/css.css"/>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nP90KluU0ZkrG8m8o9dCX7QOIrNBGklv"></script>
+		<style type="text/css">
+			#VirtualKeyboardIME{
+				z-index: 100 !important;
+				top: 450px !important;
+			}
+		</style>
+	</head>
+	<body oncontextmenu=self.event.returnValue=false>
+		<script type="text/javascript" src="__PUBLIC__guide/js/jp/vk_loader.js?vk_layout=CN%20Chinese%20Simpl.%20Pinyin&vk_skin=flat_gray" ></script>
+		
+		<script>
+			function test(){
+				VirtualKeyboard.toggle('startad', 'softkey');
+				$("#kb_langselector,#kb_mappingselector,#copyrights").css("display", "none");				
+			}
+			function test1(){
+				VirtualKeyboard.toggle('endad', 'softkey');
+				$("#kb_langselector,#kb_mappingselector,#copyrights").css("display", "none");				
+			}
+		</script>
+		<div class="cont-box">
+			<div class="index-box">
+				<div class="main2">
+					<div id="softkey" style="position: absolute; z-index: 100; top: 162px;left: 0;"></div> 
+					<div class="adds" id="r-result">
+						<form class="form-horizontal" action="" method="post">
+							<!--交通选择-->
+							<div class="map-tab clearfix">
+								<div class="pull-left map-tab map-tab-hd1 on" data-index="drive"><i></i><span>驾车</span></div>
+								<div class="pull-right map-tab map-tab-hd2" data-index="bus"><i></i><span>公交</span></div>
+							</div>
+							<!--交通选择-->
+							<div class="map-group">
+								<div class="input-group start clearfix">
+									<label class="img-icon pull-left"></label>
+									<input type="text" name="" id="startad" value="" class="pull-left input-data" placeholder="请输入起点" onfocus='test();' onBlur="VirtualKeyboard.toggle('txt_Search','softkey');"/>
+									<div class="input-clear" title="清空"></div>
+								</div>
+								<div class="input-group end clearfix">
+									<label class="img-icon pull-left"></label>
+									<input type="text" name="" id="endad" value="" class="pull-left input-data" placeholder="请输入终点" onfocus='test1();' onBlur="VirtualKeyboard.toggle('txt_Search','softkey');"/>
+									<div class="input-clear" title="清空"></div>
+								</div>
+								<div class="map-select">
+									<button type="button" id="clickmap">查询</button>
+								</div>
+							</div>
+						</form>
+						<div id="left-map">							
+						</div>
+						<p style="height: 20px;width: 200px; position: absolute;bottom: 23px;right: 0;z-index: 99999"></p>
+					</div>
+					<div id="baidu-map"></div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// 百度地图API功能
+			var jt = "drive";
+			
+			$(function(){
+				$(".input-clear").click(function(e){
+					e.stopPropagation();
+					$(this).siblings('input').val(null);
+				})
+				
+				$(".map-tab").click(function(e){
+					e.stopPropagation();
+					$(this).addClass('on').siblings().removeClass("on");
+					jt = $(".map-tab").find('.on').attr('data-index');
+				})
+				
+				$("#clickmap").click(function(){
+					mapbus($("#startad").val(),$("#endad").val(),jt);
+				})
+			})
+			
+			
+			var map = new BMap.Map("baidu-map",{enableMapClick:false});    // 创建Map实例
+     		map.centerAndZoom(new BMap.Point(106.9469730000, 30.3428540000), 18);
+     		map.setCurrentCity("邻水县");
+     		map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+     		
+     		var point = new BMap.Point(106.9469730000, 30.3428540000);
+     		map.centerAndZoom(point, 18);
+     		var marker = new BMap.Marker(point);  // 创建标注
+			map.addOverlay(marker);               // 将标注添加到地图中
+			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+     		
+			function mapbus(start,end,str){
+				 var start = start ,end = end;
+				if(str=="bus"){
+//				公交
+					map.clearOverlays(); 
+					 map.enableScrollWheelZoom();				   
+				    var transit = new BMap.TransitRoute(map, {
+						renderOptions: {map: map, panel: "left-map"}, 
+						onResultsHtmlSet : function(){$("#left-map").show()}  	
+				    });
+				    transit.search(start,end);
+				}else{
+					//三种驾车策略：最少时间，最短距离，避开高速
+						var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME,BMAP_DRIVING_POLICY_LEAST_DISTANCE,BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];					
+						map.clearOverlays(); 
+						search(start,end,routePolicy[1]); 
+						function search(start,end,route){ 
+							var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true},policy: route});
+							driving.search(start,end);
+						}
+				}
+			}
+		</script>
+	</body>
+</html>

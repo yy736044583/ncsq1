@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<!--<script type="text/javascript" src="../dist/js/lib/jquery-3.1.1.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__guide/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery.SuperSlide.2.1.1.js" ></script>
+	</head>
+	<body>
+		<div class="cont-box">
+			<div class="index-box">
+			{if condition ="$list[0]['type'] eq 2"}
+				<video autoplay="autoplay" loop="loop">
+					<source src="__PUBLIC__uploads/{$list[0]['url']}" type="video/mp4"></source>
+				</video>
+			{else/}
+				<div class="bg-silider" style="width: 100%;height: 100%;">
+					<div class="bd">
+						<ul>
+						{volist name='list' id="v"}
+							<li><img src="__PUBLIC__uploads/{$v.url}"/ width="100%" height="100%"></li>
+						{/volist}
+						</ul>
+					</div>
+				</div>
+				<script type="text/javascript">
+					jQuery(".bg-silider").slide({mainCell:".bd ul",effect:"fold",autoPlay:true,mouseOverStop:false});
+				</script>
+			{/if}
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__home/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/iscroll.js" ></script>
+	</head>
+	<body  onload="loaded()">
+		<div class="cont-box">
+			<div class="main9">
+				<div class="main9-cont clearfix">
+					<div class="main9-cont-text">
+						<div id="wrapper">
+							<div id="scroller">
+								{$info.introduce}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myScroll;
+		
+			function loaded () {
+				myScroll = new IScroll('#wrapper', {
+					scrollbars: true,
+					mouseWheel: true,
+					interactiveScrollbars: true,
+					shrinkScrollbars: 'scale',
+					fadeScrollbars: true
+				});
+			}		
+		</script>
+	</body>
+</html>

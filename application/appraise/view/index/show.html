@@ -1,0 +1,40 @@
+</!DOCTYPE html>
+<html>
+<head>
+	<title>公告</title>
+	<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>
+	<script type="text/javascript" src="__PUBLIC__appraise/iscroll-infinite.js" ></script>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__appraise/css.css"/>
+</head>
+<body onload="loaded()">	
+	<div class="cont">
+		<div class="contbox row">
+			<a href="javascript:history.go(-1)" class="prvs"><i></i></a>
+			<div class="show-box">
+				<div id="wrapper">
+				<div id="scroller">
+					<h1>{$data.title}</h1>
+					<p class="disction">{$data.createtime}</p>
+					<div class="xian"></div>
+					<div class="show-box-cont">
+						{$data.content}
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+			var myScroll;
+			function loaded () {
+				myScroll = new IScroll('#wrapper', {
+					mouseWheel: false,  //是否监听鼠标滚轮事件
+            		bounceTime: 600,       //弹力动画持续的毫秒数
+   					probeType: 3
+				});
+			}
+			
+	</script>
+</body>
+</html>

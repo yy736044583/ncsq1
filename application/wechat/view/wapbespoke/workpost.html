@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+	</head>
+	<body>
+	<a href="javascript:history.go(-1)" class="prv-main">返回</a>
+		<div class="controller">
+			<div class="post-yy">
+				<div class="banner-img">
+					<img src="__PUBLIC__weixin/images/banner.png"/>
+				</div>
+				<div class="controller-box">
+					<h1>填写个人信息</h1>
+					<div class="post-yy-cont">
+						<form action="{:url('wapbespoke/workinfo')}" method="post">
+							<input type="hidden" name="id" value="{$id}">
+							<input type="hidden" name="matterid" value="{$matterid}">	
+							<input type="hidden" name="StartTime" value="{$StartTime}">
+							<input type="hidden" name="EndTime" value="{$EndTime}">
+							<input type="hidden" name="year" value="{$year}">
+							<div class="weui-flex">
+								<div class="left-text" style="margin-top: 0.1rem;"><span>*</span>联系人：</div>
+								<div class="right-text weui-flex__item"><input type="text" name="name" class="name-yy"/></div>
+							</div>
+							<div class="weui-flex" style="margin-top: 0.6rem;">
+								<div class="left-text"><span>*</span>联系电话：</div>
+								<div class="right-text weui-flex__item"><input type="tel" name="tel" class="tel-yy"/></div>
+							</div>
+							<div class="weui-flex" style="margin-top: 0.6rem;">
+								<div class="left-text"><span>*</span>身份证号：</div>
+								<div class="right-text weui-flex__item"><input type="number" name="idcard" class="tel-idcard"/></div>
+							</div>
+							<div class="post-yy-btn">
+								<div class="weui-flex">
+									<div class="weui-flex__item">
+										<a href="javascript:history.go(-1)" class="weui-btn bg-info">返回</a>
+									</div>
+									<div class="weui-flex__item">
+										<button type="submit" class="weui-btn bg-info" onclick="return postY()">确认提交</button>
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__guide/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/css.css"/>
+	</head>
+	<body class="web-font">
+		<div class="container-fluid cont-box">
+			<div class="header clearfix">
+				<div class="pull-left header-text">社保系统触摸引导查询系统</div>
+				<div class="pull-right header-time"></div>
+			</div>
+			<div id="main">
+				<iframe src="{:url('video/index')}" frameborder="no" data-index="1" name="data"></iframe>
+			</div>
+			<div class="footer">
+				<div class="footer-menu clearfix">
+					<a href="{:url('video/index')}" data-id="0" class="footer-menu-item item1 on tab-link" target="data">
+						<span></span>
+						<p>宣传视频</p>
+					</a>
+					<a href="{:url('navigation/index')}" data-id="1" class="footer-menu-item item2 tab-link" target="data">
+						<span></span>
+						<p>楼层分布</p>
+					</a>
+					<a href="{:url('map/index')}" data-id="2" class="footer-menu-item item3 tab-link" target="data">
+						<span></span>
+						<p>交通导航</p>
+					</a>
+					<a href="{:url('work/index')}" data-id="3" class="footer-menu-item item4 tab-link" target="data">
+						<span></span>
+						<p>办事指南</p>
+					</a>
+					<a href="{:url('papers/index')}" data-id="4" class="footer-menu-item item5 tab-link" target="data">
+						<span></span>
+						<p>进度查询</p>
+					</a>
+					<a href="{:url('complain/index')}" data-id="5" class="footer-menu-item item6 tab-link" target="data">
+						<span></span>
+						<p>意见建议</p>
+					</a>
+					<a href="{:url('news/index')}" data-id="6" class="footer-menu-item item7 tab-link" target="data">
+						<span></span>
+						<p>公示公告</p>
+					</a>
+					<a href="centerweb.php?url={$centerurl}" data-id="7" class="footer-menu-item item8">
+						<span></span>
+						<p>中心网站</p>
+					</a>
+					<a href="{:url('about/index')}" data-id="8" class="footer-menu-item item9 tab-link" target="data">
+						<span></span>
+						<p>中心简介</p>
+					</a>
+				</div>
+			</div>
+		</div>
+		<script>
+			$(function(){
+				$(".tab-link").click(function(e){
+					$(this).addClass('on');
+					$(this).siblings().removeClass('on');
+				})
+			})
+		</script>
+	</body>
+</html>

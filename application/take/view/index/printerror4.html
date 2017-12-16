@@ -1,0 +1,31 @@
+<!-- 高新社保1280*1024取号机 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/gxsb/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/gxsb/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/gxsb/slide.js" ></script>		
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header b3">
+				<i class="logo"></i>
+				<h1 class="fl">社会保险自助排队取号系统</h1>
+				<div class="fr time">
+					<p class="house tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="week tiem2">{$times.tm|date="Y-m-d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="bm-cont">
+				<div class="succsee-cont">
+					<h2 style="font-size: 80px;margin-top: 250px;color: #fff;">打印机错误</h2>
+					<p style="text-align: center;margin-top: 20px;color: #fff;font-size: 40px;">{$arrs.printererrorstr}</p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="__PUBLIC__take1/gxsb/js.js" ></script>
+	</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>中心网站</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+
+
+<body>
+	<div class="admin-main">
+		<fieldset class="layui-elem-field">
+			<legend>中心网址</legend>
+			<div style="margin-top:20px">
+				<form class="layui-form" action="{:url('web/index')}" method="post">		
+					<input type="hidden" name="id" value="{$pj.id}">		
+				    <div class="layui-inline" >
+				    	<label class="layui-form-label">评价器：</label>
+				    	<div class="layui-input-inline">
+				        	<input type="text" name="url" lay-verify="title" autocomplete="off" class="layui-input" placeholder="评价器中心网址" {if condition="empty($pj['weburl']) neq true"} value="{$pj.weburl}" {/if} style="width:300px"> 
+				      	</div>
+				    </div>
+				    <div class="layui-inline">
+				    	<button class="layui-btn">提交</button>
+				    </div>
+				</form>
+			</div>
+			<div style="margin-top:20px;margin-bottom:20px;">
+				<form class="layui-form" action="{:url('web/index')}" method="post">		
+					<input type="hidden" name="id" value="{$ds.id}">		
+				    <div class="layui-inline" >
+				    	<label class="layui-form-label">导视机：</label>
+				    	<div class="layui-input-inline">
+				        	<input type="text" name="url" lay-verify="title" autocomplete="off" class="layui-input" placeholder="导视机中心网址" {if condition="empty($ds['weburl']) neq true"} value="{$ds.weburl}" {/if} style="width:300px">
+				      	</div>
+				    </div>
+
+				    <div class="layui-inline">
+				    	<button class="layui-btn">提交</button>
+				    </div>
+				</form>
+			</div>
+		</fieldset>	
+	</div>
+<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});
+</script>
+
+	</body>
+</html>

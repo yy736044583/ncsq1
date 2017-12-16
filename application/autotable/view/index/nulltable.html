@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable/js/jquery-1.11.0.min.js"></script>
+</head>
+<body style="background: #fff;">
+	<div class="add-form">		
+		<!-- 样表区开始 -->
+		<div class="show-form">
+			<i></i>
+			<iframe {if $urlsuff eq 'pdf'} src="{:url('index/pdfshow')}?id={$list.id}" {else/} src="{:url('index/pictureshow')}?id={$list.id}" {/if} frameborder="0"></iframe>
+			<a href="javascript:;"></a>
+		</div>
+		<!-- 样表区结束 -->
+		<!-- 填报区开始 -->
+		<div class="white-form">
+			<i></i>
+			<iframe src="{:url('index/tableinfo')}?id={$list.id}&tempid={$tempid}" frameborder="0"></iframe>
+			<a href="javascript:;" style="display: none;"></a>
+		</div>
+		<!-- 填报区结束 -->
+	</div>
+	<div class="add-form-footer">
+		<!-- 返回首页 -->
+		<a href="{:url('index/indexfrom')}"></a>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.show-form a').click(function(event) {
+				$(".white-form").animate({left:0});
+				$(".white-form a").fadeIn();
+			});
+			$('.white-form a').click(function(event) {
+				$(".white-form").animate({left:50+'%'});
+				$(this).fadeOut();
+			});
+		})
+	</script>
+</body>
+</html>

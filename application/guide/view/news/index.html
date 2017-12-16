@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__home/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/css.css"/>
+	</head>
+	<body style="background-color: #f3f4f5;" oncontextmenu=self.event.returnValue=false>
+		<div class="cont-box">
+			<div class="main6 main7">
+				<div class="main6-cont clearfix">
+					<div class="main7-title">
+						<div class="pull-left title-l clearfix">
+							<p class="pull-left">公告</p>
+							<p class="pull-right titile-r-t">时间</p>
+						</div>
+						<div class="pull-left title-r">
+							<p class="pull-left">公告</p>
+							<p class="pull-right titile-r-t">时间</p>
+						</div>
+					</div>
+					<div class="main7-text clearfix">
+					{volist name="info" key="k" id="v"}
+						<a href="{:url('news/show')}?pu_id={$v.id}" class="main7-text-item">
+							<p class="bt">{$v.title}</p>
+							<p class="tm danger">{$v.createtime}</p>
+						</a>
+					{/volist}
+					</div>
+					<!--分页-->
+					<div class="page clearfix">
+						<div class="page-num pull-left" style="font-size:20px;">每页显示8条公告，共{$count}条</div>
+						<div class="page-cont pull-right">
+							{$page}
+						</div>
+					</div>
+					<!--分页-->
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

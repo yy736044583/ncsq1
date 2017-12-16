@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/js.js" ></script>
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header">
+				<h1 class="fl">自助排队取号系统</h1>
+				<div class="fr time">
+					<p class="house tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="week tiem2">{$times.tm|date="Y-m-d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="succsee-cont">
+				<h2>{$arr.flownum}</h2>
+				<p class="yw"><span>预约</span>{$arr.businessname}</p>
+				<div class="nowgif"></div>
+				<p class="ywend">打印成功,请取走您的号条...<span id="times"></span></p>
+			</div>
+			<!-- <div class="goute">
+				<a href="javascript:history.go(-1)"><i></i><span>后退</span></a>
+			</div> -->
+		</div>
+		<script>
+		window.onload = function(){
+			var index = 10;
+			setInterval(function(){
+				index--;
+				if(index<10){
+					index = "0"+index;
+				}
+				if(index == 0){
+					index=0;
+					window.location.href="{:url('index/index')}?devicenum={$times.numbers}";
+				}
+				document.getElementById('times').innerHTML = index+"秒";
+			},1000)
+		}			
+		</script>
+	</body>
+</html>

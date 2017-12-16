@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>短信记录</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+	<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<!-- <div class="layui-inline">
+				<a href="{:url('note/addtemplate')}" class="layui-btn layui-btn-small" id="add">
+						<i class="layui-icon">&#xe608;</i> 添加
+				</a>
+			</div> -->
+			<div class="layui-inline">
+				<form class="layui-form" action="{:url('note/msgRecorderForm')}" method="post">
+				    <div class="layui-inline">
+				    	<label class="layui-form-label">接收电话：</label>
+				    	<div class="layui-input-inline">
+				        	<input type="text" name="num" autocomplete="off" class="layui-input"{if condition="empty($num) neq true"} value="{$num}"{/if}>
+				      	</div>
+				    </div>
+					<div class="layui-inline">
+						<label class="layui-form-label">发送时间</label>
+						<div class="layui-input-block">
+							<input type="text" name="start" id="date" lay-verify="date"  autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})" {if condition="empty($start) neq true"} value="{$start}"{/if}>
+						</div>
+					</div>
+					<div class="layui-inline" style="margin-left:-70px;">
+						<label class="layui-form-label">__</label>
+						<div class="layui-input-block">
+							<input type="text" name="end" id="date" lay-verify="date"  autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})" {if condition="empty($end) neq true"} value="{$end}"{/if}>
+						</div>
+					</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">发送状态</label>
+					<div class="layui-input-block">
+
+						<select name="status" lay-filter="aihao">
+							<option value="">全部</option>
+							<option value="2" {if condition="$status eq '2'"} selected="true" {/if}>失败</option>
+							<option value="1" {if condition="$status eq 1"} selected="true" {/if}>等待回执</option>
+							<option value="3" {if condition="$status eq 3"} selected="true" {/if}>成功</option>
+							<option value="">全部</option>
+						</select>
+					</div>
+				</div>
+				<div class="layui-inline">
+					<label class="layui-form-label">年份</label>
+					<div class="layui-input-block">
+						<select name="year" lay-filter="aihao">
+							<option value="">全部</option>
+							{volist name="year" id="v"}
+							<option value="{$v}" {if condition="$y eq $v"} selected="true" {/if}>{$v}</option>
+							{/volist}
+							<option value="">全部</option>
+						</select>
+					</div>
+				</div>
+				    <div class="layui-inline">
+				    	<button class="layui-btn">搜索</button>
+				    </div>
+				</form>
+			</div>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>短信记录</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>接收号码</th>
+							<th>短信内容</th>
+							<th>接收状态</th>
+							<th>发送时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.num}</td>
+							<td>{$v.content}</td>
+							<td>{$v.status}</td>
+							<td>{$v.time}</td>
+							<td>
+								<a href="{:url('note/')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+	</div>
+	{$page}
+</html>
+
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});
+</script>

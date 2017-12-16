@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/js.js" ></script>		
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header">
+				<h1 class="fl">自助排队取号系统</h1>
+				<div class="fr time">
+					<p class="house tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="week tiem2">{$times.tm|date="Y-m-d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="banner" style="width: 975px;height: 690px; background: url(__PUBLIC__take1/img/banner.jpg) no-repeat;"></div>
+			<div class="link">
+				<a href="{:url('index/business')}?devicenum={$times.numbers}" class="link1"><i></i><span class="text">现场取号</span></a>
+				<a href="{:url('index/make')}?devicenum={$times.numbers}" class="link2"><i></i><span class="text">预约取号</span></a>
+			</div>
+		</div>
+		
+	</body>
+</html>

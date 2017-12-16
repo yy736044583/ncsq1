@@ -1,0 +1,28 @@
+*{padding: 0;margin:0;}
+a{display: block;color: #333}
+.col-xs-6{height: 100%;}
+a:hover,a:active,a:link{text-decoration: none;color: #333}
+body{color: #333;background-color: #f3f4f5;font-size: 20px;}
+.cont{position: fixed;left: 0;top: 0;right: 0;bottom: 0;padding: 40px}
+.contbox{position: relative; background-color: #fff;width: 100%;height: 100%;border-top: 8px solid #e7eaec;padding: 40px}
+.title{border-bottom: 1px solid #EFEFEF;font-weight: 700;line-height: 60px;padding: 0 20px}
+.cont_text{padding-top: 60px;padding-left: 20px;padding-right: 20px; position: absolute;height: 100%;width: 100%;left: 0;top: 0;overflow: hidden;}
+.cont_text a{border-bottom: 1px solid #EFEFEF;font-weight: bold;line-height: 60px;padding: 0 20px;font-weight: normal;height: 60px;
+}
+.cont_text .pull-left{padding-right: 10px;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;}
+.time-color{color: #d9534f;}
+#wrapper,#wrappers{position: relative;height: 100%;width: 100%; overflow: hidden;}
+.show-box{overflow: hidden;width: 100%;height: 100%;padding: 0 100px;}
+.prvs{position: absolute;left: -8px;top: 40px;z-index: 1;}
+.prvs i{display: inline-block;
+    width: 63px;
+    height: 50px;
+    background: url(./images/main6-r.png) no-repeat;
+    background-size: 63px 50px;
+    margin-right: 15px;
+    vertical-align: middle;}
+.show-box h1{text-align: center;font-size: 30px;color: #000}
+.show-box .disction{font-size: 18px;text-align: center;font-weight: normal;color: #666;margin:20px 0 0 0;}
+.xian{border-bottom: 1px solid #EFEFEF;margin: 40px 0;}
+.show-box-cont{text-align: justify;}
+.show-box-cont img{max-width: 1000px;}

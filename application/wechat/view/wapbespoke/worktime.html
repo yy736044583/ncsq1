@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/swiper-3.4.1.min.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/swiper-3.4.1.jquery.min.js" ></script>
+	</head>
+	<body>
+	<a href="javascript:history.go(-1)" class="prv-main">返回</a>
+		<div class="controller">
+			<div class="banner-img">
+				<img src="__PUBLIC__weixin/images/banner.png"/>
+			</div>
+			<div class="controller-box">
+				<div class="time_yy">
+					<div id="header">
+						<div class="swiper-wrapper">
+						{volist name="week" id="v"}
+							<div class="swiper-slide" data-id={$businessID} data-time="{$v}">{$v}</div>
+						{/volist}
+						</div>
+					</div>
+					<div class="time_yy-title">选择时间段</div>
+					<div id="timebox">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<div class="weui-cells">
+									<!-- <div class="weui-cell weui-flex">
+										<div class="weui-flex__item color-defut tiems">09:00-10:00</div>
+										<div class="weui-flex__item center-text">剩余名额 <span class="color-info">3</span> 人</div>
+										<div class="weui-flex__item right-btn">
+											<a href="{:url('wapbespoke/workpost')}" class="weui-btn bg-info">预约</a>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>			
+			</div>
+		</div>
+		<script>
+			window.onload = function() {
+			  var mySwiper1 = new Swiper('#header',{
+				  freeMode : true,
+				  slidesPerView : 'auto',
+			  });
+			  
+			   $("#header .swiper-slide").on('mousedown',function(e){
+			    e.preventDefault();
+			    var yer = $(this).text();
+			    var bmid = $(this).attr("data-id");//部门id
+			    $(".weui-cell").remove();
+			    onclikS(bmid,yer);
+			    $("#header .swiper-slide").removeClass('on');
+			    $(this).addClass('on');
+			  })
+
+			 var initID = $(".swiper-slide").eq(0).addClass('on').attr("data-id");
+			 var initTEXT = $(".swiper-slide").eq(0).attr("data-time");
+			 var a = new ajaxGet(initID, initTEXT);
+			 a.init();
+
+			 }
+
+			 var ajaxGet = function(id,times){
+			 	this.id = id;
+			 	this.times = times;
+			 }
+			 ajaxGet.prototype.init = function(){
+			 	this.ajaX();
+			 }
+			 ajaxGet.prototype.ajaX = function(){
+			 	var that = this;
+			 	$.ajax({
+					  type: 'GET',
+					  url: '{:url("wapbespoke/ajaxGet")}',
+					  data: {"id": this.id,"times": this.times},
+					  dataType: 'json',
+					  // timeout: 1000,
+					  success: function(data){
+					    if (data) {				 				
+				 				for (var i = 0; i<data.length; i++) {
+					 				var Html =		'<div class="weui-cell weui-flex">';
+										Html +=			'<div class="weui-flex__item color-defut tiems">'+data[i].starttime+'-'+data[i].endtime+'</div>';
+										Html +=			'<div class="weui-flex__item center-text">剩余名额 <span class="color-info">'+data[i].endnum+'</span> 人</div>';
+										Html +=			'<div class="weui-flex__item right-btn">';
+										Html +=				'<a href="{:url("wapbespoke/workpost")}?id={$businessID}&matterid={$matterid}&year='+that.times+'&starttime='+data[i].starttime+'&endtime='+data[i].endtime+'" class="weui-btn bg-info">预约</a>';
+										Html +=			'</div>';
+										Html +=		'</div>';
+					 					$(".weui-cells").append(Html);
+				 				}							
+				 			}else {
+				 				var errorHTML = '<div class="weui-loadmore weui-loadmore_line"><span class="weui-loadmore__tips">暂未开放预约</span></div>';
+				 				$(".weui-cells").append(errorHTML);
+				 			}
+
+					  },
+					  error: function(xhr, type){
+					    alert('网络不佳稍后再试！');
+					  }
+					})
+			 }
+			 var onclikS = function(id,times){
+			 	var a = new ajaxGet(id, times);
+			 	a.ajaX();
+			 }
+		</script>
+	</body>
+</html>

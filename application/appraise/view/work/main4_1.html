@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>政务中心</title>
+		<!--<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__appraise/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__appraise/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__appraise/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__appraise/css/css.css"/>
+	</head>
+	<body>
+		<div class="cont-box bszn">
+			<div class="bszn-box">
+				<div class="bazs-bm bazs-listbox">
+					<a href="javascript:history.go(-1)" class="main-last"><i></i>返回上一级列表</a>
+					<h3>{$name}</h3>
+					<div class="list-bazs clearfix">
+						{volist name="list" id="v"}
+						<a href="{:url('work/main4_1_1')}?id={$v.id}"><p>{$v.name}</p></a>
+						{/volist}
+					</div>
+					<div class="bszn-page" style="margin-top: 20px;">
+						{$page}
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

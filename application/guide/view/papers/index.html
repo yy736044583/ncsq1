@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=IE8">
+		<title>政务中心</title>
+		<!--<script type="text/javascript" src="__PUBLIC__/js/lib/jquery-3.1.1.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__home/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/css.css"/>
+	</head>
+	<body>
+		<div class="cont-box">
+			<div class="main5" id="main5">
+				<div class="main5-cont">
+					<form action="" method="post" class="form-inline">
+						<div class="input-group">
+							<input type="text" name="" id="jsqnum"  placeholder="请输入办件流水号或身份证号"/>
+						</div>
+						<button class="btn" type="button"><i></i>搜索</button>
+					</form>
+					<div class="main5-foot">
+						<p>扫描办件流水号或者申请人身份证号</p>
+						<a href="scanIdcard.php">立即扫描</a>
+					</div>
+					<!--键盘开始-->
+					<div class="main5-num" style="display: none;">
+						<div class="main5-num-title">
+							<p>键盘</p>
+							<a href="JavaScript:" id="cosol-off"></a>
+						</div>
+						<div class="clearfix">
+							<a href="javascript:" id="1" class="main5-num-btn" onclick="jsq(this.id)">1</a>
+							<a href="javascript:" id="2" class="main5-num-btn" onclick="jsq(this.id)">2</a>
+							<a href="javascript:" id="3" class="main5-num-btn" onclick="jsq(this.id)">3</a>
+							<a href="javascript:" id="4" class="main5-num-btn" onclick="jsq(this.id)">4</a>
+							<a href="javascript:" id="5" class="main5-num-btn" onclick="jsq(this.id)">5</a>
+							<a href="javascript:" id="6" class="main5-num-btn" onclick="jsq(this.id)">6</a>
+							<a href="javascript:" id="7" class="main5-num-btn" onclick="jsq(this.id)">7</a>
+							<a href="javascript:" id="8" class="main5-num-btn" onclick="jsq(this.id)">8</a>
+							<a href="javascript:" id="9" class="main5-num-btn" onclick="jsq(this.id)">9</a>
+							<a href="javascript:" id="X" class="main5-num-btn" onclick="jsq(this.id)">X</a>
+							<a href="javascript:" id="0" class="main5-num-btn" onclick="jsq(this.id)">0</a>
+							<a href="javascript:" id="1" class="main5-num-btn" onclick="clearNum()">删除</a>
+						</div>
+					</div>
+					<!--键盘结束-->
+				</div>
+			</div>
+			<!--查询结果开始-->
+			<div class="post-info" style="display: none;">
+				<a href="javascript:" class="consol2"></a>
+				<h3>查询结果</h3>
+				<table class="table">
+					<tr><th>流水号</th><th>事项名称</th><th>受理单位</th><th>申请人</th><th>申请人单位</th><th>状态</th></tr>
+				
+				</table>
+			</div>
+			<div class="bg" style="display: none;"></div>
+			<!--查询结果结束-->
+		</div>
+<script>
+	function jsq(id){
+		document.getElementById('jsqnum').value += document.getElementById(id).innerText;
+	}
+	function clearNum(){
+		document.getElementById('jsqnum').value = null;
+	}
+	$(function(){
+		$("#jsqnum").focus(function(){
+			$(".main5-num").show();
+		})
+		$("#cosol-off").click(function(e){
+			e.stopPropagation();
+			$(".main5-num").hide();
+		})
+		//查询结果
+		$(".consol2").click(function(e){
+			e.stopPropagation();
+			$(".post-info").hide();
+			$(".bg").hide();
+		})
+	})
+</script>
+<!-- ajax传值 -->
+<script type="text/javascript">
+	$(function(){
+		$('.btn').click(function(){		
+			ajaxinfo($('#jsqnum').val());		
+		})
+
+	})
+	function ajaxinfo(num){
+		// alert(num);
+		// num设备编号或者身份证号
+		$.ajax({
+			type:'get',
+			data:{'num': num},
+			dataType:'json',
+			url:"{:url('Papers/query_5')}",
+			success:function(data){
+				if(data){
+					$('.post-info').show();
+					$('.bg').show();
+					$('.remo').remove();
+					var dom='';
+					for(var i=0; i<data.length; i++){
+						dom +='<tr class="remo"><td>'+data[i].Code+'</td><td>'+data[i].Name+'</td><td>'+data[i].OrganNameCreator+'</td><td>'+data[i].PubUserNameLinkman+'</td><td>'+data[i].PubUserNameApplicant+'</td><td><p class="sucss">'+data[i].FlowStatus+'</p></td></tr>';
+					}
+				
+					$('.table').append(dom);
+				}else{
+					$('.post-info').show();
+					$('.bg').show();
+					$('.remo').remove();
+					// $('.table').append('未查询到相应结果，请查看流水号或者身份证号是否正确');
+				}
+			}
+		})
+	}
+</script>
+	</body>
+</html>

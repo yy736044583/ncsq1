@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="title_jd">
+			<div class="js_item bm4"></div>
+			<div class="bm_search">
+				<form action="{:url('index/table_matter')} " method="post">
+					<input type="" name="name" placeholder="请输入事项关键字或排队查询码">
+					<button class="btn wave left"></button>
+				</form>
+			</div>
+		</div>
+		<div class="title_cont">
+			<h2>请您选择表单</h2>
+			<ul class="list_file list_form">
+			{volist name="list" id="v"}
+				<li>
+					<a href="{:url('index/nulltable')}?id={$v.id}" target="_parent">
+						<i></i>
+						<p>{$v.title}</p>
+					</a>
+				</li>
+			{/volist}
+				
+			</ul>
+			<!-- 分页 -->
+			<div class="pager page">
+				<a href="{:url('index/index')}" class="home"></a>
+				<div>
+				{$page}
+					
+				</div>
+				<a href="{:url('index/table_showfile')}?matterid={$matterid}&secid={$secid}" class="return"></a>
+			</div>
+			<!-- 分页 -->
+		</div>
+	</div>
+</body>
+</html>

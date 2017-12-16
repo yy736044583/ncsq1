@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/js.js" ></script>
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header">
+				<h1 class="fl">自助排队取号系统</h1>
+				<div class="fr time">
+					<p class="house tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="week tiem2">{$times.tm|date="Y-m-d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="bm-cont">
+				<h2>请选择办理业务</h2>
+				<div class="bm-bg">
+					<div class="bm-bg_cont">
+						<ul>
+						{volist name="list" key="k" id="v"}
+								<li>
+								{if condition="$v['ok'] eq '1'"}
+									{if condition="$v['bus2'] eq '1'"}
+										<a href="{:url('index/businesschild')}?id={$v.id}&devicenum={$devicenum}&businessname={$v.name}"><span>{$v.name}</span></a><p>排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</p>
+									{else/} 
+										{if condition="$v['smatter'] eq '0'"}
+											{if $isnumber['phone'] == 0 && $isnumber['idcardtake'] == 0}
+												<a href="{:url('index/businesssuccsee_1')}?b_id={$v.id}"><span>{$v.name}</span></a><p>排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</p>				
+											{else/}
+											<a href="{:url('index/datainfo')}?b_id={$v.id}&devicenum={$devicenum}"><span>{$v.name}</span></a><p>排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</p>
+											{/if}
+										{else/}
+											<a href="{:url('index/item')}?id={$v.id}&devicenum={$devicenum}"><span>{$v.name}</span></a><p>排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</p>
+
+										{/if}
+									{/if}
+								{else/} 
+									<a href="javascript:;"><span>{$v.name}</span></a><p style="color: red">当前业务已满号</p>
+								{/if}
+								</li>								
+							{/volist}
+						</ul>
+					</div>
+					<div class="pages">
+						{$page}
+					</div>
+				</div>				
+			</div>
+			<div class="goute">
+				<a href="javascript:history.go(-1)"><i></i><span>后退</span></a>
+				<div class="return-index"><span id="return-num">30</span><span>秒</span>后返回首页</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var indexs = 30;
+			var nums = setInterval(function(){
+				indexs --;
+				if (indexs < 10) {
+					indexs = "0"+indexs;
+				}
+				$("#return-num").text(indexs);
+				if(parseInt(indexs) == 0){
+					indexs = 30;
+					window.location.href="{:url('index/index')}?devicenum={$devicenum}";
+				}
+			},1000);
+		</script>
+	</body>
+</html>

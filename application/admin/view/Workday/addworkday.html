@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>新闻</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/style.css"/>
+	</head>
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+
+	<body>
+		<div style="margin: 15px;">
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+				<legend>添加节假日/工作日</legend>
+			</fieldset>
+
+			<form class="layui-form" action="{:url('Workday/addWorkday')}" method="post">
+				<div class="layui-form-item">
+					<label class="layui-form-label">名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">日期</label>
+						<div class="layui-input-block">
+							<input type="text" name="day" id="date" lay-verify="required" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">
+						</div>
+					</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">节假日</label>
+					<div class="layui-input-block">
+						<div class="layui-inline bm">
+							<input type="radio" name="workorholiday" value="1" title="工作日" checked="checked">
+						</div>
+						<div class="layui-inline zx">
+							<input type="radio" name="workorholiday" value="0" title="节假日">
+						</div>						
+					</div>
+				</div>
+
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-block">
+						<textarea placeholder="请输入内容" name="summary" class="layui-textarea"></textarea>
+					</div>
+				</div>				    
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+
+			form.verify({
+			    required: function(value){
+			      if(value.length < 1){
+			        return '不能为空';
+			      }
+			    }
+			  });
+	});
+</script>
+
+</html>

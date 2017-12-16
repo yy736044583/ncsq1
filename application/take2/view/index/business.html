@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take2/style.css"/>
+		<script type="text/javascript" src="__PUBLIC__take2/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take2/js.js" ></script>
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header">
+				<h1>自助排队取号系统</h1>
+				<div class="time">
+					<p class="tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="tiem2">{$times.tm|date="Y年m月d",###} {$times.week}</p>
+				</div>
+				<div class="return">
+					<a href="javascript:history.go(-1)"><i></i>后退</a>
+					<a href="{:url('index/index')}?devicenum={$times.numbers}" class="index"><i></i>首页</a>
+				</div>
+			</div>
+			<div class="cont">
+				<div class="clearfix item-qh item-yw">
+					<h2>请选择办理业务</h2>
+					<div class="item-yw-cont clearfix">
+					{volist name="list" key="k" id="v"}
+						{if condition="$v['ok'] eq '1'"} {if condition="$v['smatter'] eq '0'"}
+						<a href="{:url('index/businesssuccsee_1')}?b_id={$v.id}">
+							<div class="link-yw" style="position: relative;">
+								<p>{$v.name}</p>
+								<span style="position: absolute;bottom: 10px;font-size: 14px;left: 50%;margin-left: -39px;color: #7D7D7D;">排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</span>
+							</div>
+						</a>
+						{else/}
+						<a href="{:url('index/item')}?id={$v.id}&devicenum={$devicenum}">
+							<div class="link-yw" style="position: relative;">
+								<p>{$v.name}</p>
+								<span style="position: absolute;bottom: 10px;font-size: 14px;left: 50%;margin-left: -39px;color: #7D7D7D;">排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</span>
+							</div>
+						</a>
+
+						{/if}
+						{else/}
+						<a href="javascript:;">
+							<div class="link-yw" style="position: relative;">
+								<p>{$v.name}</p>
+								<span style="position: absolute;bottom: 10px;font-size: 14px;left: 50%;margin-left: -39px;color: red;">当前业务已满号</span>
+							</div>
+						</a>
+						{/if}
+					{/volist}	
+						<div class="pages">
+						{$page}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="btns" style="position: absolute;bottom: 0;left: 0;right: 0;text-align: center;">
+				<span style="position: static;"><i id="return-num">30秒</i>后返回首页</span>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var indexs = 30;
+			var nums = setInterval(function(){
+				indexs --;
+				if (indexs < 10) {
+					indexs = "0"+indexs;
+				}
+				$("#return-num").text(indexs+"秒");
+				if(parseInt(indexs) == 0){
+					indexs = 30;
+					window.location.href="{:url('index/index')}?devicenum={$devicenum}";
+				}
+			},1000);
+		</script>
+	</body>
+</html>

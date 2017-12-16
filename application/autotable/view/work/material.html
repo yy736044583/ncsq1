@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="zn_title">
+			{$mattername}
+		</div>
+		<div class="zn_cont">
+			{switch name="type"}
+				{case value="conditionset"}{$list.approvecondition}{/case}
+				{case value="conditionset"}{$list.govfilecontent}{/case}
+				{case value="conditionset"}{$list.content}{/case}
+				{default /}
+			{/switch}
+		</div>
+		<div class="pager page">
+			<a href="{:url('work/index')}" class="home"></a>
+			<a href="javascript:window.history.go(-1);" class="return"></a>
+		</div>
+	</div>
+</body>
+</html>

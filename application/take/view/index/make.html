@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/js.js" ></script>
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header">
+				<h1 class="fl">自助排队取号系统</h1>
+				<div class="fr time">
+					<p class="house tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="week tiem2">{$times.tm|date="Y-m-d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="bm-cont">
+				<h2>请输入预约编号</h2>
+				<form action="" method="post" class="make">
+					<div class="input-group">
+						<input type="text" id="num-text" autocomplete="off">
+						<button type="button" onclick="return  numberyz()">确定</button>
+					</div>
+					<p style="color: #fff;margin-top: 20px;font-size: 25px;display: none;" id="ero"></p>
+				</form>			
+			</div>
+			<div class="white-num">
+				<p>
+					<a href="javascript:" class="link-on">1</a>
+					<a href="javascript:" class="link-on">2</a>
+					<a href="javascript:" class="link-on">3</a>
+					<a href="javascript:" class="link-on">4</a>
+					<a href="javascript:" class="link-on">5</a>
+					<a href="javascript:" class="link-on">6</a>
+					<a href="javascript:" class="link-on">7</a>
+					<a href="javascript:" class="link-on">8</a>
+					<a href="javascript:" class="link-on">9</a>
+					<a href="javascript:" class="link-on">0</a>
+					<a href="javascript:" style="font-weight: normal;" onclick="tuiGe()">删除</a>
+				</p>
+				<p>
+					<a href="javascript:" class="link-on">Q</a>
+					<a href="javascript:" class="link-on">W</a>
+					<a href="javascript:" class="link-on">E</a>
+					<a href="javascript:" class="link-on">R</a>
+					<a href="javascript:" class="link-on">T</a>
+					<a href="javascript:" class="link-on">Y</a>
+					<a href="javascript:" class="link-on">U</a>
+					<a href="javascript:" class="link-on">I</a>
+					<a href="javascript:" class="link-on">O</a>
+					<a href="javascript:" class="link-on">P</a>
+				</p>
+				<p>
+					<a href="javascript:" class="link-on">A</a>
+					<a href="javascript:" class="link-on">S</a>
+					<a href="javascript:" class="link-on">D</a>
+					<a href="javascript:" class="link-on">F</a>
+					<a href="javascript:" class="link-on">G</a>
+					<a href="javascript:" class="link-on">H</a>
+					<a href="javascript:" class="link-on">J</a>
+					<a href="javascript:" class="link-on">K</a>
+					<a href="javascript:" class="link-on">L</a>
+				</p>
+				<p>
+					<a href="javascript:" class="link-on">Z</a>
+					<a href="javascript:" class="link-on">X</a>
+					<a href="javascript:" class="link-on">C</a>
+					<a href="javascript:" class="link-on">V</a>
+					<a href="javascript:" class="link-on">B</a>
+					<a href="javascript:" class="link-on">N</a>
+					<a href="javascript:" class="link-on">M</a>
+				</p>
+			</div>
+			<div class="goute" style="background: transparent;">
+				<a href="{:url('index/index')}?devicenum={$times.numbers}"><i></i><span>后退</span></a>
+			</div>
+		</div>
+		<script>
+			window.onload = function(){
+				var Link = document.getElementsByClassName('link-on');
+				document.getElementById('num-text').focus();
+				for (let i = 0;i<Link.length;i++) {
+					Link[i].onclick = function(){
+						document.getElementById('num-text').value += this.innerText;
+					}
+				}
+			}
+			function tuiGe() {
+			    //删除
+			    var arr = document.getElementById("num-text");
+			    arr.value = arr.value.substring(0, arr.value.length - 1);
+			  }
+			function numberyz() {
+				if($("#num-text").val() == ""){
+					$("#num-text").focus();
+					$("#ero").text("提醒：请输入预约编号!");
+					$("#ero").fadeIn();
+					setTimeout(function(){
+						$("#ero").fadeOut();
+					},1000);
+					return false;
+				}
+				$.ajax({
+					url: "{:url('index/selcetbh')}",
+					type: 'GET',
+					dataType:'json',
+					data: {number: $("#num-text").val(), random: Math.random()},
+					success: function(data){
+						if(data['info'] == 0){
+							$("#ero").text("提醒：预约编号已过期或无效!");
+							$("#ero").fadeIn();
+							setTimeout(function(){
+								$("#ero").fadeOut();
+							},2000);
+						}else{
+							window.location.href="{:url('index/businesssuccsee_1')}?b_id="+data.businessid+"&number="+data.number;
+						}
+					}
+				})				
+			}
+		</script>
+	</body>
+</html>

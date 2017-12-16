@@ -1,0 +1,30 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>政务中心</title>
+		<!--<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__appraise/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__appraise/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__appraise/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__appraise/css/css.css"/>
+	</head>
+	<body>
+		<div class="cont-box bszn">
+			<div class="bszn-box">
+				<div class="bazs-bm">
+					<h3>请选择服务部门</h3>
+					<div class="bszn-itme clearfix">
+					{volist name="list" id="v" key="k"}
+						<div class="bszn-link">
+							<a href="{:url('work/main4_1')}?id={$v.id}" {if condition="$k elt  6"} class="bg1" {elseif condition="$k elt  12"} class="bg2" {else} class="bg3"{/if}><p>{$v.name}</p></a>
+						</div>
+					{/volist}	
+					</div>
+					<div class="bszn-page">
+						{$page}
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

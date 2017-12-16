@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>办理材料</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-1.7.2.min.js"></script>
+	</head>
+<style>
+	input{width: 100%;border:none;}
+	.layui-form-label{width:120px;}
+	.layui-input-block{margin-left: 150px;}
+	.center{text-align:center;margin-top:15px;}
+</style>
+
+<body>
+	<div class="admin-main">
+		<fieldset class="layui-elem-field">
+			<legend>办理材料编辑</legend>
+			<div class="layui-field-box">
+				<form action="{:url('show/updatum')}" method="post" enctype="multipart/form-data">
+			<input type="hidden" name="id" value="{$list.id}">
+				<div class="layui-form-item">
+					<label class="layui-form-label">材料内容</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" lay-verify="" autocomplete="off" placeholder="材料内容" class="layui-input" value="{$list.title}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">示例文件</label>
+					<div class="layui-input-block">
+						<input type="file" name="sampleurl"  autocomplete="off" placeholder="文件上传" class="layui-input" >
+						<span>{$list.sampleurl}</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">空白文件</label>
+					<div class="layui-input-block">
+						<input type="file" name="url"  autocomplete="off" placeholder="文件上传" class="layui-input" >
+						<span>{$list.url}</span>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">材料形式</label>
+					<div class="layui-input-block">
+						<input type="text" name="material_form" lay-verify="" autocomplete="off" placeholder="材料形式" class="layui-input" value="{$list.material_form}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">材料详细要求</label>
+					<div class="layui-input-block">
+						<input type="text" name="material_request" lay-verify="" autocomplete="off" placeholder="材料详细要求" class="layui-input" value="{$list.material_request}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">必要性及描述</label>
+					<div class="layui-input-block">
+						<input type="text" name="describe" lay-verify="" autocomplete="off" placeholder="必要性及描述" class="layui-input" value="{$list.describe}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-block">
+						<textarea name="summary" id="" cols="100" rows="10">{$list.summary}</textarea>
+					</div>
+				</div>
+
+				<div class="layui-form-item center">
+					<button class="layui-btn" lay-submit="" lay-filter="demo1" id="but">立即提交</button>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+</html>
+<!-- <script type="text/javascript">
+	$(function(){
+		$('.add').click(function(e){
+			e.stopPropagation();
+			var input = '<tr class="rediv"><td><input type="text" name="title[]" value=""></td><td><input type="text" name="file[]"></td><td><input type="text" name="material_form[]" value=""></td><td><input type="text" name="material_request[]" value=""></td><td><input type="text" name="describe[]" value=""></td><td><input type="text" name="summary[]" value=""></td><td><div class="layui-inline"><a href="javascript:;" class="layui-btn layui-btn-mini remove">移除</a></div></td></tr>';
+			$('.apped').append(input);
+		})
+		//移除添加的input	
+		$('.remove').live('click',function(){
+			$(this).parents('.rediv').remove();
+		})
+	})
+</script> -->

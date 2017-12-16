@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>视频轮播</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+			<a href="{:url('dsnose/add')}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe608;</i> 添加
+			</a>
+			</div>
+			<div class="layui-inline">
+			<form class="layui-form" action="{:url('dsnose/banner')}" method="post">				
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">导视-视频/轮播：</label>
+			    	<div class="layui-input-inline">
+			        <select name="type" lay-verify="required" lay-search="" >
+			          <option value="">全部</option>
+			          <option value="2" {if condition="empty($type) neq true and $type eq 2"} selected="true" {/if}>视频</option>
+					  <option value="1" {if condition="empty($type) neq true and $type eq 1"} selected="true" {/if}>轮播</option>
+			          <option value="">全部</option>
+			        </select>
+			      </div>
+			    </div>
+
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+			</div>
+		</blockquote>
+
+		<fieldset class="layui-elem-field">
+			<legend>视频/轮播</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>标题</th>
+							<th>存储地址</th>
+							<th>类型</th>
+							<th>创建时间</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k} <input type="hidden" value="{$v.id}" class="id"></td>
+							<td>{$v.title}</td>
+							<td>{$v.url}</td>
+							<td>{$v.type1}</td>
+							<td>{$v.createtime}</td>
+							<td>
+								<button date-id="{$v.type}" class="button layui-btn layui-btn-mini"> {if condition="$v['top'] eq 1"}使用中{else/}未使用{/if}</button>
+								<a href="{:url('dsnose/dlbanner')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+	</div>
+	<div class="layui-field-box" style="position:relative;bottom:10px;color:gray">
+		<p>视频上传请不要上传大于100M的文件,注意等待上传完成再提交</p>
+		<p>视频文件只支持使用1个</p>
+		<p>轮播图支持使用多张</p>	
+	</div>
+<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});
+</script>
+
+	</body>
+<script type="text/javascript">
+    $(function(){
+		$('.button').click(function(){
+			var that = $(this);
+			var data ={
+				type:$(this).attr('date-id'),
+				id:$(this).parent().siblings().find('.id').val(),
+			};
+			$.ajax({
+				type:'post',
+				data:data,
+				url:"{:url('dsnose/topbanner')}",
+				success:function(data){
+					
+					if(data==1){
+						that.text('使用中');
+					}else{
+						that.text('未使用');
+					}
+				}
+			})
+		})
+		
+	})
+</script>
+</html>

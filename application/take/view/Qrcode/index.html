@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>排队查询</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/qrcode/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/jquery-1.10.1.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/qrcode/layer.js" ></script>
+	</head>
+	<body>
+		<div class="wappre" data-qid="{$qid}">
+			<div class="banner">
+				<div class="banner-mun" id="type1">
+					<div>您前方还有<span id="count">{$list.count}</span>位正在排队</div>
+					<p>请耐心等待 ...</p>
+				</div>
+				<div class="banner-mun" id="type2" style="display: none;">
+					<div>您的业务已办理成功</div>
+					<p>谢谢！</p>
+				</div>
+			</div>
+			<div class="wappre-box">
+			{if condition="empty($list['peoplename']) eq false"}
+				<div class="wappre-item">
+					<p class="t1">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</p>
+					<p class="t2">{$list.peoplename}</p>
+				</div>
+			{/if}
+				<div class="wappre-item">
+					<p class="t1">当前编号：</p>
+					<p class="t2">{$list.flownum}</p>
+				</div>
+				<div class="wappre-item item2">
+					<p class="t1">办理业务：</p>
+					<p class="t2">{$list.business}</p>
+				</div>
+				<div class="wappre-item item3" style="position: relative;">
+					<p class="t1">办理窗口：</p>
+					<p class="t2">{$list.window}</p>
+				</div>
+				<div class="wappre-item item4">
+					<p class="t1">办事指南：</p>
+					<p class="t2">{$list.matter}</p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			// setInterval(function(){
+			// 	window.location.reload();
+			// },10000)
+			$(function(){
+				var setint = setInterval(function(){
+					$.ajax({
+						url: "{:url('Qrcode/selectstyle')}",
+						type: 'POST',
+						data: {qid: $(".wappre").attr('data-qid')},
+						dataType: 'json',
+						success: function(data){
+							if (typeof(data) == "object") {
+								$("#count").text(data.window)
+								if (data.style == "4") {
+									clearInterval(setint);
+									$("#type1").hide();
+									$("#type2").show();
+								}
+							}						
+						},
+						error: function() {
+							alert("系统错误！");
+							clearInterval(setint);
+						}
+					})
+				},3000);
+
+				var Heights = $(document).height();
+				$('body').height(Heights);
+
+				$(".item3").click(function(event) {
+					event.stopPropagation();
+					var that = $(this);
+					var Html = that.find('.t2').text().valueOf()+",";
+					var Htmls ="办理窗口："+Html.replace(/,/g,"号、")
+					layer.tips(Htmls, '.item3', {
+					  tips: [1, '#3595CC'],
+					  time: 4000
+					});
+				});
+				$(".item2").click(function(event) {
+					event.stopPropagation();
+					var that = $(this);
+					var Html = "办理业务："+that.find('.t2').text();
+					layer.tips(Html, '.item2', {
+					  tips: [1, '#3595CC'],
+					  time: 4000
+					});
+				});
+			})
+		</script>
+	</body>
+</html>

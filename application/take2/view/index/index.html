@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take2/style.css"/>
+		<script type="text/javascript" src="__PUBLIC__take2/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take2/js.js" ></script>
+	</head>
+	<style type="text/css">
+	/*@font-face {font-family: 'font';src: url('__PUBLIC__take/font.TTF');}*/
+	/*.font-f{font-size:64px;font-family: 'font';font-weight: bold;}*/
+	/*@font-face {  
+		  font-family: "initial release";  
+		  src: url('http://192.168.0.78/sbxt/public/take/font.ttf');  
+		}*/  
+		.font-f{ 
+				text-align: center;
+				padding-top: 90px;
+				color:#bc1106;
+				font-weight: bold;
+				-webkit-text-stroke: 2px #fff;
+				font-size: 64px;
+				text-shadow: 2px 3px 0px #400400;
+				font-family: "微软雅黑"
+	} 
+	</style>
+	<body>
+		<div class="controller">
+			<div class="header">
+				<h1>自助排队取号系统</h1>
+				<div class="time">
+					<p class="tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="tiem2">{$times.tm|date="Y年m月d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="cont">
+				<div class="clearfix">
+					<div class="pull-left left-img" style="background: url(__PUBLIC__take2/img/banner.png) no-repeat; height: 780px">
+						<!-- <p class="font-f">双流社保</p> -->
+					</div>
+					<div class="pull-right right-btn">
+						<div class="index-link-tab">
+					{if condition="$isnumber['scenetake'] eq '1'"}
+						<a href="{:url('index/business')}?devicenum={$times.numbers}" class="bt1"><i></i>现场取号</a>
+					{/if}
+						<a href="{:url('index/make')}?devicenum={$times.numbers}" class="bt2"><i></i>预约取号</a>
+					{if condition="$isnumber['idcardtake'] eq '1'"}
+						<a href="scanIdcard_1.html" class="bt3"><i></i>身份证取号</a>
+					{/if}
+					{if condition="$isnumber['socialsecuritycardtake'] eq '1'"}
+						<a href="javascript:;" class="bt4"><i></i>社保卡取号</a>
+					{/if}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

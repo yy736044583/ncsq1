@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>错误日志</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+	</head>
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<form class="layui-form" action="{:url('adrmessage/exceldown')}">				
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">日期：</label>
+			    	<div class="layui-input-inline">
+			        <input type="text" name="time" id="date" lay-verify="date"  autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">
+			      </div>
+			    </div>
+
+			    <div class="layui-inline">
+			    	<button class="layui-btn">导出错误日志</button>
+			    </div>
+			</form>
+			<span style="margin-left:50px;color:#999">导出的日志为大于设置日期的错误日志</span>
+		</blockquote>
+	</div>
+</html>
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form(),
+				layer = layui.layer,
+				layedit = layui.layedit,
+				laydate = layui.laydate;
+		});
+	</script>

@@ -1,0 +1,130 @@
+*{
+	padding: 0;
+	margin: 0;
+	-moz-user-select: none; 
+	-webkit-user-select: none; 
+	-ms-user-select: none; 
+	-khtml-user-select: none; 
+	user-select: none; 
+}
+a{text-decoration: none;outline: none;}
+a:active{outline: none;}
+ul{margin: 0;padding: 0;}
+li{list-style: none;}
+input{outline: none;}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+body{
+	overflow-x: hidden;
+	font-family: "微软雅黑";
+}
+.controller{
+	width: 1280px;
+	height: 1024px;
+	margin: 0 auto;
+	background: url(images/bg.jpg) no-repeat ;
+	position: relative;
+	overflow: hidden;
+}
+.header{
+	height: 120px;
+	width: 100%;
+	overflow: hidden;	
+}
+.header h1{
+		font-size: 54px;
+		color: #fff;
+		line-height: 120px;
+		margin-left: 20px;
+	}
+.b3{
+	position: relative;
+}
+.b3 .logo{
+	background: url(images/logo.png) no-repeat;
+	width: 112px;
+	height: 70px;
+	position: absolute;
+	top: 20px;
+	left: 15px;
+}
+.b3 h1{
+	font-size: 48px;
+	padding-left: 115px;
+}
+.header .time{color: #FFFFFF;margin-right: 20px;text-align: right;}
+.header .time .house{margin-top: 0;font-size: 48px;}
+.header .time .week{font-size: 30px;}
+.banner {margin: 40px auto;}
+.bm-cont{margin: 40px;margin-bottom: 0px;}
+.bm-cont h2{font-size: 36px;color: #aad6ff;font-weight: normal;text-align: center;}
+.bm-cont .business-cont>ul{margin-left: -20px;margin-top: -20px;}
+.bm-cont .business-cont>ul>li{float: left; width: 386px; height: 253px;margin-left: 20px;margin-top: 20px;position: relative; transition:all 0.2s ease-in-out;}
+.bm-cont .business-cont>ul>li:hover{
+	transform:scale(1.1);
+    -webkit-transform:scale(1.1);
+    -moz-transform:scale(1.1);
+    -o-transform:scale(1.1);
+    -ms-transform:scale(1.1);
+}
+.business-cont{margin-top: 30px;}
+.bm-cont ul li.business3_1{
+	background: url(images/DA1.png) no-repeat;
+	height:390px ;
+	overflow: hidden; 
+}
+.bm-cont ul li.business3_2{
+	background: url(images/S1.png) no-repeat;
+}
+.bm-cont ul li.business3_3{
+	background: url(images/S2.png) no-repeat;
+}
+.bm-cont ul li.business3_4{
+	background: url(images/S3.png) no-repeat;
+}
+.bm-cont ul li.business3_5{
+	background: url(images/S4.png) no-repeat;
+}
+.bm-cont ul li.business3_6{
+	background: url(images/DA2.png) no-repeat;
+	height:390px ;
+	overflow: hidden; 
+	position: relative;
+	top: -136px;
+}
+.bm-cont ul li.business3_7{
+	background: url(images/S5.png) no-repeat;
+}
+.bm-cont ul li.business3_8{
+	background: url(images/S6.png) no-repeat;
+}
+.business3-cont h3{
+	font-size: 36px;
+	text-align: center;
+    color: #fff ;
+    font-weight: bold;
+    padding-top: 24px ;
+    background-image: -webkit-gradient(linear, 0 0, 0 bottom, from(#fdfdfd), to(#cfcfcf));
+    -webkit-background-clip: text;
+    text-shadow: 2px 5px 5px rgba(5,88,189,0.85);
+}
+.business-cont .business-text .bd{
+	position: relative;
+	margin-top: 20px;
+	height: 150px;
+}
+.business-cont .business-text .bd li{
+	font-size: 20px;
+	line-height: 35px;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
+	color: #fff;
+}
+.business-cont ul li a .business-text p{font-size: 18px;margin-top: 20px;text-align: center;line-height: 30px}
+.business-cont ul li a .endopen{position: absolute;left: 0;right: 0;bottom: 24px;text-align: center;font-size: 16px;color: #F4FF66;}

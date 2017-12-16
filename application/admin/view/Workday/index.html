@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>节假日</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+			<a href="{:url('workday/addworkday')}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe608;</i> 添加
+			</a>
+			</div>
+			<div class="layui-inline">
+				<form class="layui-form" action="{:url('workday/index')}" method="post">
+				    <div class="layui-inline">			    		
+				    	<label class="layui-form-label">年份</label>
+	      				<div class="layui-input-inline">
+					    	<select name="year" lay-verify="required" lay-search="">
+			         			 <option value="">请选择</option>
+			         			 {volist name="years" key="k" id="v"}
+						          <option value="{$v}" {if condition="$year eq $v"} selected="true" {/if}>{$v}</option>
+						          {/volist}
+		         			</select>
+	         			</div>	         		
+				    </div>
+				    <div class="layui-inline">
+				    	<button class="layui-btn">搜索</button>
+				    </div>
+				</form>
+			</div>
+		</blockquote>
+
+		<fieldset class="layui-elem-field">
+			<legend>节假日管理</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>名称</th>
+							<th>日期</th>
+							<th>是否假日</th>
+							<th>备注</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.name}</td>
+							<td>{$v.day}</td>
+							<td>{if condition="$v['workorholiday'] eq 1"} 工作日{else} 节假日{/if}</td>
+							<td>{$v.summary}</td>
+							<td>
+								<a href="{:url('workday/upworkday')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
+								<a href="{:url('workday/dlworkday')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+	<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form(),
+				layer = layui.layer,
+				layedit = layui.layedit,
+				laydate = layui.laydate;
+		});
+	</script>
+	</body>
+</html>

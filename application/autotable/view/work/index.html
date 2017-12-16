@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="title_cont">
+			<h2>请您选择部门</h2>
+			<ul class="list_bm">
+			{volist name="list" id="v"}
+				<li>
+					<a href="{:url('work/matter')}?id={$v.id}" class="btn wave left"><p>{$v.name}</p></a>
+				</li>
+			{/volist}
+				
+			</ul>
+			<!-- 分页 -->
+			{$page}
+			
+			<!-- 分页 -->
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+	</head>
+	<body>
+	<a href="javascript:history.go(-1)" class="prv-main">返回</a>
+		<div class="controller">
+			<div class="banner-img">
+				<img src="__PUBLIC__weixin/images/banner.png"/>
+			</div>
+			<div class="controller-box">
+				<div class="post-end">
+					<div class="weui-flex">
+					{if condition="empty($successinfo['id']) eq true"}
+						<div class="succ-icon">
+							<i class="weui-icon-info weui-icon_msg"></i>
+						</div>			         
+			            <div class="weui-flex__item">
+			                <h3 class="icon-box__title">提交失败</h3>
+			            </div>
+			            {else}
+			            <div class="succ-icon">
+							<i class="weui-icon-success weui-icon_msg"></i>
+						</div>	
+			            <div class="weui-flex__item">
+			                <h3 class="icon-box__title">提交成功</h3>
+			            </div>		
+			            {/if}
+			        </div>
+			        {if condition="empty($successinfo['id']) eq false"}
+			        <div class="weui-cells">
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">预约编号：</div>
+							<div class="weui-cell__ft color-info">{$successinfo.number}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">姓　　名：</div>
+							<div class="weui-cell__ft color-info">{$successinfo.name}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">预约时间：</div>
+							<div class="weui-cell__ft color-info">{$successinfo.starttime}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">预约业务：</div>
+							<div class="weui-cell__ft color-info">{$successinfo.business_name}</div>
+						</div>
+						<div class="weui-cell">
+							<div class="weui-cell__bd color-defut">联系电话：</div>
+							<div class="weui-cell__ft color-info">{$successinfo.mobile}</div>
+						</div>
+					</div>
+					{/if}
+					<div class="retuan-index">
+						<a href="{:url('Wapindex/index')}" class="weui-btn bg-info post-end-btn">返回首页</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

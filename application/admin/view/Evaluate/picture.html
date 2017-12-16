@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>评价</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+			<form class="layui-form" action="{:url('Evaluate/picture')}" method="post">
+				<div class="layui-inline">
+			      <label class="layui-form-label">开始时间</label>
+			      <div class="layui-input-inline">
+			        <input type="text" name="start" id="date" lay-verify="date"  autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})" {if condition="empty($start) neq true"} value="{$start}" {/if}>
+			      </div>
+			    </div>
+			    <div class="layui-inline">
+			      <label class="layui-form-label">结束时间</label>
+			      <div class="layui-input-inline">
+			        <input type="text" name="end" id="date" lay-verify="date"  autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})" {if condition="empty($end) neq true"} value="{$end}" {/if}>
+			      </div>
+			    </div>
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">员工</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="name" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($name) neq true"} value="{$name}" {/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">			    		
+			    	<label class="layui-form-label">部门</label>
+      				<div class="layui-input-inline">
+				    	<select name="sectionid" lay-verify="required" lay-search="">
+		         			<option value="">请选择</option>
+					  	 	{volist name="sec" id="v"}
+							<option value="{$v.id}" {if condition="$sectionid  eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+							{/volist}
+		         			 <option value="">全部</option>
+	         			</select>
+         			</div>	         		
+			    </div>
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+			</div>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>评价列表</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+					<tr>
+						<th>序号</th>
+						<th>员工</th>
+						<th>评价时间</th>
+						<th>截图</th>
+						<th>签字</th>
+					</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td height="30px">{$k}</td>
+							<td>{$v.workmanid}</td>
+							<td>{$v.evaluatetime}</td>
+							<td>{if condition="empty($v['photobefor']) neq true"} <img src="__PUBLIC__uploads/{$v.photobefor}" alt="" style="height:50px;" class="img"> {/if}</td>
+							<td>{if condition="empty($v['photoautograph']) neq true"} <img src="__PUBLIC__uploads/{$v.photoautograph}" alt="" style="height:50px;"> {/if}</td>
+				
+						</tr>
+					{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+	<!-- 图片显示 -->
+<div class="img_src" style="width:800px;height:600px;position:fixed;z-index:999;left:50%;top:50%;margin-left:-400px;margin-top:-300px; display: none;"><img src="" width="800px" height="600px" />
+<a href="javascript:" style="position:absolute;right: 0;top: 0;background-color: #000;color: #fff;">关闭</a>
+</div>
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form(),
+				layer = layui.layer,
+				layedit = layui.layedit,
+				laydate = layui.laydate;
+		});
+	$(function(){
+		$('.img').on('click',function(){
+			var src = $(this).attr('src');
+			$(".img_src img").attr('src', src);
+			$(".img_src").show();
+		})
+		$(".img_src a").click(function(event) {
+			event.stopPropagation();
+			$(".img_src").hide();
+		});
+	})	
+		
+	</script>
+	</body>
+</html>

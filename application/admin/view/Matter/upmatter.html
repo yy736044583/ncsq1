@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>事项管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<!-- <link rel="stylesheet" href="__PUBLIC__static/css/style.css"/> -->
+	</head>
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+			     <!-- 编辑器  -->
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.config.js"></script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.all.min.js"> </script>
+	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/lang/zh-cn/zh-cn.js"></script>
+
+<style>
+.layui-form-label{width:120px;}
+.layui-input-block{margin-left: 150px;}
+</style>
+	<body>
+		<div style="margin: 15px;">
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+				<legend>编辑事项</legend>
+			</fieldset>
+
+			<form class="layui-form" action="{:url('matter/upmatter')}" method="post">
+			<input type="hidden" name="id" value="{$list.id}">
+				<div class="layui-form-item">
+					<label class="layui-form-label">事项名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="事项名称" class="layui-input" value="{$list.name}">
+					</div>
+				</div>
+				<div class="layui-form-item mattername">
+					<label class="layui-form-label">部门</label>
+				      <div class="layui-input-inline">
+				        <select name="sectionid" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+				          {volist name="sec" id="v"}
+				          <option value="{$v.id}" {eq name="$v['id']" value="$list['sectionid']"} selected="true" {/eq}>{$v.name}</option>
+				          {/volist}
+				        </select>
+				      </div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">审批性质</label>
+					<div class="layui-input-block">
+						<input type="text" name="character" lay-verify="" autocomplete="off" placeholder="审批性质" class="layui-input" value="{$list.character}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">办事类型</label>
+					<div class="layui-input-block">
+						<input type="checkbox" name="tag[]" value="2" title="个人办事" {in name="2" value="$list.tag"} checked="true" {/in}>
+						<input type="checkbox" name="tag[]" value="1" title="法人办事" {in name="1" value="$list.tag"} checked="true" {/in}>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">法定期限</label>
+					<div class="layui-input-block">
+						<input type="text" name="limitday" lay-verify="" autocomplete="off" placeholder="法定期限" class="layui-input" value="{$list.limitday}">
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">承诺期限</label>
+					<div class="layui-input-block">
+						<input type="text" name="promisesday" lay-verify="" autocomplete="off" placeholder="承诺期限" class="layui-input" value="{$list.promisesday}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">审批时限</label>
+					<div class="layui-input-block">
+						<select name="timelimit" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+						  <option value="1" {if $list['timelimit'] eq 1} selected="true" {/if}>承诺件</option>
+				          <option value="2" {if $list['timelimit'] eq 2} selected="true" {/if}>即办件</option>
+				        </select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">审批方式</label>
+					<div class="layui-input-block">
+						<select name="method" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+						  <option value="1" {if $list['method'] eq 1} selected="true" {/if}>审批</option>
+				          <option value="2" {if $list['method'] eq 2} selected="true" {/if}>转报</option>
+				          <option value="3" {if $list['method'] eq 3} selected="true" {/if}>上报</option>
+				          <option value="4" {if $list['method'] eq 4} selected="true" {/if}>备案</option>
+				        </select>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">专家评审现场核查等待时限</label>
+					<div class="layui-input-block">
+						<input type="text" name="expertday" lay-verify="" autocomplete="off" placeholder="专家评审现场核查等待时限/天" class="layui-input" value="{$list.expertday}">
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">办事地址</label>
+					<div class="layui-input-block">
+						<input type="text" name="address" lay-verify="" autocomplete="off" placeholder="办事地址" class="layui-input" value="{$list.address}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">咨询电话</label>
+					<div class="layui-input-block">
+						<input type="text" name="phone" lay-verify="title" autocomplete="off" placeholder="咨询电话" class="layui-input" value="{$list.phone}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">行政系统来的编号</label>
+					<div class="layui-input-block">
+						<input type="text" name="sectionfromnum" lay-verify="title" autocomplete="off" placeholder="行政系统来的编号" class="layui-input" value="{$list.sectionfromnum}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">办事者到现场次数</label>
+					<div class="layui-input-block">
+						<input type="text" name="number" lay-verify="" autocomplete="off" placeholder="办事者到办事现场次数" class="layui-input" value="{$list.number}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否进驻政务中心</label>
+					<div class="layui-input-block">
+						<input type="radio" name="workwindow"  autocomplete="off" title="是" class="layui-input" value="1" {if $list['workwindow'] eq 1} checked="true" {/if}>
+						<input type="radio" name="workwindow"  autocomplete="off" title="否" class="layui-input" value="0" {if $list['workwindow'] eq '0'} checked="true" {/if}>
+					</div>
+				</div>	
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否样表展示</label>
+					<div class="layui-input-block">
+						<input type="radio" name="mattertype"  autocomplete="off" title="是" class="layui-input" value="1" {if $list['mattertype'] eq 1} checked="true" {/if}>
+						<input type="radio" name="mattertype"  autocomplete="off" title="否" class="layui-input" value="0" {if $list['mattertype'] eq '0'} checked="true" {/if}>
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-block">
+						<script id="editor" name="summary" type="text/plain" style="width:85%;height:400px;">{$list.summary}</script>
+					</div>
+				</div>				    
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+		//自定义验证规则
+		  form.verify({
+		    title: function(value){
+		      if(value.length < 1){
+		        return '内容不能为空';
+		      }
+		    }
+		  });
+	});
+</script>
+<script type="text/javascript">
+	var ue = UE.getEditor('editor');
+	function createEditor() {
+        enableBtn();
+        UE.getEditor('editor');
+    }
+</script>
+</html>

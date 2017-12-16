@@ -1,0 +1,122 @@
+<!-- 高新社保1280*1024取号机 -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/gxsb/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/gxsb/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/gxsb/slide.js" ></script>		
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header b3">
+				<i class="logo"></i>
+				<h1 class="fl">社会保险自助排队取号系统</h1>
+				<div class="fr time">
+					<p class="house tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="week tiem2">{$times.tm|date="Y-m-d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="bm-cont">
+				<!-- <h2>请选择办理业务</h2> -->
+				<div class="business-cont business3-cont">
+					<ul>
+						{volist name="list" key="k" id="v"}
+							<li class="business_link business3_{$k} {if $k==1 || $k==6} business_d {else/} business_s {/if}">
+								{if $v['ok'] == 0 || empty($v['error']) !== true}
+								<a href="{:url('index/businesssuccsee_1')}?b_id={$v.id}" onclick="return false;">
+								{else/}							
+								<a href="{:url('index/businesssuccsee_1')}?b_id={$v.id}">
+								{/if}
+									<h3>{$v.name}</h3>
+									<div class="business-text">
+										<div class="bd">
+											<ul>
+											{volist name="$v['fromdescribe']" id="vv"}
+												<li>{$vv}</li>
+											{/volist}
+											</ul>
+										</div>
+									</div>
+										{if condition="$v['ok'] eq '1'"}
+										<p class="endopen people people-n{$k}" data-id="{$v.id}">排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</p>
+										{else/}
+										<p class="endopen endopen people people-n{$k}" data-id="{$v.id}" style="color: red">当前业务已满号</p>
+										{/if}								
+								</a>						
+							</li>
+						{/volist}
+					
+					</ul>
+				</div>
+				<!-- <div class="pages business-page">
+					
+				</div> -->
+			</div>
+			<p id="working" style="position: absolute;width: 100%;bottom: 20px;text-align: center;color: #F6FF00;z-index: 100;font-size: 18px;"></p>
+		</div>
+		<script type="text/javascript" src="__PUBLIC__take1/gxsb/js.js" ></script>
+		<script type="text/javascript">
+			jQuery(".business_d .business-text").slide({mainCell:".bd ul",autoPage:true,effect:"topLoop",autoPlay:true,vis:7,mouseOverStop:false});
+			jQuery(".business_s .business-text").slide({mainCell:".bd ul",autoPage:true,effect:"topLoop",autoPlay:true,vis:3,mouseOverStop:false});
+			var peopletime = setInterval(function(){
+				pnum();
+			},1000)			
+			function pnum(){
+				for(var i=1; i<$(".people").length+1; i++){
+					(function(e){
+						var dataid = $(".people-n"+e+"").attr('data-id');
+						var redom = Math.random();
+						var cleattime = setTimeout(function(){
+							$.ajax({
+								url: "{:url('index/people_num')}",
+								type: 'GET',
+								dataType: 'json',
+								data: {'id': dataid, "redom":redom},
+								success: function(data){
+									if(data.type == 1){
+										$("#working").text("下午取号时间："+data.timefine);
+										$(".people-n"+e+"").text('排队人数：'+data.waitcount);
+										$(".people-n"+e+"").css({"color":'#F4FF66'});
+										$(".business3_"+e+" a")[0].setAttribute("onclick","return false;");
+									}else if (data.type == 2) {
+										$("#working").text("");
+										$(".people-n"+e+"").text('当前业务已满号');
+										$(".people-n"+e+"").css({"color":'red'});
+										$(".business3_"+e+" a")[0].setAttribute("onclick","return false;");
+									}else {
+										$("#working").text("");
+										$(".people-n"+e+"").text('排队人数：'+data.waitcount);
+										$(".people-n"+e+"").css({"color":'#F4FF66'});
+										$(".business3_"+e+" a").removeAttr('onclick');
+									}									
+								},
+								error: function(){
+									clearInterval(peopletime);
+									$(".people-n"+e+"").text('系统错误');
+								},
+								complete: function(xhr,ts){
+									xhr = null;
+									redom = null;
+									dataid = null;	
+									e = null;
+									clearTimeout(cleattime);
+								}
+							})
+						},300)												
+					})(i);
+					e = null;	
+				}
+			};
+			
+			function mousedown(that){  
+				$(that).addClass("active");
+			}
+			function mouseup(that){
+				$(that).removeClass("active");
+			}							
+		</script>
+	</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>排队系统</title>
+	<style type="text/css">
+		*{margin: 0;padding: 0;}
+		html{display: block;width: 100%;height: 100%;overflow-y: auto;}
+		body{font-family: "微软雅黑";font-size: 16px;width: 100%;height: 100%;background-color: #f3f4f6;color: #202020;}
+		.header{overflow: hidden;width: 100%;height: 72px;background-color: #536adb;}
+		.fl{float: left;}
+		.fr{float: right;}
+		img{vertical-align: middle;}
+		.logo{position: relative;display: inline-block;width: 40%;}
+		.logo img{margin-left: 20px;margin-top: 7px;}
+		.logo h1{position: absolute;left: 120px;top: 0;font-size: 24px;font-weight: normal;color: #fff;line-height: 72px;}
+		.header-mum{width: 60%;position: relative;overflow: hidden;}
+		a{text-decoration: none;outline: none;}
+		.header-mum{line-height: 72px;font-size: 16px;color: #dbdff6;}
+		.header-mum p{margin-right: 40px;}
+		.header-mum p span{color: #feeb1d;font-weight: bold;}
+		.header-mum a{display: block;width: 120px;height: 72px;background-color: #445bce;font-size: 16px;line-height: 72px;color: #fff;text-align: center;}
+		.header-mum a:hover{background-color: #364ec4;}
+		.header-mum a i{background: url(public/icon-exit.png) no-repeat;padding: 0 10px;position: relative;left: 5px;top: 2px;}
+		.window,.window-tab{overflow: hidden;margin:20px 40px;border:1px solid #ccc;background-color: #fff;border-radius: 12px;}
+		.window-box{padding: 20px;overflow: hidden;}
+		.window1{width: 20%}
+		.window2{width: 25%}
+		.window3{width: 15%}
+		.window4{width: 20%}
+		.window5{width: 20%}
+		.window-name{overflow: hidden;height: 54px;position: relative;text-align: center;}
+		.labels{display: inline-block;font-size: 18px;color: #00157a;margin-right: 10px;}
+		.select{display: inline-block;width: 60%;}
+		.select select{width: 100%;display: inline-block;height: 54px;border:1px solid #ccc;font-size: 18px;color: #333;border-radius: 12px;padding-left: 10px;outline: none;background-color: #fafafa;font-family: "微软雅黑";}
+		.window-name span{line-height: 54px;}
+		.window-lable{font-size: 16px;color: #333;}
+		.window-name .window-text{font-size: 24px;color: #536adb;}
+		.b-r{position: absolute;top: 10px;right: 0;bottom: 10px; display: block;border-right: 2px solid #e5e5e5;}
+		.window-lable img{position: relative;left: -5px;top: 0;}
+		.window-tab{height: auto;position: absolute;left: 0;top: 208px;right: 0;bottom: 20px;padding: 20px;padding-top: 40px;}
+		.window-tab .tables{overflow-y: auto;width: 100%;height: 100%;}
+		.window-tab h2{font-size: 18px;color: #00157a;font-weight: normal;position: absolute;left: 18px;top: 8px;}
+		.window-tab .tables th{background-color: #6b81ef;color: #fff;padding: 12px;}
+		.window-tab .tables td{padding: 12px;text-align: center;}
+		.efalse{background-color: #f4f4f4}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="logo fl">
+			<img src="public/logo.png">
+			<h1>高新区社会保险事业管理局业务系统</h1>
+		</div>
+		<div class="header-mum">
+			<a href="javascript:closeWin();" class="fr"><span>退出<i></i></span></a>
+			<p class="fr">办件量总和：<span id="do">- - 件</span></p>
+			<p class="fr">等待人数总和：<span id="people">- - 人</span></p>
+		</div>
+	</div>
+	<div class="window">
+		<div class="window-box">
+			<div class="fl window-name window1">
+				<div class="labels">选择窗口</div>
+				<div class="select">
+					<select>
+					  	<option value ="volvo">选择窗口</option>
+					</select>
+				</div>
+			</div>
+			<div class="fl window-name window2">
+				<span class="window-lable">
+					<img src="public/icon-window.png">
+					窗口名称：
+				</span>
+				<span class="window-text " id="w1"> - - </span>
+				<i class="b-r"></i>
+			</div>
+			<div class="fl window-name window3">
+				<span class="window-lable">
+					<img src="public/icon-poeple.png">
+					等待人数：
+				</span>
+				<span class="window-text" style="color: #fe5a27" id="w2"> - - </span>
+				<i class="b-r"></i>
+			</div>
+			<div class="fl window-name window4">
+				<span class="window-lable">
+					<img src="public/icon-edit.png">
+					当前办件号：
+				</span>
+				<span class="window-text" style="color: #fe5a27" id="w3"> - - </span>
+				<i class="b-r"></i>
+			</div>
+			<div class="fl window-name window5">
+				<span class="window-lable">
+					<img src="public/icon-list.png">
+					今日总办件量：
+				</span>
+				<span class="window-text" style="color: #16beab" id="w4"> - - </span>
+			</div>
+		</div>
+	</div>
+	<div class="window-tab">
+		<h2>窗口列表</h2>
+		<div class="tables">
+			<table border="0" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<th>窗口编号</th>
+					<th>窗口名称</th>
+					<th>等待人数</th>
+					<th>当前办件号</th>
+					<th>今日总办件量</th>
+				</tr>
+				<!-- <tr class="trinfo">
+					<td>1</td>
+					<td>养老待遇领取账号密码修改</td>
+					<td style="color: #fe5a27">10</td>
+					<td style="color: #ff2816">a0001</td>
+					<td>12</td>
+				</tr> -->
+			</table>
+		</div>
+		
+	</div>
+	<!-- <script type="text/javascript" src="public/jquery1.42.min.js"></script> -->
+	<script type="text/javascript" src="public/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript">
+		if(navigator.userAgent.indexOf("MSIE 7.0")>0){  
+	        alert("您的浏览器版本太低，请升级浏览器版本，或者更换浏览器访问！");   
+	    }
+		/***关闭窗口***/
+		function closeWin() {
+		  	window.opener=null;
+		  	window.open('','_self');
+		  	window.close();
+		}
+
+		/***查询窗口编号***/
+		window_num();
+
+		function window_num(){
+			$.ajax({
+					url: 'http://192.168.0.10:8076/sbxt/index.php/inter/bigled?action=window',
+					type: 'GET',
+					dataType: 'json',
+					cache:false,
+					data:{ran:Math.round(Math.random()*9+1)},
+					success:function(data){
+						if(data.code == "200"){
+							for(var i=0; i<data.data.length; i++){
+								$(".select select").append('<option value ="'+data.data[i].id+'">'+data.data[i].fromnum+'号窗口</option>');
+							}
+						}
+					},
+					complete: function(xhr,ts){
+						xhr = null;
+					}
+				})
+		}
+		/***查询所有窗口办件量***/
+		window_own();
+		function window_own(){
+			$.ajax({
+					url: 'http://192.168.0.10:8076/sbxt/index.php/inter/bigled?action=sumcount',
+					type: 'GET',
+					dataType: 'json',
+					cache:false,
+					data:{ran:Math.round(Math.random()*9+1)},
+					success:function(data){
+						console.log(data)
+						if(data.code == "200"){
+							$("#do").text(data.data.count+" 件");
+							$("#people").text(data.data.waitcount+" 人");
+						}
+					},
+					complete: function(xhr,ts){
+						xhr = null;
+					}
+				})
+		}
+		/***查询所有窗口列表***/
+		window_list();		
+		function window_list(){
+			$.ajax({
+					url: 'http://192.168.0.10:8076/sbxt/index.php/inter/bigled?action=winnumber',
+					type: 'GET',
+					dataType: 'json',
+					cache:false,
+					data:{ran:Math.round(Math.random()*9+1)},
+					success:function(data){
+						$(".trinfo").remove();
+						if(data.code == "200"){
+							for(var i=0; i<data.data.length; i++){
+								var flownum = "00";
+								if (data.data[i].flownum == null) {
+									flownum = " - - ";
+								}else {
+									flownum = data.data[i].flownum;
+								}
+								var html = '<tr class="trinfo e'+(i%2==0)+'"><td>'+data.data[i].fromnum+'</td><td>'+data.data[i].name+'</td><td style="color: #fe5a27">'+data.data[i].waitcount+'</td><td style="color: #ff2816">'+flownum+'</td><td>'+data.data[i].count+'</td></tr>';
+								$(".tables table").append(html);
+							}
+						}
+					},
+					complete: function(xhr,ts){
+						xhr = null;
+					}
+				})
+		}
+		/***查询选中窗口办件人数***/
+		var id = "";//窗口id
+		$(document).ready(function(){
+			$(".select select").off().change(function(event) {
+				/* Act on the event */
+				var name = $(this).val();
+				window_w(name);
+				id = name;
+			});
+
+			// 两秒查询一次
+			setInterval(function(){
+				window_own();
+				window_list();
+				window_w(id);
+			},2000);
+		})
+		/***窗口id查询办件人数***/
+		function window_w(wid){
+			if(wid == ""){
+				return;
+			}
+			$.ajax({
+					url: 'http://192.168.0.10:8076/sbxt/index.php/inter/bigled?action=windowcount',
+					type: 'GET',
+					dataType: 'json',
+					cache:false,
+					data:{ran:Math.round(Math.random()*9+1),wid:wid},
+					success:function(data){
+						if(data.code == "200"){
+							if(data.data.flownum == null){
+								$("#w3").text(" - - ");
+							}else {
+								$("#w3").text(data.data.flownum);
+							}
+							$("#w1").text(data.data.name);
+							$("#w2").text(data.data.waitcount);							
+							$("#w4").text(data.data.count);
+						}
+					},
+					complete: function(xhr,ts){
+						xhr = null;
+						wid = null;
+					}
+				})
+		}
+
+	</script>
+</body>
+</html>

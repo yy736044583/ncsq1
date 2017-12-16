@@ -1,0 +1,113 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>政务中心</title>
+		<!--<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>-->
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__home/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery.SuperSlide.2.1.1.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__home/js/lib/iscroll.js" ></script>
+	</head>
+	<body onload="loaded()" oncontextmenu=self.event.returnValue=false>
+		<div class="cont-box bszn">
+			<div class="bszn-box">
+				<div class="bazs-bm bazs-showbox">
+					<a href="javascript:history.go(-1)" class="main-last"><i></i>返回上一级列表</a>
+					<a href="" class="right-dy" style="display: none;"></a>
+					<h3>{$list.name}</h3>
+					<div class="bszn-show">
+						<h4><p>项目概括</p></h4>
+						<div class="bszn-show-text clearfix">
+							<p><span class="cp1">审批性质：</span><span class="cp2">{$list.character}</span></p>
+							<p><span class="cp1">审批方式：</span><span class="cp2">{$list.method}</span></p>
+							<p><span class="cp1">审批时限：</span><span class="cp2">{$list.timelimit}</span></p>
+							<p><span class="cp1">法定时限：</span><span class="cp2">{$list.limitday}个工作日</span></p>
+							<p><span class="cp1">是否进驻政务中心：</span><span class="cp2">{$list.workwindow}</span></p>
+							<p><span class="cp1">承诺时限：</span><span class="cp2">{$list.promisesday}个工作日</span></p>
+							<p class="bazb-d"><span class="cp1">办理地点：</span><span class="cp2">{$list.address}</span></p>
+						</div>
+					</div>
+					<div class="bszn-show-tab">
+						<div class="hd">
+							<ul class="clearfix">
+								<li class="on">应交材料</li>
+								<li>审批条件</li>
+								<li>法定依据</li>
+								<li>备注</li>
+							</ul>
+						</div>
+						<div class="bd">
+							<div id="wrapper">
+								<div id="scroller">
+									<ul>
+										<li>
+											<table class="table table-striped">
+												<tr><th style="width: 10%;">序号</th><th>应交材料</th></tr>
+												{volist name="datlist" key="k" id="v"}
+												<tr>
+												<td>{$k}</td>
+												<td>{$v.title}</td>
+												</tr>
+												{/volist}
+											</table>
+										</li>
+										<li>
+											<table class="table table-striped">
+												<tr><th style="width: 10%;">序号</th><th>审批条件</th></tr>
+												{volist name="gscsetlist" key="k" id="v"}
+												<tr>
+												<td>{$k}</td>
+												<td>{$v.approvecondition}</td>
+												</tr>
+												{/volist}
+											</table>
+										</li>
+										<li>
+											<table class="table table-striped">
+												<tr><th style="width: 10%;">序号</th><th>标题</th><th>内容</th><th style="width: 10%;">文件类型</th></tr>
+										{volist name="warlist" key="k" id="v"}
+												<tr>
+												<td>{$k}</td>
+												<td>{$v.filetitle}</td>
+												<td>{$v.govfilecontent}</td>
+												<td>{$v.filetype}</td>
+												</tr>
+											{/volist}
+											</table>
+										</li>
+					<!-- 					<li>
+											<table class="table table-striped">
+												<tr><th style="width: 10%;">序号</th><th>应交材料</th></tr>
+												<tr><td></td><td></td>
+												</tr>
+											</table>
+										</li> -->
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<script>
+						jQuery(".bszn-show-tab").slide({mainCell:".bd ul",trigger:"click",pnLoop:false});
+					</script>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			var myScroll;
+		
+			function loaded () {
+				myScroll = new IScroll('#wrapper', {
+					scrollbars: true,
+					mouseWheel: true,
+					interactiveScrollbars: true,
+					shrinkScrollbars: 'scale',
+					fadeScrollbars: true
+				});
+			}		
+		</script>
+	</body>
+</html>
+

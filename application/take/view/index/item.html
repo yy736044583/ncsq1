@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/css.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__take1/swiper-3.4.2.min.css"/>
+		<script type="text/javascript" src="__PUBLIC__take1/jquery-1.10.1.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/js.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__take1/swiper-3.4.2.jquery.min.js" ></script>
+	</head>
+	<body>
+		<div class="controller">
+			<div class="header">
+				<h1 class="fl">自助排队取号系统</h1>
+				<div class="fr time">
+					<p class="house tiem1">{$times.tm|date="H:i",###}</p>
+					<p class="week tiem2">{$times.tm|date="Y-m-d",###} {$times.week}</p>
+				</div>
+			</div>
+			<div class="bm-cont">
+				<h2>请选择办理事项</h2>
+			<form action="{:url('index/businesssuccsee_1')}" method="get">
+				<input type="hidden" name="b_id" value="{$b_id}">
+				<div class="list-item">
+					<div class="swiper-container">
+					  <div class="swiper-wrapper">
+					  {volist name="list" key="k" id="v"}
+					    <div class="swiper-slide">
+					    	<input type="radio" id="s{$k}" name="s_id" value="{$v.id}" {if condition="$k eq '1'"} checked="checked" {/if}>
+					    	<label for="s{$k}">
+					    		<p>{$v.name}</p>
+					    		<div class="checks">{if condition="$k eq '1'"}已选中{else/}选择{/if}</div>
+					    	</label>
+					    </div>
+					    {/volist}
+					  </div>
+					  <div class="swiper-scrollbar"></div>
+					</div>
+					<div class="s-gif"></div>
+				</div>
+				{if $isnumber.phone == 0 && $isnumber.idcardtake == 0}
+					<button type="submit" id="btn">确认取号</button>
+				{else/}
+					<a href="{:url('index/datainfo')}?b_id={$b_id}&devicenum={$devicenum}" id="btn" class="godata">确认取号</a>
+				{/if}
+			</form>				
+			</div>
+			<div class="goute">
+				<a href="javascript:history.go(-1)"><i></i><span>后退</span></a>
+				<div class="return-index"><span id="return-num">30</span><span>秒</span>后返回首页</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		var urls = $(".godata").attr("href");
+		var sxid = $(".bm-cont").find('input:checked').val();
+
+		var mySwiper = new Swiper('.swiper-container', {
+				direction : 'vertical',
+				freeMode : true,
+				slidesPerView : 'auto',//'auto'						
+				spaceBetween : 15,
+				scrollbar:'.swiper-scrollbar' ,
+				scrollbarHide:false,
+			})
+			$(function(){
+				$(".godata").attr("href",urls+"&s_id="+sxid);
+				$(".list-item label").click(function(e){
+					e.stopPropagation();
+					sxid = $(this).siblings('input').val();
+					$(".godata").attr("href",urls+"&s_id="+sxid);
+
+					$(this).find('.checks').text("已选中");
+					$(this).parent().siblings().find('.checks').text("选择");
+				})
+				var indexs = 30;
+				var nums = setInterval(function(){
+					indexs --;
+					if (indexs < 10) {
+						indexs = "0"+indexs;
+					}
+					$("#return-num").text(indexs);
+					if(parseInt(indexs) == 0){
+						indexs = 30;
+						window.location.href="{:url('index/index')}?devicenum={$devicenum}";
+					}
+				},1000);
+
+			})
+		</script>
+	</body>
+</html>

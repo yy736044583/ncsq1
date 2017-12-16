@@ -1,0 +1,106 @@
+</!DOCTYPE html>
+<html>
+<head>
+	<title>公告</title>
+	<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>
+	<script type="text/javascript" src="__PUBLIC__appraise/iscroll-infinite.js" ></script>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__appraise/css.css"/>
+</head>
+<body onload="loaded()">	
+	<div class="cont">
+		<div class="contbox row">
+			<div class="col-xs-6 col-sm-6 col-md-6">
+				<div class="title clearfix">
+					<div class="pull-left">政务公告</div>
+					<div class="pull-right">时间</div>
+				</div>
+				<div class="cont_text">
+					<div id="wrapper">
+					<div id="scroller" class="leftinfo">
+					{volist name="info" id="v"}
+						<a href="{:url('Index/show')}?id={$v.id}" class="clearfix">
+							<div class="pull-left">{$v.title}</div>
+							<div class="pull-right time-color">{$v.createtime}</div>
+						</a>
+					{/volist}	
+					</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-6">
+				<div class="title clearfix">
+					<div class="pull-left">部门公告</div>
+					<div class="pull-right">时间</div>
+				</div>
+				<div class="cont_text">
+					<div id="wrappers">
+					<div id="scrollers" class="rightinfo">
+					{volist name="data" id="v"}
+						<a href="{:url('Index/show')}?id={$v.id}" class="clearfix">
+							<div class="pull-left">{$v.title}</div>
+							<div class="pull-right time-color">{$v.createtime}</div>
+						</a>
+					{/volist}
+					</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+
+			var myScroll;
+			var index1 = 0;
+			var index2 = 0;
+			function loaded () {
+				myScroll = new IScroll('#wrapper', {
+					mouseWheel: false,  //是否监听鼠标滚轮事件
+            		bounceTime: 600,       //弹力动画持续的毫秒数
+   					probeType: 3,
+   					click:true
+				});
+				myScroll.on('scrollEnd', function () {
+					index1++;
+		    		ajaxS(index1,'{:url("Index/announcement")}',0);			             
+		             myScroll.refresh();
+		         });
+
+				myScroll2 = new IScroll('#wrappers', {
+					mouseWheel: false,  //是否监听鼠标滚轮事件
+            		bounceTime: 600,       //弹力动画持续的毫秒数
+   					probeType: 3,
+   					click:true
+				});
+				myScroll2.on('scrollEnd', function () {
+					index2++;
+		    		ajaxS(index2,'{:url("Index/news")}',1);			             
+		             myScroll2.refresh();
+		         });
+			}
+			function ajaxS(index,url,el){
+				$.ajax({
+		             	url: url,
+						type: 'post',
+						dataType: 'json',
+						data: {'page': index,'count':"15"},
+						success:function(data){							
+							for (var i = 0; i <data.length; i++) {
+								var Html = '<a href="{:url("Index/show")}?id='+data[i]['id']+'" class="clearfix"><div class="pull-left">'+data[i]['id']+'</div><div class="pull-right time-color">'+data[i]['createtime']+'</div></a>';
+								if(el == 0){
+									$(".leftinfo").append(Html);
+								}else{
+									$(".rightinfo").append(Html);
+								}
+								
+							}							
+						}
+		        })	
+			}
+			document.addEventListener('touchmove', function (e) { e.preventDefault(); }, isPassive() ? {
+				capture: false,
+				passive: false
+			} : false);
+	</script>
+</body>
+</html>
