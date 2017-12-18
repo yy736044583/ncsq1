@@ -198,7 +198,8 @@ class Take{
 	 * @return [array]  $data      [返回数据集]
 	 */
 	public function takebusiness($devicenum,$businessid,$idcard,$socialsecuritycard,$mobile,$ordernumber,$matterid){
-
+		//当天日期
+		$today = date('Ymd',time());
 		// 预约编号
 		// 根据预约编号查询电话号码和身份证
 		if(!empty($ordernumber)){
@@ -414,14 +415,15 @@ class Take{
 			}
 
 
-			if($data1['count']==1){
-				// 根据窗口查询等待人数为1的呼叫器编号
-				$callnumber = $this->waitcall($wids);
-				// 将等待人数为1的呼叫器编号放到队列中
-				if(!empty($callnumber)){
-					Db::name('ph_deviceqid')->insert(['callnumber'=>$callnumber,'online'=>6,'time'=>$data['taketime']]);
-				}
-			}
+			//老式呼叫器
+			// if($data1['count']==1){
+			// 	// 根据窗口查询等待人数为1的呼叫器编号
+			// 	$callnumber = $this->waitcall($wids);
+			// 	// 将等待人数为1的呼叫器编号放到队列中
+			// 	if($callnumber){
+			// 		Db::name('ph_deviceqid')->insert(['callnumber'=>$callnumber,'online'=>6,'time'=>$data['taketime']]);
+			// 	}
+			// }
 
 			// 短信开关 1开 0关
 			$set = Db::name('dx_set')->where('id',1)->find();
@@ -430,6 +432,7 @@ class Take{
 			if($set['messageoff']==1&&$set['takeoff']==1){
 				// 取号成功发送短信
 				$send = $this->takemessage($num,$businessname,$data1['count'],$mobile,$set['sign'],$set['username']);
+				dump($send);
 			}
 			
 
@@ -495,6 +498,7 @@ class Take{
 	 * @return [type]           [description]
 	 */
 	public function takemessage($flownum,$business,$count,$phone,$sign,$username){
+
 		// 模板所需数据
 		$json = ['flownum'=>$flownum,'business'=>$business,'count'=>$count];
 		// 短信模板编号
@@ -508,8 +512,9 @@ class Take{
 			'action'	=> 'sendSms',
 			'username'	=> $username,
 		];
-		$url = 'http://sms.scsmile.cn/inter/index';
-		// $url = 'http://192.168.0.10:8076/smileSMS/index.php/inter/index';
+
+		// $url = 'http://sms.scsmile.cn/inter/index';
+		$url = 'http://192.168.0.10:8076/smileSMS/index.php/inter/index';
 		// url方式提交
 		$httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
 		return $httpstr;	
