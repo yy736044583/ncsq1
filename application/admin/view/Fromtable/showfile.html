@@ -47,14 +47,14 @@
 						<tr>
 							<td>{$k}</td>
 							<td>{$v.filetitle}</td>
-							<td class="titles">{$v.title}</td>
+							<td class="titles">{$v.title|textlength=20}</td>
 							<!-- <td>{$v.type}</td> -->
 							<td>{$v.url|textlength=100}</td>
 							<td>{$v.nullurl|textlength=90}</td>
 							<td>{$v.sort} <input type="hidden" class="aotuwrite" value="{$v.aotuwrite}"></td>	
 							<td>
-
-								<button value="{$v.id}" class="layui-btn layui-btn-mini uptitle">编辑</button>
+								<a href="{:url('fromtable/savefile')}?id={$v.id}&mid={$mid}&fid={$fid}" class="layui-btn layui-btn-mini">编辑</a>
+								<!-- <button value="{$v.id}" class="layui-btn layui-btn-mini uptitle">编辑</button> -->
 								<button value="{$v.id}" class="layui-btn layui-btn-mini orderasc">升序</button>
 								<button value="{$v.id}" class="layui-btn layui-btn-mini orderdesc">降序</button>
 								<button value="{$v.id}" class="layui-btn layui-btn-mini layui-btn-danger dlfile">删除</button>

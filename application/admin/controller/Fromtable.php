@@ -191,7 +191,7 @@ class Fromtable extends Common{
 		$m_name = session('m_name');
 		if(request()->isPost()){
 			$data = input('post.');
-			dump($data);
+			// dump($data);
 		}
 		//查询文件名
 		$f_name = Db::name('sys_showfile')->where('id',$fid)->value('title');		
@@ -200,6 +200,22 @@ class Fromtable extends Common{
 		$this->assign('f_name',$f_name);
 		$this->assign('fid',$fid);
 		$this->assign('mid',$mid);
+		return $this->fetch();
+	}
+
+	// 编辑上传文件页面
+	public function savefile(){
+		$id = input('id');
+		$fid = input('fid');
+		$mid = input('mid');
+		$m_name = session('m_name');
+		$f_name =  Db::name('sys_showfile')->where('id',$fid)->value('title');
+		$list = Db::name('sys_showfileup')->where('id',$id)->find();
+		$this->assign('fid',$fid);
+		$this->assign('mid',$mid);
+		$this->assign('list',$list);
+		$this->assign('m_name',$m_name);
+		$this->assign('f_name',$f_name);
 		return $this->fetch();
 	}
 
@@ -231,19 +247,7 @@ class Fromtable extends Common{
     	$suff = get_extension($data['url']);
     	//如果是图片才转换缩略图
     	if($suff=='jpg'||$suff=='jpeg'||$suff=='png'){
-	    	//缩略图文件地址
-		 	$filepath = '/uploads/matter/';
-		 	// 截取路径获取文件名称
-		 	$url = explode('/',$data['url']);
-		 	$count = count($url);
-
-		 	$count1 = $count-2;
-		 	$count2 = $count-1;
-		 	$name = $url["$count1"].'/'.$url["$count2"];
-		 	
-		 	$path = ROOT_PATH . 'public' . DS . 'uploads'.DS.'matter';
-	 		$pathname = $this->imagethumb($path,$name);
-	 		$data['thumburl'] = $filepath.$pathname;    		
+	    	$data['thumburl'] = $this->savethumbimg($data['url']);		
     	}
 
  		if(Db::name('sys_showfileup')->insert($data)){
@@ -253,6 +257,76 @@ class Fromtable extends Common{
         }    
 	}
 
+	public function saveload(Request $request){
+        //文件列表id
+    	$fid = input('fid');
+    	$mid = input('mid');
+    	$id = input('id'); //文件id
+    	$data['url'] = input('url');
+    	$data['nullurl'] = input('nullurl');
+    	$data['title'] = input('title');
+    	$data['showfileid'] = input('fid');
+    	$data['aotuwrite'] = input('aotuwrite');
+    	$path = ROOT_PATH.'/public/';
+    	$list = Db::name('sys_showfileup')->where('id',$id)->find();
+
+    	// 如果上传的样表文件有更改再重新生产缩略图
+    	if($list['url']!=$data['url']){
+    		//查看文件类型
+    		$suff = get_extension($data['url']);
+    		//如果是图片才转换缩略图
+	    	if($suff=='jpg'||$suff=='jpeg'||$suff=='png'){
+		    	$data['thumburl'] = $this->savethumbimg($data['url']);		
+	    	}
+	    	if($list['url']){
+		    	// 删除之前的样表文件
+		    	if(file_exists($path.$list['url'])){
+		    		unlink($path.$list['url']);
+		    	}	    		
+	    	}
+	    	if($list['thumburl']){
+		    	// 删除之前的缩略图文件
+		    	if(file_exists($path.$list['thumburl'])){
+		    		unlink($path.$list['thumburl']);
+		    	}	    		
+	    	}
+    	}
+    	if($data['nullurl']!=$list['nullurl']&&$list['nullurl']){
+    		// 删除之前的缩略图文件
+	    	if(file_exists($path.$list['nullurl'])){
+	    		unlink($path.$list['nullurl']);
+	    	}
+    	}
+		// dump($data);die;
+    	if(Db::name('sys_showfileup')->where('id',$id)->update($data)){
+    		$this->success('修改成功','fromtable/showfile?mid='.$mid.'&fid='.$fid);
+        }else{
+        	$this->error('修改失败','fromtable/showfile?mid='.$mid.'&fid='.$fid);
+        }
+	}
+
+	/**
+	 * [savethumbimg 如果是图片文件则生产缩略图]
+	 * @param  [type] $url1 [description]
+	 * @return [type]       [description]
+	 */
+	public function savethumbimg($url1){
+    	//缩略图文件地址
+	 	$filepath = '/uploads/matter/';
+	 	// 截取路径获取文件名称
+	 	$url = explode('/',$url1);
+	 	$count = count($url);
+
+	 	$count1 = $count-2;
+	 	$count2 = $count-1;
+	 	$name = $url["$count1"].'/'.$url["$count2"];
+	 	
+	 	$path = ROOT_PATH . 'public' . DS . 'uploads'.DS.'matter';
+	 	// 调用生成缩略图方法
+ 		$pathname = $this->imagethumb($path,$name);
+ 		$thumburl = $filepath.$pathname;  
+ 		return $thumburl;
+	}
 
 	//删除文件
 	public function dlfile(Request $request){
