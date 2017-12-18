@@ -41,16 +41,8 @@
 					</div>
 					<div class="pull-right right-btn">
 						<div class="index-link-tab">
-					{if condition="$isnumber['scenetake'] eq '1'"}
 						<a href="{:url('index/business')}?devicenum={$times.numbers}" class="bt1"><i></i>现场取号</a>
-					{/if}
 						<a href="{:url('index/make')}?devicenum={$times.numbers}" class="bt2"><i></i>预约取号</a>
-					{if condition="$isnumber['idcardtake'] eq '1'"}
-						<a href="scanIdcard_1.html" class="bt3"><i></i>身份证取号</a>
-					{/if}
-					{if condition="$isnumber['socialsecuritycardtake'] eq '1'"}
-						<a href="javascript:;" class="bt4"><i></i>社保卡取号</a>
-					{/if}
 						</div>
 					</div>
 				</div>

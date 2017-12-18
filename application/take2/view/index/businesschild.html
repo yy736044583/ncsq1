@@ -27,14 +27,7 @@
 					{volist name="list" key="k" id="v"}
 						{if condition="$v['ok'] eq '1'"}
 						
-							{if condition="$v['bus2'] eq '1'"}
-								<a href="{:url('index/businesschild')}?id={$v.id}&devicenum={$devicenum}&businessname={$v.name}">
-									<div class="link-yw" style="position: relative;">
-										<p>{$v.name}</p>
-										<span style="position: absolute;bottom: 0;font-size: 14px;left: 50%;margin-left: -39px;color: #7D7D7D;">排队人数：{if condition="$day eq $v['day']"}{$v.waitcount}{else/}0{/if}</span>
-									</div>
-								</a>
-							{else/}
+						
 								{if condition="$v['smatter'] eq '0'"}
 									{if $isnumber.phone == 0 && $isnumber.idcardtake == 0}
 									<a href="{:url('index/businesssuccsee_1')}?b_id={$v.id}">
@@ -59,7 +52,6 @@
 									</div>
 								</a>
 								{/if}
-							{/if}
 							
 						{else/}
 						<a href="javascript:;">

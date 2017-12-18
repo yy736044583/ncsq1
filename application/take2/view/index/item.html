@@ -38,10 +38,17 @@
 								</div>
 							{/volist}
 							</div>
+							{if $isnumber.phone == 0 && $isnumber.idcardtake == 0}
 							<div class="btns">
-								<button type="submit">确认取号</button>
+								<button type="submit" class="btn">确认取号</button>
 								<span><i id="return-num">30秒</i>后返回首页</span>
 							</div>
+							{else/}
+							<div class="btns">
+								<a href="{:url('index/datainfo')}?b_id={$b_id}&devicenum={$devicenum}" id="btn" class="btn">确认取号</a>
+								<span><i id="return-num">30秒</i>后返回首页</span>
+							</div>
+							{/if}
 						</form>
 					</div>
 				</div>
