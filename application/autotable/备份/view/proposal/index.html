@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__autotable/layer/layer.js"></script>
+	<style type="text/css">
+		.layui-layer-dialog .layui-layer-content{
+			font-size: 20px;
+			/*padding: 25px 25px;*/
+		}
+	</style>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="title_cont proposal">
+			<h2>请您填写意见建议</h2>
+			<div class="proposal-from">
+				<form>
+					<div class="input-text">
+						<div class="input-l">
+							<label><span>*</span>是否公开</label>
+							<div class="radioname">
+								<input type="radio" checked="checked" name="valid" id="x1">
+								<label for="x1">公开</label>
+								<input type="radio" name="valid" id="x2">
+								<label for="x2">不公开</label>
+							</div>							
+						</div>
+						<div class="input-r">
+							<label><span>*</span>建议主题</label>
+							<input type="text" name="title" id="title">
+						</div>
+					</div>
+					<div class="input-text area">
+						<div class="input-l">
+							<label><span>*</span>建议内容</label>
+							<textarea id="cont" name="content"></textarea>
+						</div>
+					</div>
+					<div class="input-text">
+						<div class="input-l">
+							<label>您的姓名</label>
+							<input type="text" name="upname" id="name">
+						</div>
+						<div class="input-r">
+							<label>身份证号</label>
+							<input type="text" name="idcard" id="idcord">
+						</div>
+					</div>
+					<div class="input-text">
+						<div class="input-l">
+							<label>联系电话</label>
+							<input type="text" name="telphone" id="tel">
+						</div>
+						<div class="input-r">
+							<label>工作单位</label>
+							<input type="text" name="comply" id="work">
+						</div>
+					</div>
+					<div class="input-text">
+						<div class="input-l">
+							<label>通讯地址</label>
+							<input type="text" name="address" id="addr">
+						</div>
+					</div>
+					<div class="input-btn">
+						<a href="javascript:;" class="tj" onclick="return Verification()"></a>
+						<a href="javascript:;" class="cz"></a>
+					</div>	
+				</form>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".cz").click(function(){
+				$('input,textarea').val("");
+			})
+						
+		})
+		function Verification(){
+			var x = $("input[type='radio'][name='x']:checked").val();
+			var title = $("#title");
+			var cont = $("#cont");
+			var name = $("#name");
+			var idcord = $("#idcord");
+			var tel = $("#tel");
+			var work = $("#work");
+			var addr = $("#addr");
+			title.removeClass('error');
+			cont.removeClass('error');
+			if(title.val() == ""){
+				title.addClass('error');
+				return false;
+			}
+			if(cont.val() == ""){
+				cont.addClass('error');
+				return false;
+			}
+			$.ajax({
+				url: "{:url('proposal/index')}",
+				type: 'POST',
+			
+				data: {valid: x,title: title.val(),content: cont.val(),upname: name.val(),idcard: idcord.val(),telphone: tel.val(),comply: work.val(),address: addr.val()},
+				success: function(data){
+					console.log(data)
+					if(data == 1){
+						layer.msg('提交成功',{time: 3000,area: ['160px']});
+						$('input,textarea').val("");
+					}else {
+						layer.msg('提交失败',{time: 3000,area: ['160px']});
+					}
+				},
+				error:function(){
+					console.log('系统错误')
+				}
+			})
+			
+			
+		}
+	</script>
+</body>
+</html>

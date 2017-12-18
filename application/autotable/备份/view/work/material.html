@@ -10,18 +10,13 @@
 <body>
 	<div class="content_iframe">
 		<div class="zn_title">
-			{switch name="type"}
-				{case value="conditionset"}审批条件{/case}
-				{case value="warrntset"}法定依据{/case}
-				{case value="flowlimit"}办理流程{/case}
-				{default /}
-			{/switch}
+			{$mattername}
 		</div>
 		<div class="zn_cont">
 			{switch name="type"}
 				{case value="conditionset"}{$list.approvecondition}{/case}
-				{case value="warrntset"}{$list.govfilecontent}{/case}
-				{case value="flowlimit"}{$list.content}{/case}
+				{case value="conditionset"}{$list.govfilecontent}{/case}
+				{case value="conditionset"}{$list.content}{/case}
 				{default /}
 			{/switch}
 		</div>

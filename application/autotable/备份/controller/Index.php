@@ -112,18 +112,16 @@ class Index extends \think\Controller{
 		return $this->fetch();
 	}
 	//pdf展示
-	public function pdfshow(Request $request){
+	public function pdfshow(){
 		$id = input('id');
 		$list = Db::name('sys_showfileup')->field('id,title,url')->where('id',$id)->find();
-		$list['url'] = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public'.$list['url'];
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
 	//图片展示
-	public function pictureshow(Request $request){
+	public function pictureshow(){
 		$id = input('id');
 		$list = Db::name('sys_showfileup')->field('id,title,url')->where('id',$id)->find();
-		$list['url'] = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public'.$list['url'];
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
@@ -143,11 +141,8 @@ class Index extends \think\Controller{
 		}else{
 			$resturl = '';
 		}
-
 		$request = Request::instance();
-		$domain = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public/';
-		// $resturl =$domain.$url;
-
+		$domain = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public';
 		$this->assign('resturl',$resturl);	
 		$this->assign('domain',$domain);	
 		$this->assign('tempid',$tempid);	
@@ -236,22 +231,15 @@ class Index extends \think\Controller{
         $rest = [];
         // 读取excel
         $objReader = \PHPExcel_IOFactory::createReader('excel2007');
-        if(!$objReader->canRead($path)) {
-			$objReader = \PHPExcel_IOFactory::createReader('Excel5');
-		if(!$objReader->canRead($path)) 
-			return;
-		}
         $objReader->setReadDataOnly(true);
         $AllSheets = $objReader->load($path);
         $AllSheet = $AllSheets->getAllSheets();
         //实例化写入excel
-       	$objSheet = \PHPExcel_IOFactory::load($path);   
-
+       	$objSheet = \PHPExcel_IOFactory::load($path);      	
         $str = '';
         foreach ($AllSheet as $sheet) {
         	// 获取excel里的内容 转为数组
             $rest[$sheet->getTitle()] = $sheet->toArray();
-           
             //循环数组 将每个单元格拿出来
             foreach ($rest[$sheet->getTitle()] as $k => $v) {
             	foreach ($v as $key => $val) {
@@ -270,10 +258,8 @@ class Index extends \think\Controller{
         		}
         	}
         }
-        // dump($rest);die;
         //执行写入操作
         header('Cache-Control: max-age=0');
-        // header("Content-type:application/vnd.ms-excel");
         $objSheet->setActiveSheetIndex(0);
        	$objWriter = \PHPExcel_IOFactory::createWriter($objSheet, 'excel2007');
        	$objWriter->save($path);
@@ -288,7 +274,7 @@ class Index extends \think\Controller{
     // excel存入图片
     public function excelimg(){
     	// 发送的身份证信息
-    	$data = input('get.');
+    	$data = input('post.');
     	
     	$tempid = $data['tempid'];//填表临时文件id
     	$table_temp = Db::name('sys_table_temp')->where('id',$tempid)->find();
@@ -329,16 +315,12 @@ class Index extends \think\Controller{
 
 
 
+
     	//引用excel
     	Loader::import('first.PHPExcel');
     	$objPHPExcel = new \PHPExcel();
     	//读取excel
     	$objReader = \PHPExcel_IOFactory::createReader('excel2007');
-    	if(!$objReader->canRead($path)) {
-			$objReader = \PHPExcel_IOFactory::createReader('Excel5');
-		if(!$objReader->canRead($path)) 
-			return;
-		}
         $AllSheets = $objReader->load($path);
         $AllSheet = $AllSheets->getSheet(0);//读取第一张表格数据
 		$objPHPExcel->setActiveSheetIndex(0);
@@ -347,42 +329,37 @@ class Index extends \think\Controller{
 		//将自动填入坐标转换成数组
 		$autowrite = explode(';',$autowrite);
 
-		// 启动事务
-		Db::startTrans();
-		try{
-			foreach ($autowrite as $k => $v) {
-				$v = explode(',',$v);
-				foreach ($data as $key => $val){
-					if(in_array($key,$v)){
-						if($key=='idcardData_PhotoFileName'&&!empty($data['idcardData_PhotoFileName'])){
-							//插入图片
-							$objDrawing = new \PHPExcel_Worksheet_Drawing();
-							$objDrawing->setPath($data['idcardData_PhotoFileName']);//写入图片路径
-							$objDrawing->setHeight(100);//写入图片宽度
-							$objDrawing->setWidth(100);//写入图片高度
-							$objDrawing->setCoordinates($v[1]);//设置图片所在表格位置
-							$objDrawing->setWorksheet($AllSheets->getActiveSheet());//把图片写到当前的表格中
-						}else{
-							//插入文字
-							$AllSheets->setActiveSheetIndex(0)->setCellValue($v[1],$val);	
-						}
-					}
-				}
-			}		    // 提交事务
 		
-	        header('Cache-Control: max-age=0');
-	        $objWriter = \PHPExcel_IOFactory::createWriter($AllSheets,'excel2007');//创建写文件生成器
-
-			$objWriter->save($path);//生成文件
-
-			Db::name('sys_table_temp')->where('id',$tempid)->update(['type'=>1]);
-			Db::commit();
-			// echo '1';  
-		} catch (\Exception $e) {
-		    // 回滚事务
-		    Db::rollback();
-		    // echo 2;
-		}
+		
+		foreach ($autowrite as $k => $v) {
+			$v = explode(',',$v);
+			foreach ($data as $key => $val){
+				// echo $key.'<br>';
+				// dump($data['idcardData_PhotoFileName']);die;
+				if(in_array($key,$v)){
+					if($key=='idcardData_PhotoFileName'&&!empty($data['idcardData_PhotoFileName'])){
+						echo 1;die;
+						//插入图片
+						$objDrawing = new \PHPExcel_Worksheet_Drawing();
+						$objDrawing->setPath($data['idcardData_PhotoFileName']);//写入图片路径
+						$objDrawing->setHeight(100);//写入图片宽度
+						$objDrawing->setWidth(100);//写入图片高度
+						$objDrawing->setCoordinates($v[1]);//设置图片所在表格位置
+						$objDrawing->setWorksheet($AllSheets->getActiveSheet());//把图片写到当前的表格中
+					}else{
+						
+						//插入文字
+						$AllSheets->setActiveSheetIndex(0)->setCellValue($v[1],$val);	
+					}
+					
+				}
+			}
+		}			
+	
+        header('Cache-Control: max-age=0');
+        $objWriter = \PHPExcel_IOFactory::createWriter($AllSheets,'excel2007');//创建写文件生成器
+		$objWriter->save($path);//生成文件
+		Db::name('sys_table_temp')->where('id',$tempid)->update(['type'=>1]);
     }
 
 
@@ -392,8 +369,13 @@ class Index extends \think\Controller{
     }
 
     public function test(){
+    	if(request()->isPost()){
+    		$data = input('post.');
+    		dump($data);
+    	}
     	return $this->fetch();
-
+    	// $data = ['idcard_Name'=>'赵森林','idcard_IDCardNo'=>'510902197808119498','tempid'=>'86','tableid'=>'55','rand'=>8634,'tempid'=>'60'];
+    	// $this->excelimg($data);
     }
 }
 

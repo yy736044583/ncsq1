@@ -10,20 +10,28 @@
 <body>
 	<div class="content_iframe">
 		<div class="zn_title">
-			{switch name="type"}
-				{case value="conditionset"}审批条件{/case}
-				{case value="warrntset"}法定依据{/case}
-				{case value="flowlimit"}办理流程{/case}
-				{default /}
-			{/switch}
+			{$mattername}
 		</div>
 		<div class="zn_cont">
-			{switch name="type"}
-				{case value="conditionset"}{$list.approvecondition}{/case}
-				{case value="warrntset"}{$list.govfilecontent}{/case}
-				{case value="flowlimit"}{$list.content}{/case}
-				{default /}
-			{/switch}
+			<table class="table_list" cellpadding="0" cellspacing="0">
+				<tr>
+					<th>材料名称</th>
+					<th>材料形式</th>
+					<th>材料详细要求</th>
+					<th>必要性描述</th>
+					<th>备注</th>
+				</tr>
+				{volist name="list" id="v"}
+				<tr>
+					<td>{$v.title}</td>
+					<td>{$v.material_form}</td>
+					<td>{$v.material_request}</td>
+					<td>{$v.describe}</td>
+					<td>{$v.summary}</td>
+				</tr>
+				{/volist}
+		
+			</table>
 		</div>
 		<div class="pager page">
 			<a href="{:url('work/index')}" class="home"></a>

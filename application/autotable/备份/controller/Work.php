@@ -27,8 +27,7 @@ class Work extends \think\Controller{
             //根据Id查询办事指南
         $list = Db::name('sys_matter')->field('name,id')->where("sectionid",$id)->paginate(6,true,['query'=>array('id'=>input('id'))]);
         if(empty($list)){
-            echo '该部门暂无数据';
-            //$this->error('该部门暂无数据');
+            $this->error('该部门暂无数据');
         }
 
         $page = $list->render();

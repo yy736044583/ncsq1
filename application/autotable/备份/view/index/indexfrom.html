@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable//css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable//css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable//js/jquery-1.11.0.min.js"></script>
+</head>
+<body id="container">
+	<div class="title">
+		<h1>自助填单系统</h1>
+		<div class="time">
+			<p class="t1"><span class="y">{$time|date="Y-m-d",###} {$time|weekday}</span></p>
+			<p class="t2">{$time|date="H:i",###}</p>
+		</div>
+	</div>
+	<div class="content_main">
+		<div class="menu_left">
+			<a href="{:url('index/index')}" class="link_menu m1 on" target="iframses">
+				<i></i>
+				<p>自助填单</p>
+			</a>
+			<a href="{:url('work/index')}" class="link_menu m2" target="iframses">
+				<i></i>
+				<p>办事指南</p>
+			</a>
+			<a href="{:url('notice/index')}" class="link_menu m3" target="iframses">
+				<i></i>
+				<p>公示公告</p>
+			</a>
+			<a href="{:url('proposal/index')}" class="link_menu m4" target="iframses">
+				<i></i>
+				<p>意见建议</p>
+			</a>
+			<a href="{:url('introduction/index')}" class="link_menu m5" target="iframses">
+				<i></i>
+				<p>中心简介</p>
+			</a>
+		</div>
+		<div class="menu_right">
+			<iframe name="iframses" src="{:url('index/index')}" frameborder="0" ></iframe>
+		</div>		
+	</div>
+	<script type="text/javascript" src="__PUBLIC__autotable/js/js.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".menu_left a").click(function(event) {
+				/* Act on the event */
+				$(this).addClass('on').siblings('a').removeClass('on');
+			});
+		})
+	</script>
+</body>
+</html>
