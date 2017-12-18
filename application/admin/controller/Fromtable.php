@@ -258,24 +258,24 @@ class Fromtable extends Common{
 	public function dlfile(Request $request){
 		$id = input('id');
 		$file = Db::name('sys_showfileup')->where('id',$id)->find();
-		$domain = $request->domain().'/sbxt';
-		$path = ROOT_PATH;
+		$domain = $request->domain().dirname($_SERVER['SCRIPT_NAME']);
+		$path = ROOT_PATH.'/public/';
 		
 		if(Db::name('sys_showfileup')->where('id',$id)->delete()){
 			if(!empty($file['url'])){
-				$url = $path.str_replace($domain,'',$file['url']);
+				$url = $path.$file['url'];
 				if(file_exists($url)){
 					unlink($url);
 				}
 			}
 			if(!empty($file['nullurl'])){
-				$nullurl = $path.str_replace($domain,'',$file['nullurl']);
+				$nullurl = $path.$file['nullurl'];
 				if(file_exists($nullurl)){
 					unlink($nullurl);
 				}
 			}
 			if(!empty($file['thumburl'])){
-				$thumburl = $path.str_replace($domain,'',$file['thumburl']);
+				$thumburl = $path.$file['thumburl'];
 				if(file_exists($thumburl)){
 					unlink($thumburl);
 				}
