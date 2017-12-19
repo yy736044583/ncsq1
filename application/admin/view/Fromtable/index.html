@@ -59,11 +59,10 @@
 						{volist name="list" key="k" id="v"}
 						<tr>
 							<td>{$k}</td>
-							<td>{$v.name}</td>
+							<td>{$v.name|textlength=30}</td>
 							<td>{$v.section}</td>
-							<td style="overflow: hidden;width: 300px">
-								<p style="overflow:hidden;width:300px;white-space: nowrap; height:20px;text-overflow: ellipsis; display: inline-block;">{$v.summary}</p>
-							</td>
+							<td>{$v.summary|textlength=30}</td>
+		
 							<td>
 								<a href="{:url('fromtable/filelist')}?mid={$v.id}" class="layui-btn layui-btn-mini">文件管理</a>
 								<a href="{:url('fromtable/upfrom')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>

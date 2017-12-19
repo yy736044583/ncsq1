@@ -59,7 +59,7 @@
 			<div class="layui-form-item">
 				<label class="layui-form-label">填表文件</label>
 				<div class="layui-input-inline">
-					<button type="button" class="upfile layui-btn layui-btn-mini">上传填表文件(xls)</button><input type="hidden" name="nullurl" value="{$list.nullurl}">
+					<button type="button" class="upfile1 layui-btn layui-btn-mini">上传填表文件(xls)</button><input type="hidden" name="nullurl" value="{$list.nullurl}">
 					<span>{$list.nullurl}</span>
 				</div>
 			</div>
@@ -112,10 +112,55 @@
 					beforeSend:function(){
 						that.text("正在上传...");
 					},
-					success : function(responseStr) { 				
-						that.text("上传成功");
-						that.next().val(responseStr);
-						console.log(responseStr)
+					success : function(responseStr) {
+						if(responseStr==0){
+							that.text("上传错误");
+							that.next().val("");
+							that.bind(e);
+						}else{
+							that.text("上传成功");
+							that.next().val(responseStr);
+							console.log(responseStr)
+						} 				
+						
+					}, 
+					error : function(responseStr) { 
+						that.text("上传失败");
+						that.next().val("");
+						that.bind(e);
+					} 
+				})
+			});
+		})
+		$(".upfile1").live('click', function(event){
+			var that = $(this);
+			var e = event;
+			event.stopPropagation();
+			$("#upload").off().click();
+
+			$("#upload").change(function(events) {
+				events.stopPropagation();
+				var formData = new FormData();
+				formData.append("file",$("#upload")[0].files[0]);
+				$.ajax({
+					url: "{:url('fromtable/upfromload1')}",
+					processData : false, 
+					contentType : false,
+					type: 'POST',
+					data: formData,
+					beforeSend:function(){
+						that.text("正在上传...");
+					},
+					success : function(responseStr) { 
+						if(responseStr==0){
+							that.text("上传错误");
+							that.next().val("");
+							that.bind(e);
+						}else{
+							that.text("上传成功");
+							that.next().val(responseStr);
+							console.log(responseStr)
+						} 
 					}, 
 					error : function(responseStr) { 
 						that.text("上传失败");

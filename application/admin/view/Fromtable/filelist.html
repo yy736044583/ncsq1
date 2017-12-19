@@ -43,10 +43,8 @@
 						{volist name="list" key="k" id="v"}
 						<tr>
 							<td>{$k}</td>
-							<td class="title">{$v.title}</td>
-							<td style="overflow: hidden;width: 300px" class="summary">
-								<p style="overflow:hidden;width:300px;white-space: nowrap; height:20px;text-overflow: ellipsis; display: inline-block;">{$v.summary}</p>
-							</td>
+							<td class="title">{$v.title|textlength=30}</td>
+							<td class="summary">{$v.summary|textlength=30}</td>
 							<td>
 								<a href="{:url('fromtable/showfile')}?fid={$v.id}&mid={$mid}" class="layui-btn layui-btn-mini">管理</a>
 								<button value="{$v.id}" class="layui-btn layui-btn-mini but" >编辑</button>

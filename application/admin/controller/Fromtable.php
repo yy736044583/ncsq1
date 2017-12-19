@@ -4,7 +4,9 @@ use think\View;
 use think\Db;
 use app\admin\Controller\Common;
 use think\Validate;
-use think\Request;  
+use think\Request; 
+use think\Loader;
+use first\PHPExcel; 
 /*
 **样表管理 
  */
@@ -225,14 +227,35 @@ class Fromtable extends Common{
 		// 调用common的文件上传方法
 		$path = createfile('matter');
 		// 上传文件类型限制
-		$type = 'pdf,xls,xlsx,jpg,jpeg,png';
+		$type = 'pdf,jpg,jpeg,png';
 		// 获取上传文件路径 
 		// 调用common的文件上传方法
 		$url = uploadfile('file',$type,$path);
+		if($url==0){
+			return 0;
+		}
 		// $today = date('Ymd',time());
 		$url = '/uploads/matter/'.$url;
 		return $url;
 	}
+
+		// 上传填表文件
+	public function upfromload1(Request $request){
+		// 建立上传路径 uploads下面的datum文件夹 
+		// 调用common的文件上传方法
+		$path = createfile('matter');
+		// 上传文件类型限制
+		$type = 'xls,xlsx';
+		// 获取上传文件路径 
+		// 调用common的文件上传方法
+		$url = uploadfile('file',$type,$path);
+		if($url==0){
+			return 0;
+		}
+		$url = '/uploads/matter/'.$url;
+		return $url;
+	}
+
 	//多图文件上传
 	public function upload(Request $request){
         //文件列表id
@@ -243,14 +266,26 @@ class Fromtable extends Common{
     	$data['title'] = input('title');
     	$data['showfileid'] = input('fid');
     	$data['aotuwrite'] = input('aotuwrite');
+
     	//查看文件类型
     	$suff = get_extension($data['url']);
+    	$data['type'] = $suff;
     	//如果是图片才转换缩略图
     	if($suff=='jpg'||$suff=='jpeg'||$suff=='png'){
 	    	$data['thumburl'] = $this->savethumbimg($data['url']);		
     	}
 
  		if(Db::name('sys_showfileup')->insert($data)){
+ 			$id = Db::name('sys_showfileup')->getLastInsID();
+	    	if(!empty($data['nullurl'])){
+	    		$path =  ROOT_PATH.'/public/'.$data['nullurl'];
+	    		//返回填表需要替换的单元格位置
+				$rest = $this->readexcel($path);
+				if(!empty($rest)){
+					//如果位置不为空则更新填表替换的位置
+					Db::name('sys_showfileup')->where('id',$id)->update(['aotuwrite'=>$rest]);
+				}
+	    	}
     		$this->success('上传成功','fromtable/showfile?mid='.$mid.'&fid='.$fid);
         }else{
         	$this->error('上传失败','fromtable/showfile?mid='.$mid.'&fid='.$fid);
@@ -274,6 +309,7 @@ class Fromtable extends Common{
     	if($list['url']!=$data['url']){
     		//查看文件类型
     		$suff = get_extension($data['url']);
+    		$data['type'] = $suff;
     		//如果是图片才转换缩略图
 	    	if($suff=='jpg'||$suff=='jpeg'||$suff=='png'){
 		    	$data['thumburl'] = $this->savethumbimg($data['url']);		
@@ -428,7 +464,59 @@ class Fromtable extends Common{
 		}
 
 	}
-   
+ 	//获取变量坐标 替换变量为空
+	public function readexcel($path){
+		//实例化phpexcel
+    	Loader::import('first.PHPExcel');
+    	$excel = new \PHPExcel();
+        $rest = [];
+        // 读取excel
+        $objReader = \PHPExcel_IOFactory::createReader('excel2007');
+        if(!$objReader->canRead($path)) {
+			$objReader = \PHPExcel_IOFactory::createReader('Excel5');
+		if(!$objReader->canRead($path)) 
+			return;
+		}
+        $objReader->setReadDataOnly(true);
+        $AllSheets = $objReader->load($path);
+        $AllSheet = $AllSheets->getAllSheets();
+        //实例化写入excel
+       	$objSheet = \PHPExcel_IOFactory::load($path);   
+
+        $str = '';
+        foreach ($AllSheet as $sheet) {
+        	// 获取excel里的内容 转为数组
+            $rest[$sheet->getTitle()] = $sheet->toArray();
+           
+            //循环数组 将每个单元格拿出来
+            foreach ($rest[$sheet->getTitle()] as $k => $v) {
+            	foreach ($v as $key => $val) {
+            		//判断是否有@@符号,如果有获取坐标
+            		if($val){
+            			if(strstr($val,'@@')){
+	            			$row = $k + 1; //横坐标
+	            			$col = chr($key + 65); //纵坐标
+	            			$zb = $col.$row;
+	            			// 组合坐标变量和坐标 以;分隔
+	            			$str .= str_replace('@@','',$val).','.$zb.';';
+	            			// 将@@坐标的内容替换为空
+	            			$objSheet->setActiveSheetIndex(0)->setCellValue($zb,'');
+            			}	
+            		}
+        		}
+        	}
+        }
+        //执行写入操作
+        header('Cache-Control: max-age=0');
+        // header("Content-type:application/vnd.ms-excel");
+        $objSheet->setActiveSheetIndex(0);
+       	$objWriter = \PHPExcel_IOFactory::createWriter($objSheet, 'excel2007');
+       	$objWriter->save($path);
+       	//将要替换的单元格位置末尾符号去掉  返回
+    	$str = trim($str,';');
+        return $str;
+    }
+  
 
 
    /**

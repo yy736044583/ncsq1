@@ -91,7 +91,7 @@ class Index extends \think\Controller{
 		$id = input('showfileid');
 		$matterid = input('matterid');
 		$secid = input('secid');
-		$list = Db::name('sys_showfileup')->where('showfileid',$id)->field('id,title')->order('sort desc')->paginate(10,true,['query'=>array('showfileid'=>$id)]);
+		$list = Db::name('sys_showfileup')->where('showfileid',$id)->field('id,title,aotuwrite')->order('sort desc')->paginate(10,true,['query'=>array('showfileid'=>$id)]);
 		$page = $list->render();
         $this->assign('page', $page);
         $this->assign('matterid', $matterid);
@@ -133,10 +133,10 @@ class Index extends \think\Controller{
 		$url = Db::name('sys_showfileup')->where('id',$id)->value('nullurl');
 		$tempid = input('tempid');
 		if(!empty($url)){
-			if(!$tempid){
-				//填表临时文件
-				$tempid = $this->excelcopy($url,$id);	
-			}
+			// if(!$tempid){
+			// 	//填表临时文件
+			// 	$tempid = $this->excelcopy($url,$id);	
+			// }
 			
 			// 根据临时文件id 查询填表临时文件表中的 临时文件地址
 			$resturl = Db::name('sys_table_temp')->where('id',$tempid)->value('tempurl');
@@ -146,7 +146,6 @@ class Index extends \think\Controller{
 
 		$request = Request::instance();
 		$domain = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public/';
-		// $resturl =$domain.$url;
 
 		$this->assign('resturl',$resturl);	
 		$this->assign('domain',$domain);	
@@ -163,6 +162,19 @@ class Index extends \think\Controller{
 			$url = uploadfile('ExcelFile','xls,xlsx',$path);
 			$url = 'uploads/'.$url;
 		}
+	}
+
+	//前端ajax请求 查询是否有身份证信息需要读写
+	//生成临时文件 并传回临时文件存储的表id
+	public function ajaxview(){
+		$id = input('id');
+		$fileup = Db::name('sys_showfileup')->where('id',$id)->field('id,nullurl,aotuwrite')->find();
+		//填表临时文件
+		$tempid = $this->excelcopy($fileup['nullurl'],$id);
+		$data['type'] = empty($fileup['aotuwrite'])?'0':'1';
+		$data['tempid'] = $tempid;
+		echo json_encode($data);return;	
+
 	}
 
 	//临时文件再次保存
@@ -193,12 +205,14 @@ class Index extends \think\Controller{
 		copy($path,$path1);
 		//将模板id和临时文件地址存入 模板临时文件表中
 		$tempid = Db::name('sys_table_temp')->insertGetId(['tableid'=>$id,'tempurl'=>$path2]);
+
+
 		//返回填表需要替换的单元格位置
-		$rest = $this->readexcel($path1);
-		if(!empty($rest)){
-			//如果位置不为空则更新填表替换的位置
-			Db::name('sys_showfileup')->where('id',$id)->update(['aotuwrite'=>$rest]);
-		}
+		// $rest = $this->readexcel($path1);
+		// if(!empty($rest)){
+		// 	//如果位置不为空则更新填表替换的位置
+		// 	Db::name('sys_showfileup')->where('id',$id)->update(['aotuwrite'=>$rest]);
+		// }
 		return $tempid;
 	}
 
@@ -270,7 +284,6 @@ class Index extends \think\Controller{
         		}
         	}
         }
-        // dump($rest);die;
         //执行写入操作
         header('Cache-Control: max-age=0');
         // header("Content-type:application/vnd.ms-excel");

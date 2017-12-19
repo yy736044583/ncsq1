@@ -38,6 +38,7 @@
 							<th>样表名</th>
 							<th style="width:30%">样表地址</th>
 							<th style="width:30%">填表模板地址</th>
+							<th>类型</th>
 							<th>排序</th>
 							<th>操作</th>
 						</tr>
@@ -51,6 +52,7 @@
 							<!-- <td>{$v.type}</td> -->
 							<td>{$v.url|textlength=100}</td>
 							<td>{$v.nullurl|textlength=90}</td>
+							<td>{$v.type}</td>
 							<td>{$v.sort} <input type="hidden" class="aotuwrite" value="{$v.aotuwrite}"></td>	
 							<td>
 								<a href="{:url('fromtable/savefile')}?id={$v.id}&mid={$mid}&fid={$fid}" class="layui-btn layui-btn-mini">编辑</a>
