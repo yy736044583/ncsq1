@@ -225,7 +225,7 @@ class Fromtable extends Common{
 		// 调用common的文件上传方法
 		$path = createfile('matter');
 		// 上传文件类型限制
-		$type = 'pdf,doc,docx,xls,xlsx,jpg,jpeg,png';
+		$type = 'pdf,xls,xlsx,jpg,jpeg,png';
 		// 获取上传文件路径 
 		// 调用common的文件上传方法
 		$url = uploadfile('file',$type,$path);
