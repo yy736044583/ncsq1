@@ -16,8 +16,8 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		$url = 'http://sms.scsmile.cn/inter/showunitinfo';
-		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+		// $url = 'http://sms.scsmile.cn/inter/showunitinfo';
+		$url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
 		// 接口所需数据
 		$data1['action'] = 'showsign';
 		
@@ -114,8 +114,8 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		$url = 'http://sms.scsmile.cn/inter/Showunitinfo';
-		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+		// $url = 'http://sms.scsmile.cn/inter/Showunitinfo';
+		$url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
 		// 接口所需数据
 		$data1['action'] = 'showtemplet';
 		
@@ -225,6 +225,15 @@ class Note extends Common{
 		$data = Db::name('dx_history')->where($map)->paginate(10,false,['query'=>array('start'=>$start,'num'=>$num,'end'=>$end,'status'=>$status,'year'=>$year)]);
 
 		$list = $data->all();
+		foreach ($list as $k => $v) {
+			if($v['status']==1){
+				$list[$k]['status'] = '等待回执';
+			}elseif($v['status']==3){
+				$list[$k]['status'] = '成功';
+			}else{
+				$list[$k]['status'] = '失败';
+			}
+		}
 		$page = $data->render();
 
 		//查询年份
@@ -257,44 +266,41 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
-		$url = 'http://sms.scsmile.cn/inter/showunitinfo';
-		// 接口所需数据
-		$data1['action'] = 'msgrecorder';
-		$data1['time'] = Db::name('dx_history')->order('time desc')->value('time');
-
-		// 调用接口返回json数据
-		$httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
-
-		$httpdata = json_decode($httpstr,true);
+		$url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+		// $url = 'http://sms.scsmile.cn/inter/showunitinfo';
 		
-		if($httpdata['code']==400){
-			$mg = $httpdata['message'];
-			echo $mg;return;
+		// 接口所需数据
+		$data1['action'] = 'mstrecordnum';
+		$data1['id'] = Db::name('dx_history')->order('historyid desc')->value('historyid');
+		$count = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
+		$num = intval($count/100)+1;
+		for($i=0;$i<$num;$i++){
+			$data1['action'] = 'msgrecorder';
+			$data1['pageindex'] = $i;
+			$data1['pagesize'] = 100;
+			// 调用接口返回json数据
+			$httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
+
+			$httpdata = json_decode($httpstr,true);
+			
+			if($httpdata['code']==400){
+				$mg = $httpdata['message'];
+				echo $mg;return;
+			}
+			$list = $httpdata['data'];
+			$data = array();
+			foreach ($list as $k => $v) {
+				$data[$k]['template'] = $v['template'];
+				$data[$k]['num'] = $v['recvphone'];
+				$data[$k]['content'] = empty($v['content'])?'0':$v['content'];
+				$data[$k]['status'] = empty($v['status'])?'0':$v['status'];
+				$data[$k]['time'] = $v['time'];
+				$data[$k]['year'] = empty($v['year'])?'0':$v['year'];
+				$data[$k]['historyid'] = $v['id'];
+			}
+		
+			Db::name('dx_history')->insertAll($data);
 		}
-		$list = $httpdata['data'];
-		// dump($list);die;
-		// foreach ($list as $k => $v) {
-		// 	$data[$k]['template'] = $v['template'];
-		// 	$data[$k]['num'] = $v['recvphone'];
-		// 	$data[$k]['content'] = $v['content'];
-		// 	$data[$k]['status'] = $v['status'];
-		// 	$data[$k]['time'] = $v['time'];
-		// 	$data[$k]['year'] = $v['year'];
-		// }
-		foreach ($list as $k => $v) {
-			$data['template'] = $v['template'];
-			$data['num'] = $v['recvphone'];
-			$data['content'] = $v['content'];
-			$data['status'] = $v['status'];
-			$data['time'] = $v['time'];
-			$data['year'] = $v['year'];
-			Db::name('dx_history')->insert($data);
-			if($k>300){
-				return;
-			}	
-		}		
-		// Db::name('dx_history')->insertAll($data);	
 	}
 
 /**

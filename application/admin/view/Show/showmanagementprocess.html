@@ -58,10 +58,11 @@
 	});
 </script>
 <script type="text/javascript">
-	var ue = UE.getEditor('editor');
-	function createEditor() {
-        enableBtn();
-        UE.getEditor('editor');
-    }
+	var ue = UE.getEditor('editor', {
+        toolbars: [["fullscreen","source","undo","redo","bold","italic","underline","fontborder","strikethrough","superscript","subscript","insertunorderedlist","insertorderedlist","justifyleft","justifycenter","justifyright","justifyjustify","removeformat","simpleupload","snapscreen","emotion","attachment"]]
+       ,
+        autoHeightEnabled: true,
+        autoFloatEnabled: true
+    });
 </script>
 </html>
