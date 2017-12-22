@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+<body id="container">
+	<div class="title">
+		<h1>自助填单系统</h1>
+		<div class="time">
+			<p class="t1"><span class="y">{$time|date="Y-m-d",###} {$time|weekday}</span></p>
+			<p class="t2">{$time|date="H:i",###}</p>
+		</div>
+	</div>
+	<div class="content">
+		<h2>欢迎使用</h2>
+		<div class="tit"></div>
+		<a href="{:url('index/indexfrom')}" class="index_btn btn wave left">进入系统</a>
+		<div class="ms">
+			<p>可按部门、办理业务事项导航查询表单</p>
+			<p>可输入办理事项查询表单</p>
+		</div>		
+	</div>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/js.js"></script>
+	
+	<?php $time1 = date('m-d',$time); ?>
+	{if $time1 > '06-00' && $time1 <= '08-00'}
+		<embed src="__PUBLIC__autotable2/sound/morningwelcome.mp3" hidden="true" autostart="true">
+	{/if}
+	{if $time1 > '08-00' && $time1 <= '11-00'}
+		<embed src="__PUBLIC__autotable2/sound/beforenoonwelcome.mp3" hidden="true" autostart="true">
+	{/if}
+	{if $time1 > '11-00' && $time1 <= '13-00'}
+		<embed src="__PUBLIC__autotable2/sound/noonwelcome.mp3" hidden="true" autostart="true">
+	{/if}
+	{if $time1 > '13-00' && $time1 <= '17-00'}
+		<embed src="__PUBLIC__autotable2/sound/afternoonwelcome.mp3" hidden="true" autostart="true">
+	{/if}
+	{if $time1 > '17-00' && $time1 <= '22-00'}
+		<embed src="__PUBLIC__autotable2/sound/eveningwelcome.mp3" hidden="true" autostart="true">
+	{/if}
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html  class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="Speed_title">
+			<div class="t">
+				<p>可输入办理事项查询表单</p>
+			</div>
+		</div>
+		<div class="title_cont search-main">
+			<form action="{:url('index/table_matter')}" method="post">
+				<input type="text" name="name" placeholder="请输入事项关键字或排队码">
+				<input type="hidden" name="search" value="1">
+				<button type="submit">查询</button>
+			</form>
+		</div>
+	</div>
+	<embed src="__PUBLIC__autotable2/sound/matterkey.mp3" hidden="true" autostart="true" style="display: none;">
+</body>
+</html>

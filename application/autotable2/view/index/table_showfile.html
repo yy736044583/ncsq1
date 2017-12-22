@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="Speed_title">
+			<div class="t">
+				<p>请您选择文件</p>
+			</div>
+			<div class="r Speed_list Speed3"></div>
+		</div>
+		<div class="title_cont">
+			<ul class="list_file">
+			{volist name="list" id="v"}
+				<li>
+					<a href="{:url('index/table_showfileup')}?showfileid={$v.id}&matterid={$matterid}&secid={$secid}">
+						<i></i>
+						<p>{$v.title}</p>
+					</a>
+				</li>
+			{/volist}
+				
+			</ul>
+			<!-- 分页 -->
+			<div class="pager page">
+				<a href="{:url('index/index')}" class="home"></a>
+				<div>
+				{$page}
+					
+				</div>
+				{notempty name="$secid"}
+				<a href="{:url('index/table_matter')}?id={$secid}" class="return"></a>
+				{/notempty}
+			</div>
+			<!-- 分页 -->
+		</div>
+	</div>
+	<embed src="__PUBLIC__autotable2/sound/file.mp3" hidden="true" autostart="true" style="display: none;">
+</body>
+</html>

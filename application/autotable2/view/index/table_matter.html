@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="Speed_title">
+			<div class="t">
+				<p>请您选择事项</p>
+			</div>
+			<div class="r Speed_list Speed2"></div>
+		</div>
+		<div class="title_cont">
+			<ul class="list_xs">
+				
+		{if empty($list) neq true}
+			{volist name="list" id="v" key="k"}
+				<li>
+					<a href="{:url('index/table_showfile')}?matterid={$v.id}&secid={$id}" style="display: block;"><p><span>{$k}、</span>{$v.name}</p></a>
+				</li>
+			{/volist}
+		{else/}
+			
+		<li style="font-size: 25px;">暂无数据</li>
+		{/if}		
+			</ul>
+			<!-- 分页 -->
+			{if $search == 1}
+			<div class="pager page">
+				<a href="{:url('search/index')}" class="home"></a>
+				<div>
+				{$page}
+				</div>
+				<a href="javascript:window.history.go(-1);" class="return"></a>
+			</div>
+			{else/}
+			<div class="pager page">
+				<a href="{:url('index/index')}" class="home"></a>
+				<div>
+				{$page}
+				</div>
+				<a href="{:url('index/index')}" class="return"></a>
+			</div>
+			{/if}
+			<!-- 分页 -->
+		</div>
+	</div>
+	<embed src="__PUBLIC__autotable2/sound/matter.mp3" hidden="true" autostart="true" style="display: none;">
+</body>
+</html>

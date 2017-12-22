@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/swiper.min.css">		
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/swiper.jquery.min.js"></script>
+</head>
+<body id="container">
+	<div class="title">
+		<h1>自助填单系统</h1>
+		<div class="time">
+			<p class="t1"><span class="y">{$time|date="Y-m-d",###} {$time|weekday}</span></p>
+			<p class="t2">{$time|date="H:i",###}</p>
+		</div>
+	</div>
+	<div class="content_main">
+		
+		<div class="content_iframe">
+			<iframe name="iframses" src="{:url('index/index')}" frameborder="0" ></iframe>
+		</div>
+		<!-- <div class="menu_left">
+			<a href="{:url('index/index')}" class="link_menu m1 on" target="iframses">
+				<i></i>
+				<p>自助填单</p>
+			</a>
+			<a href="{:url('work/index')}" class="link_menu m2" target="iframses">
+				<i></i>
+				<p>办事指南</p>
+			</a>
+			<a href="{:url('notice/index')}" class="link_menu m3" target="iframses">
+				<i></i>
+				<p>公示公告</p>
+			</a>
+			<a href="{:url('proposal/index')}" class="link_menu m4" target="iframses">
+				<i></i>
+				<p>意见建议</p>
+			</a>
+			<a href="{:url('introduction/index')}" class="link_menu m5" target="iframses">
+				<i></i>
+				<p>中心简介</p>
+			</a>
+		</div> -->
+		<!-- <div class="menu_right">
+			<iframe name="iframses" src="{:url('index/index')}" frameborder="0" ></iframe>
+		</div>	 -->	
+	</div>
+	<div class="footer">
+		<div class="footer_cotn">
+			<i class="icon"></i>
+			<div class="swiper-container">
+				<a href="{:url('index/index')}" class="footer_btn f-btn1" target="iframses">
+					<i></i>
+					<span></span>
+				</a>
+				<a href="{:url('work/index')}" class="footer_btn f-btn2" target="iframses">
+					<i></i>
+					<span></span>
+				</a>
+				<a href="{:url('notice/index')}" class="footer_btn f-btn3" target="iframses">公示公告</a>
+				<a href="{:url('proposal/index')}" class="footer_btn f-btn4" target="iframses">意见建议</a>
+				<a href="{:url('introduction/index')}" class="footer_btn f-btn1" target="iframses">中心简介</a>
+				<a href="{:url('search/index')}" class="footer_btn f-btn5" target="iframses">搜索查询</a>
+				<a href="{:url('index/insys')}" class="footer_btn f-btn6">返回首页</a>
+			</div>
+		</div>		
+	</div>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/js.js"></script>
+	<script type="text/javascript">
+		var mySwiper = new Swiper('.swiper-container',{
+			onlyExternal : true,
+			slideToClickedSlide:true,
+			centeredSlides : true,
+			slidesPerView : 6,
+			loop : true,
+			followFinger : false,
+			slidesOffsetBefore : 96,
+			onSlideNextEnd: function(swiper){
+				var Index = swiper.realIndex+1;
+			    addicon(Index);
+			},
+			onSlidePrevEnd: function(swiper){
+			    var Index = swiper.realIndex+1;
+			     addicon(Index);
+			}
+
+		})
+		function addicon(i){
+			if(i == 1){
+		    	$(".icon").css({'background-position':'0 0'})
+		    }
+		    if(i == 2){
+		    	$(".icon").css({'background-position':'-182px 0'})
+		    }
+		    if(i == 3){
+		    	$(".icon").css({'background-position':'-367px 0'})
+		    }
+		    if(i == 4){
+		    	$(".icon").css({'background-position':'-463px 0'})
+		    }
+		    if(i == 5){
+		    	$(".icon").css({'background-position':'-276px 0'})
+		    }
+		    if(i == 6){
+		    	$(".icon").css({'background-position':'-91px 0'})
+		    }
+		}
+		mySwiper=null;
+	</script>
+</body>
+</html>

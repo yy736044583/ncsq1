@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="damien" />
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/e-smart-zoom-jquery.min.js"></script>
+</head>
+<body style="background: #fff;">
+	<div class="add-img form-left">
+		<h1>这是标题</h1>
+		<div class="add-img-cont">
+			<div id="imgContainer">
+				<img id="imageFullScreen" src="{$list.url}"/>
+			</div>
+		</div>
+		<a href="javascript:;" id="zoomInButton"></a>
+		<a href="javascript:;" id="zoomOutButton"></a>
+	</div>
+	<script>
+		$(document).ready(function() {
+			
+			$('#imageFullScreen').smartZoom({'containerClass':'zoomableContainer'});
+			
+			$('#topPositionMap,#leftPositionMap,#rightPositionMap,#bottomPositionMap').bind("click", moveButtonClickHandler);
+				$('#zoomInButton,#zoomOutButton').bind("click", zoomButtonClickHandler);
+			
+			function zoomButtonClickHandler(e){
+		    	var scaleToAdd = 0.8;
+				if(e.target.id == 'zoomOutButton')
+					scaleToAdd = -scaleToAdd;
+				$('#imageFullScreen').smartZoom('zoom', scaleToAdd);
+		    }
+		    
+		    function moveButtonClickHandler(e){
+		    	var pixelsToMoveOnX = 0;
+				var pixelsToMoveOnY = 0;
+		
+				switch(e.target.id){
+					case "leftPositionMap":
+						pixelsToMoveOnX = 50;	
+					break;
+					case "rightPositionMap":
+						pixelsToMoveOnX = -50;
+					break;
+					case "topPositionMap":
+						pixelsToMoveOnY = 50;	
+					break;
+					case "bottomPositionMap":
+						pixelsToMoveOnY = -50;	
+					break;
+				}
+				$('#imageFullScreen').smartZoom('pan', pixelsToMoveOnX, pixelsToMoveOnY);
+		    }
+			
+		});
+	</script>
+</body>
+</html>

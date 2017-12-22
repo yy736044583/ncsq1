@@ -162,7 +162,7 @@ class hardwarecall{
 		$today = date('Ymd',time());
 
 		//查询当前窗口呼叫的排号id
-		$que = Db::name('ph_queue')->where("today='$today' and windowid='$wid'")->field('id,flownum,businessid')->order('id desc')->find();
+		$que = Db::name('ph_queue')->where("today='$today' and windowid='$wid'")->whereIn('style','1,2,3')->field('id,flownum,businessid')->order('id desc')->find();
 		$qid = $que['id'];
 
 		//根据窗口id查询窗口屏的设备id

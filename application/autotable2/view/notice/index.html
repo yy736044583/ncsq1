@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+	
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="title_cont notice">
+			<ul class="list_xs ">
+			{volist name="list" id="v" key="k"}
+				<li>
+					<a href="{:url('notice/show')}?id={$v.id}">
+						<p><span>{$k}、</span>{$v.title}</p>
+						<div class="time">{$v.createtime}</div>
+					</a>
+				</li>
+			{/volist}
+			
+			</ul>
+			{$page}
+			<!-- 分页 -->
+			<!-- 分页 -->
+		</div>
+	</div>
+</body>
+</html>

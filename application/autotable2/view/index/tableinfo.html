@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+
+<body style="background: #fff;overflow: hidden;">
+	<div class="form-menu">
+		<a href="javascript:;" class="bc"></a>
+		<a href="javascript:window.history.go(-1);" class="off"></a>
+		<!-- <a href="javascript:zhiPrint();" class="dy"></a> -->
+		<a id="printernull" name="{$fileup.nullurl}" class="dy"></a>
+		<a class="white" id="handwriter"></a>
+		<!-- <a href="javascript:IdCard();" class="idcord"></a> -->
+	</div>
+	<div class="add-excel">
+		<div class="wrapper1" style="overflow-y:auto;width: 100%;height: 100%;">
+			<div class="content">
+				<div class="add-excel-cont">
+					<h1>{$fileup.title}</h1>
+					<div class="html">
+						{$fileup.html}
+					</div>      		
+				</div>
+			</div>
+		</div>		
+	</div>
+	<div class="alert-form" style="display: none;">
+		<div class="alert-form-cont">
+			<div class="alert-form-text">
+				<div class="wrapper">
+					<div class="content">
+						<h2>{$fileup.title}</h2>
+						<table border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<td class="t">姓名</td>
+								<td class="c">哈哈</td>
+							</tr>
+							
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="alert-btn">
+				<a href="javascript:;" class="print" id="printer" name="{$tempid}"></a>
+				<a href="javascript:;" class="print-r"></a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+		var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+		var data = [];//预览数据
+		var datapost = [];//提交数据
+		$(".bc").click(function(event) {
+			/* Act on the event */
+			event.stopPropagation();
+			$(".alert-form-text table").find('tr').remove();//初始化
+			data = [];//初始化
+			datapost = [];//初始化
+			var dom = document.getElementsByTagName("input");
+			$(".error").removeClass("error");
+			for(var i=0;i<dom.length;i++){
+				var v = $("input[name='"+dom[i].name+"']").val();
+				if(v == ""){
+					dom[i].focus();					
+					$("input[name='"+dom[i].name+"']").addClass('error');
+					return false;
+				}else if(dom[i].dataset.name == "phone" && !myreg.test(v)){
+					dom[i].focus();
+					$("input[name='"+dom[i].name+"']").addClass('error');
+					return false;
+				}				
+			}
+			for(var i=0;i<dom.length;i++){
+				var val = $("input[name='"+dom[i].name+"']").val();//值
+				var tit = $("input[name='"+dom[i].name+"']").parent(".layui-input-inline").siblings('label').text();//标题
+				var name = $("input[name='"+dom[i].name+"']").attr('name');//值
+				var obj = {};
+				obj.tit = tit;
+				obj.val = val;
+				var obj1 ={};
+				obj1.name = name;
+				obj1.val = val;
+				datapost.push(obj1);		
+				data.push(obj);
+			}
+			// 预览循环
+
+			for(z=0;z<data.length;z++){
+				var Html = '<tr><td class="t">'+data[z].tit+'</td><td class="c">'+data[z].val+'</td></tr>';
+				$(".alert-form-text table").append(Html);
+			}
+			dom = null;//清除缓存
+			$(".alert-form").fadeIn(200);
+		});
+		// 返回编辑
+		$(".print-r").click(function(e){
+			e.stopPropagation();
+			$(".alert-form").fadeOut(200);
+		})
+		// 打印并保存
+		$(".print").click(function(e){
+			e.stopPropagation();
+			// console.log(datapost)
+			$.ajax({
+				url: '{:url("index/loadinfo")}',
+				type: 'POST',
+				// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+				data: {tempid: '{$tempid}',data:datapost},
+				success:function(data){
+					if(data == 1){
+						window.location.href="{:url('index/indexfrom')}";
+					}
+				}
+			})
+			
+		})
+		// $(document).ready(function(){
+		// 	var dom1 = document.querySelector(".wrapper1");
+		// 	var so1 = new BScroll(dom1);
+		// 	dom1=null;so1=null;
+		// })
+		
+	</script>
+</body>
+</html>
