@@ -464,6 +464,7 @@ class Fromtable extends Common{
 		}
 
 	}
+/*	
  	//获取变量坐标 替换变量为空
 	public function readexcel($path){
 		//实例化phpexcel
@@ -517,7 +518,92 @@ class Fromtable extends Common{
         return $str;
     }
   
+*/
+    	public function readexcel($path){
+		//实例化phpexcel
+    	Loader::import('first.PHPExcel');
+    	$excel = new \PHPExcel();
+        $rest = [];
+        // 读取excel
+        $objReader = \PHPExcel_IOFactory::createReader('excel2007');
+        if(!$objReader->canRead($path)) {
+			$objReader = \PHPExcel_IOFactory::createReader('Excel5');
+		if(!$objReader->canRead($path)) 
+			return;
+		}
+        $objReader->setReadDataOnly(true);
+        $AllSheets = $objReader->load($path);
+        $AllSheet = $AllSheets->getAllSheets();
+        //实例化写入excel
+       	$objSheet = \PHPExcel_IOFactory::load($path);   
 
+        $str = '';
+        $str1 = '';
+        $html = '<form class="layui-form" action="" method="post">';
+        foreach ($AllSheet as $sheet) {
+        	// 获取excel里的内容 转为数组
+            $rest[$sheet->getTitle()] = $sheet->toArray();
+           
+            //循环数组 将每个单元格拿出来
+            foreach ($rest[$sheet->getTitle()] as $k => $v) {
+            	foreach ($v as $key => $val) {
+            		//判断是否有@@符号,如果有获取坐标
+            		if($val){
+            			$row = $k + 1; //横坐标
+            			$col = chr($key + 65); //纵坐标
+            			$zb = $col.$row;
+            			if(strstr($val,'#@')){
+	            			// 组合坐标变量和坐标 以;分隔
+	            			$str .= str_replace('#@','',$val).','.$zb.';';
+	            			// 将#@坐标的内容替换为空
+	            			$objSheet->setActiveSheetIndex(0)->setCellValue($zb,'');
+            			}
+            			if(strstr($val,'##')){
+            				$str1 .= str_replace('##','',$val).',name='.$zb.';';
+            				// 将##坐标的内容替换为空
+	            			$objSheet->setActiveSheetIndex(0)->setCellValue($zb,'');
+	            			$tempstr1 = str_replace('##','',$val).',name='.$zb.';';
+	            			//将该文本的内容转成数组
+	            			$tempstr = explode(',',$tempstr1);
+	            			
+	            			// 将数组的 title=标题 转换成数组形式 ["value"] =>  "姓名"
+	            			foreach ($tempstr as $kk => $vv) {
+	            				$title = strstr($vv,'=',true);//截取=前面的字符
+	            				$value = strstr($vv,'=');//截取=后面的字符
+	            				$value = ltrim($value,'=');//去掉=
+	            				$data1[$title] = $value;//组成一个一维数组
+	            			}
+	            			//如果某个值没有定义则赋值为空
+	            			$data1['value'] = empty($data1['value'])?'':$data1['value'];
+	            			$data1['name'] = empty($data1['name'])?'':rtrim($data1['name'],';');
+	            			$data1['len'] = empty($data1['len'])?'':$data1['len'];
+	            			$data1['check'] = empty($data1['check'])?'':$data1['check'];
+	            			// dump($data);
+	            			$html .= '<div class="layui-form-item inputrow">
+										<label class="layui-form-label">'.$data1['value'].'</label>
+										<div class="layui-input-inline">
+											<input type="text" name="'.$data1['name'].'" class="layui-input" value="" length="'.$data1['len'].'" data-name="'.$data1['check'].'">
+										</div>
+									</div>';
+            			}	
+            		}
+        		}
+        	}
+        }
+        $html .= '</form>';
+
+        //执行写入操作
+        header('Cache-Control: max-age=0');
+        // header("Content-type:application/vnd.ms-excel");
+        $objSheet->setActiveSheetIndex(0);
+       	$objWriter = \PHPExcel_IOFactory::createWriter($objSheet, 'excel2007');
+       	$objWriter->save($path);
+       	//将要替换的单元格位置末尾符号去掉  返回
+    	$data['aotuwrite'] = trim($str,';');
+    	$data['aotuwrite1'] = trim($str1,';');
+    	$data['html'] = $html;
+        return $data;
+    }
 
    /**
     * 填表模板字段管理
