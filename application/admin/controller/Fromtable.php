@@ -265,8 +265,7 @@ class Fromtable extends Common{
     	$data['nullurl'] = input('nullurl');
     	$data['title'] = input('title');
     	$data['showfileid'] = input('fid');
-    	$data['aotuwrite'] = input('aotuwrite');
-
+ 
     	//查看文件类型
     	$suff = get_extension($data['url']);
     	$data['type'] = $suff;
@@ -277,13 +276,14 @@ class Fromtable extends Common{
 
  		if(Db::name('sys_showfileup')->insert($data)){
  			$id = Db::name('sys_showfileup')->getLastInsID();
+
 	    	if(!empty($data['nullurl'])){
 	    		$path =  ROOT_PATH.'/public/'.$data['nullurl'];
 	    		//返回填表需要替换的单元格位置
 				$rest = $this->readexcel($path);
 				if(!empty($rest)){
 					//如果位置不为空则更新填表替换的位置
-					Db::name('sys_showfileup')->where('id',$id)->update(['aotuwrite'=>$rest]);
+					Db::name('sys_showfileup')->where('id',$id)->update($rest);
 				}
 	    	}
     		$this->success('上传成功','fromtable/showfile?mid='.$mid.'&fid='.$fid);
@@ -301,7 +301,6 @@ class Fromtable extends Common{
     	$data['nullurl'] = input('nullurl');
     	$data['title'] = input('title');
     	$data['showfileid'] = input('fid');
-    	$data['aotuwrite'] = input('aotuwrite');
     	$path = ROOT_PATH.'/public/';
     	$list = Db::name('sys_showfileup')->where('id',$id)->find();
 
@@ -327,6 +326,17 @@ class Fromtable extends Common{
 		    	}	    		
 	    	}
     	}
+    	//如果有上传填表文件 获取单元格位置并清空
+    	if(!empty($data['nullurl'])){
+    		$path =  ROOT_PATH.'/public/'.$data['nullurl'];
+    		//返回填表需要替换的单元格位置
+			$rest = $this->readexcel($path);
+			
+			if(!empty($rest)){
+				//如果位置不为空则更新填表替换的位置
+				Db::name('sys_showfileup')->where('id',$id)->update($rest);
+			}
+	    }
     	if($data['nullurl']!=$list['nullurl']&&$list['nullurl']){
     		// 删除之前的缩略图文件
 	    	if(file_exists($path.$list['nullurl'])){
@@ -465,7 +475,7 @@ class Fromtable extends Common{
 
 	}
 /*	
- 	//获取变量坐标 替换变量为空
+	 	//获取变量坐标 替换变量为空
 	public function readexcel($path){
 		//实例化phpexcel
     	Loader::import('first.PHPExcel');
@@ -494,19 +504,21 @@ class Fromtable extends Common{
             	foreach ($v as $key => $val) {
             		//判断是否有@@符号,如果有获取坐标
             		if($val){
-            			if(strstr($val,'@@')){
+            			if(strstr($val,'#@')){
 	            			$row = $k + 1; //横坐标
 	            			$col = chr($key + 65); //纵坐标
 	            			$zb = $col.$row;
 	            			// 组合坐标变量和坐标 以;分隔
-	            			$str .= str_replace('@@','',$val).','.$zb.';';
+	            			$str .= str_replace('#@','',$val).','.$zb.';';
 	            			// 将@@坐标的内容替换为空
 	            			$objSheet->setActiveSheetIndex(0)->setCellValue($zb,'');
             			}	
             		}
+            	
         		}
         	}
         }
+
         //执行写入操作
         header('Cache-Control: max-age=0');
         // header("Content-type:application/vnd.ms-excel");
@@ -514,12 +526,13 @@ class Fromtable extends Common{
        	$objWriter = \PHPExcel_IOFactory::createWriter($objSheet, 'excel2007');
        	$objWriter->save($path);
        	//将要替换的单元格位置末尾符号去掉  返回
-    	$str = trim($str,';');
-        return $str;
+    	$aotuwrite = trim($str,';');
+
+        return $aotuwrite;
     }
-  
-*/
-    	public function readexcel($path){
+  */ 
+ 	//获取变量坐标 替换变量为空 上传表单模板
+	public function readexcel($path){
 		//实例化phpexcel
     	Loader::import('first.PHPExcel');
     	$excel = new \PHPExcel();
@@ -560,6 +573,7 @@ class Fromtable extends Common{
             			}
             			if(strstr($val,'##')){
             				$str1 .= str_replace('##','',$val).',name='.$zb.';';
+            				
             				// 将##坐标的内容替换为空
 	            			$objSheet->setActiveSheetIndex(0)->setCellValue($zb,'');
 	            			$tempstr1 = str_replace('##','',$val).',name='.$zb.';';
@@ -573,18 +587,24 @@ class Fromtable extends Common{
 	            				$value = ltrim($value,'=');//去掉=
 	            				$data1[$title] = $value;//组成一个一维数组
 	            			}
+
 	            			//如果某个值没有定义则赋值为空
-	            			$data1['value'] = empty($data1['value'])?'':$data1['value'];
-	            			$data1['name'] = empty($data1['name'])?'':rtrim($data1['name'],';');
-	            			$data1['len'] = empty($data1['len'])?'':$data1['len'];
-	            			$data1['check'] = empty($data1['check'])?'':$data1['check'];
+	            			$data1['value'] = empty($data1['value'])?'':$data1['value']; //标题
+	            			$data1['name'] = empty($data1['name'])?'':rtrim($data1['name'],';');//坐标
+	            			$data1['len'] = empty($data1['len'])?'':$data1['len']; //长度
+	            			$data1['check'] = empty($data1['check'])?'':$data1['check']; //验证方式
 	            			// dump($data);
 	            			$html .= '<div class="layui-form-item inputrow">
 										<label class="layui-form-label">'.$data1['value'].'</label>
-										<div class="layui-input-inline">
-											<input type="text" name="'.$data1['name'].'" class="layui-input" value="" length="'.$data1['len'].'" data-name="'.$data1['check'].'">
-										</div>
-									</div>';
+										<div class="layui-input-inline">';
+							if($data1['check']=='date'){
+								$date = date('Y年m月d日',time());
+								$date1 = date('Y-m-d',time());
+								$html .=	'<input type="text" name="'.$data1['name'].'" class="layui-input datepicker" autofocuss value="'.$date.'" length="'.$data1['len'].'" data-name="'.$data1['check'].'" placeholder="请输入'.$data1['value'].'" data-valuee="'.$date1.'">';
+							}			
+
+							$html .=	'<input type="text" name="'.$data1['name'].'" class="layui-input" value="" length="'.$data1['len'].'" data-name="'.$data1['check'].'" placeholder="请输入'.$data1['value'].'">';
+							$html .=	'</div></div>';
             			}	
             		}
         		}
@@ -604,58 +624,13 @@ class Fromtable extends Common{
     	$data['html'] = $html;
         return $data;
     }
-
-   /**
-    * 填表模板字段管理
-    */
-   
-  //   public function fieldlist(){
-	 //   	$data = Db::name('sys_modelfield')->paginate(12);
-	 //   	$list = $data->all();
-	 //   	$page = $data->render();
-	 //   	$this->assign('list',$list);
-	 //   	$this->assign('page',$page);
-	 //   	return $this->fetch();
-  //   }
-
-  //   //添加填表模板字段
-  //   public function addfield(){
-  //  		if(request()->isPost()){
-		// 	$data = input('post.');
-		// 	if(Db::name('sys_modelfield')->insert($data)){
-		// 		// 将该字段添加到 模板字段替换表中
-		// 		$sql = "alter table sys_modelreplace add ".$data['summary']." varchar(255) not null default 0";
-		// 		Db::execute($sql);
-		// 		$this->success('添加成功','fromtable/fieldlist');	
-		// 	}else{
-		// 		$this->error('添加失败,请重试');
-		// 	}
-		// }
-  //  		return $this->fetch();
-  //  }
+  
 
 
-  //  // 删除模板字段
-  //   public function dlfield(){
-  //   	$id = input('id');
-  //   	$field = Db::name('sys_modelfield')->where('id',$id)->value('summary');
-  //   	//开启事务
-  //   	Db::startTrans();
-		// try{
-		// 	// 将模板字段替换表中该字段删除
-		//     Db::name('sys_modelfield')->where('id',$id)->delete();
-	 //    	if($field){
-		//     	$sql = "alter table sys_modelreplace drop ".$field;
-		//     	Db::execute($sql);	
-	 //    	}
-		//     // 提交事务
-		//     Db::commit();    
-		// } catch (\Exception $e) {
-		//     // 回滚事务
-		//     Db::rollback();
-		// 	$this->error('删除失败');
-		// }
-		// $this->success('删除成功','fromtable/fieldlist');
+    // public function test(){
+	   // 	$path = 'D:\phpStudy\WWW\sbxt\public\uploads\tempfile\123.xls';
+	   // 	$this->readexcel($path);
+    // }
 
-  //   }
+
 }
