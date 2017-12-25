@@ -147,7 +147,105 @@ class Index{
 		// dump($returndata);
 	}	
 
+	/**
+	 * [detail1 咨询电话 监督电话 地址]
+	 * @return [type] [description]
+	 */
+	public function detail1(){
+		set_time_limit(1000);
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?tid=0&aid=-1&uid=c96460d0c1e5509465e105935d22e2fe';
+		$matterid = Db::name('gra_matter')->field('tid,telephone')->select();
+		foreach ($matterid as $k => $v) {
+			$url1 = $url.'&id='.$v['tid'];
+			$data = $this->getData($url1,'','300');
+			$data = json_decode($data,true);
+			$data = $data['data'];
+			if(!empty($data['0'])){
+				foreach ($data['0'] as $key => $val) {
+					if(!Db::name('gra_matter')->where('telephone',$v['telephone'])->where('tid',$v['tid'])->value('id')){
+						if($key==0){//资讯电话
+							$data1['telephone'] = $val['content'];
+						}	
+						if($key==1){//资讯电话
+							$data1['sphone'] = $val['content'];
+						}
+						if($key==2){//办理地址
+							$data1['address'] = $val['content'];
+						}
+						Db::name('gra_matter')->where('tid',$v['tid'])->update($data1);	
+					} 
+				}			
+			}
+		}
+	}
 
+	//1基础信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
+	public function item(){
+		$url = 'http://202.61.88.206/sczw-iface/item?power=&aid=1&nid=1';
+		$data = $this->getData($url,'','30');
+		$data = json_decode($data,true);
+		foreach ($data['data'] as $k => $v) {
+			if(!Db::name('gra_item')->where('sort',$v['sort'])->value('id')){
+				$data1[$k]['sort'] = $v['sort'];
+				$data1[$k]['name'] = $v['name'];
+				$data1[$k]['tid'] = $v['tid'];
+			}
+		}
+		if(empty($data1)){
+			Db::name('gra_item')->insertAll($data1);
+		}
+		
+	}
+
+	//受理标准详情
+	public function item_detail_2(){
+		set_time_limit(1000);
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?aid=16a93eccc43c4fa98fa5162897548135&uid=c96460d0c1e5509465e105935d22e2fe';
+		$matterid = Db::name('gra_matter')->field('tid,id')->select();//查询事项id和tid(从行政来的事项id)
+		$data1 = array();
+		foreach ($matterid as $k => $v) {
+			//拼接事项id和受理标准的标志 
+			$url1 = $url.'&id='.$v['tid'].'&tid=2';
+			$data = $this->getData($url1,'','30');
+			$data = json_decode($data,true);
+			$data = $data['data'];
+			
+			//可能存在多条数据
+			foreach ($data as $kk => $vv) {
+				//每条数据获取内容
+				foreach ($vv as $key => $val) {
+					if($key==0){//获取序号
+						$data1[$kk]['sort'] = $val['content'];//序号
+						$map['sort'] = $val['content'];
+					}
+					$map['matterid'] = $v['id'];
+					if(Db::name('gra_accept')->where($map)->value('id')){
+						dump($data1);die;
+						unset($data1[$kk]);
+					}else{
+						if($key==1){//获取内容
+							$data1[$kk]['name'] = $val['name']; //标题名称
+							$data1[$kk]['content'] = $val['content']; //内容
+							$data1[$kk]['matterid'] = $v['id'];//事项id
+						} 
+
+					}
+					// dump($data1);die;
+				}	
+				//50条数据添加一次
+				if($kk==50&&!empty($data1)){
+					Db::name('gra_accept')->insertAll($data1);
+					$data1 = array();
+				}			
+			}
+			//最后不足50条数据
+			// if(!empty($data1)){
+			// 	Db::name('gra_accept')->insertAll($data1);
+			// }
+		}
+		
+		
+	}
 
 	/**
 	 * [postData post提交]
