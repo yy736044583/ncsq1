@@ -40,6 +40,17 @@
 				$(".show-form a").fadeIn();
 			});
 		})
+		// 禁止键盘返回上一页
+		window.document.onkeydown = disableRefresh;
+		function disableRefresh(evt){
+			evt = (evt) ? evt : window.event
+			if (evt.keyCode) {
+			   if(evt.keyCode == 8){
+			     //要做的事情
+				return false;
+			   }
+			}
+		}
 	</script>
 </body>
 </html>

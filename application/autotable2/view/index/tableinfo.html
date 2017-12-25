@@ -6,15 +6,23 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">
 	<title></title>
 	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+	<!-- 时间控件 -->
+	<script type="text/javascript" src="__PUBLIC__autotable2/My97DatePicker/WdatePicker.js"></script>
+	<style type="text/css">
+		#dpQS{
+			display: none !important;
+		}
+	</style>
+	<!-- 时间控件 -->
 </head>
 
 <body style="background: #fff;overflow: hidden;">
 	<div class="form-menu">
-		<a href="javascript:;" class="bc"></a>
+		<a href="" class="bc"></a>
 		<a href="javascript:window.history.go(-1);" class="off"></a>
 		<!-- <a href="javascript:zhiPrint();" class="dy"></a> -->
-		<a id="printernull" name="{$fileup.nullurl}" class="dy"></a>
-		<a class="white" id="handwriter"></a>
+		<a href="printernull.php?name={$fileup.nullurl}" class="dy"></a>
+		<a href="handwriter.php" class="white" ></a>
 		<!-- <a href="javascript:IdCard();" class="idcord"></a> -->
 	</div>
 	<div class="add-excel">
@@ -29,6 +37,10 @@
 			</div>
 		</div>		
 	</div>
+	<!-- 时间选择器 -->
+
+	<div id="container"></div>
+	<!-- 时间选择器 -->
 	<div class="alert-form" style="display: none;">
 		<div class="alert-form-cont">
 			<div class="alert-form-text">
@@ -46,48 +58,79 @@
 				</div>
 			</div>
 			<div class="alert-btn">
-				<a href="javascript:;" class="print" id="printer" name="{$tempid}"></a>
+				<a href="" class="print"></a>
 				<a href="javascript:;" class="print-r"></a>
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript">
+	<script type="text/javascript">		
 		var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
 		var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+		var Email = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;//邮箱正则
 		var data = [];//预览数据
 		var datapost = [];//提交数据
-		$(".bc").click(function(event) {
+		$(".bc").off().click(function(event) {
 			/* Act on the event */
 			event.stopPropagation();
+			event.preventDefault();
 			$(".alert-form-text table").find('tr').remove();//初始化
 			data = [];//初始化
 			datapost = [];//初始化
 			var dom = document.getElementsByTagName("input");
 			$(".error").removeClass("error");
+			$(".error-font").remove();
 			for(var i=0;i<dom.length;i++){
-				var v = $("input[name='"+dom[i].name+"']").val();
-				if(v == ""){
-					dom[i].focus();					
-					$("input[name='"+dom[i].name+"']").addClass('error');
-					return false;
-				}else if(dom[i].dataset.name == "phone" && !myreg.test(v)){
-					dom[i].focus();
-					$("input[name='"+dom[i].name+"']").addClass('error');
-					return false;
+				
+				if(dom[i].classList[0] == "layui-input"){
+					var v = $("input[name='"+dom[i].name+"']").val();
+					var Length = $("input[name='"+dom[i].name+"']").attr('length')//文字长度
+					if(v == ""){
+						dom[i].focus();					
+						$("input[name='"+dom[i].name+"']").addClass('error');
+						$("input[name='"+dom[i].name+"']").parent().append('<p class="error-font">不能为空</p>');
+						return false;
+					}else if(Length !== 'undefined' && Length !== '' && Length !== 0){
+						
+						if(dom[i].dataset.name == "text" && v.length>=Length){
+							dom[i].focus();				
+							$("input[name='"+dom[i].name+"']").addClass('error');
+							$("input[name='"+dom[i].name+"']").parent().append('<p class="error-font">文字过长</p>');
+							return false;
+						}
+					}else {
+						if(dom[i].dataset.name == "phone" && !myreg.test(v)){
+							dom[i].focus();
+							$("input[name='"+dom[i].name+"']").addClass('error');
+							$("input[name='"+dom[i].name+"']").parent().append('<p class="error-font">请输入正确手机号</p>');
+							return false;
+						}else if(dom[i].dataset.name == "number" && !/^\d*$/.test(v)){
+							dom[i].focus();
+							$("input[name='"+dom[i].name+"']").addClass('error');
+							$("input[name='"+dom[i].name+"']").parent().append('<p class="error-font">请输入正确的数字</p>');
+							return false;
+						}else if(dom[i].dataset.name == "email" && !Email.test(v)){
+							dom[i].focus();
+							$("input[name='"+dom[i].name+"']").addClass('error');
+							$("input[name='"+dom[i].name+"']").parent().append('<p class="error-font">邮箱格式有误</p>');
+							return false;
+						}
+					}
 				}				
 			}
 			for(var i=0;i<dom.length;i++){
-				var val = $("input[name='"+dom[i].name+"']").val();//值
-				var tit = $("input[name='"+dom[i].name+"']").parent(".layui-input-inline").siblings('label').text();//标题
-				var name = $("input[name='"+dom[i].name+"']").attr('name');//值
-				var obj = {};
-				obj.tit = tit;
-				obj.val = val;
-				var obj1 ={};
-				obj1.name = name;
-				obj1.val = val;
-				datapost.push(obj1);		
-				data.push(obj);
+				if(dom[i].classList[0] == "layui-input"){
+					var val = $("input[name='"+dom[i].name+"']").val();//值
+					var tit = $("input[name='"+dom[i].name+"']").parent(".layui-input-inline").siblings('label').text();//标题
+					var name = $("input[name='"+dom[i].name+"']").attr('name');//值
+					var obj = {};
+					obj.tit = tit;
+					obj.val = val;
+					var obj1 ={};
+					obj1.name = name;
+					obj1.val = val;
+					datapost.push(obj1);		
+					data.push(obj);
+				}
 			}
 			// 预览循环
 
@@ -105,8 +148,7 @@
 		})
 		// 打印并保存
 		$(".print").click(function(e){
-			e.stopPropagation();
-			// console.log(datapost)
+			e.preventDefault();			
 			$.ajax({
 				url: '{:url("index/loadinfo")}',
 				type: 'POST',
@@ -114,18 +156,51 @@
 				data: {tempid: '{$tempid}',data:datapost},
 				success:function(data){
 					if(data == 1){
-						window.location.href="{:url('index/indexfrom')}";
+						window.location.href="printer.php?tempid={$tempid}";
+					}else {
+						alert("保存失败");
 					}
+				},
+				error:function(){
+					alert("系统错误");
 				}
 			})
 			
 		})
-		// $(document).ready(function(){
-		// 	var dom1 = document.querySelector(".wrapper1");
-		// 	var so1 = new BScroll(dom1);
-		// 	dom1=null;so1=null;
-		// })
-		
+
+		// 禁止键盘返回上一页
+		$("input").focus(function(){
+		  	window.document.onkeydown = disableRefresh1;
+			function disableRefresh1(evt){
+				evt = (evt) ? evt : window.event
+				if (evt.keyCode) {
+				   if(evt.keyCode == 8){
+				     //要做的事情
+					return true;
+				   }
+				}
+			}
+		});
+		$("input").blur(function(){
+			window.document.onkeydown = disableRefresh;
+		})
+		window.document.onkeydown = disableRefresh;
+		function disableRefresh(evt){
+			evt = (evt) ? evt : window.event
+			if (evt.keyCode) {
+			   if(evt.keyCode == 8){
+			     //要做的事情
+				return false;
+			   }
+			}
+		}
+
+		// 时间选择器
+		$(".datepicker").click(function(event) {
+			/* Act on the event */
+			event.stopPropagation();
+			WdatePicker({el:this,dateFmt:'yyyy年MM月dd日'})
+		});
 	</script>
 </body>
 </html>

@@ -601,9 +601,11 @@ class Fromtable extends Common{
 								$date = date('Y年m月d日',time());
 								$date1 = date('Y-m-d',time());
 								$html .=	'<input type="text" name="'.$data1['name'].'" class="layui-input datepicker" autofocuss value="'.$date.'" length="'.$data1['len'].'" data-name="'.$data1['check'].'" placeholder="请输入'.$data1['value'].'" data-valuee="'.$date1.'">';
+							}else{
+								$html .=	'<input type="text" name="'.$data1['name'].'" class="layui-input" value="" length="'.$data1['len'].'" data-name="'.$data1['check'].'" placeholder="请输入'.$data1['value'].'">';
 							}			
 
-							$html .=	'<input type="text" name="'.$data1['name'].'" class="layui-input" value="" length="'.$data1['len'].'" data-name="'.$data1['check'].'" placeholder="请输入'.$data1['value'].'">';
+							
 							$html .=	'</div></div>';
             			}	
             		}

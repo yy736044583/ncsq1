@@ -26,7 +26,7 @@
 	</div>
 	<script type="text/javascript" src="__PUBLIC__autotable2/js/js.js"></script>
 	
-	<?php $time1 = date('m-d',$time); ?>
+	<?php $time1 = date('H-i',$time); ?>
 	{if $time1 > '06-00' && $time1 <= '08-00'}
 		<embed src="__PUBLIC__autotable2/sound/morningwelcome.mp3" hidden="true" autostart="true">
 	{/if}
@@ -36,10 +36,10 @@
 	{if $time1 > '11-00' && $time1 <= '13-00'}
 		<embed src="__PUBLIC__autotable2/sound/noonwelcome.mp3" hidden="true" autostart="true">
 	{/if}
-	{if $time1 > '13-00' && $time1 <= '17-00'}
+	{if $time1 > '13-00' && $time1 <= '18-00'}
 		<embed src="__PUBLIC__autotable2/sound/afternoonwelcome.mp3" hidden="true" autostart="true">
 	{/if}
-	{if $time1 > '17-00' && $time1 <= '22-00'}
+	{if $time1 > '18-00' && $time1 <= '22-00'}
 		<embed src="__PUBLIC__autotable2/sound/eveningwelcome.mp3" hidden="true" autostart="true">
 	{/if}
 </body>

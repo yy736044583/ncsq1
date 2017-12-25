@@ -6,7 +6,7 @@ use think\Validate;
 class Device extends Validate
 {
     protected $rule = [
-        'number'  =>  'require|max:25',
+        'number'  =>  'require|max:50',
         'address'     => 'require',
         'windowid'   => 'require',
         'usestatus' =>  'require',
@@ -15,7 +15,7 @@ class Device extends Validate
 
     protected $message = [
     	'number.require' => '设备编号不能为空',
-    	'number.max' => '设备编号不能超过25位',
+    	'number.max' => '设备编号不能超过50位',
     	'address.require' => '设备位置不能为空',
         'windowid.require' => '窗口不能为空',
         'usestatus.require' => '使用状态不能为空',

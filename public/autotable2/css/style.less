@@ -10,13 +10,6 @@
     color: #4481eb;opacity:1;
 }
 
-input:-ms-input-placeholder{
-    color: #4481eb;opacity:1;
-}
-
-input::-webkit-input-placeholder{
-    color: #4481eb;opacity:1;
-}
 a{text-decoration: none;}
 li{
 	list-style: none;
@@ -32,6 +25,8 @@ body{
 	height: 1024px;
 	margin: 0 auto;
 	position: relative;
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
 }
 input,button{
 	outline: none;
@@ -226,10 +221,6 @@ button{
 					margin-top: 6px;
 				}
 			}
-			.f-btn6{
-				width: 176px;
-				margin-right: 0
-			}
 			.f-btn1{
 				i{
 					background-position: 0 0;
@@ -237,46 +228,77 @@ button{
 				span{
 					background: url(../img/t1.png) no-repeat;
 				}
-			}
-			.f-btn2{
-				i{
-					background-position: 0 0;
-				}
-				span{
-					background: url(../img/t2.png) no-repeat;
+				&.on{
+					background: url(../img/1.png) no-repeat left bottom;
 				}
 			}
 			.f-btn2{
 				i{
-					background-position: 0 0;
+					background-position: -88px 0;
 				}
 				span{
 					background: url(../img/t2.png) no-repeat;
+				}
+				&.on{
+					background: url(../img/2.png) no-repeat left bottom;
 				}
 			}
-			.f-btn2{
+			.f-btn3{
 				i{
-					background-position: 0 0;
+					background-position: -182px 0;
 				}
 				span{
-					background: url(../img/t2.png) no-repeat;
+					background: url(../img/t3.png) no-repeat;
+				}
+				&.on{
+					background: url(../img/3.png) no-repeat left bottom;
 				}
 			}
-			.f-btn2{
+			.f-btn4{
 				i{
-					background-position: 0 0;
+					background-position: -273px 0;
 				}
 				span{
-					background: url(../img/t2.png) no-repeat;
+					background: url(../img/t4.png) no-repeat;
+				}
+				&.on{
+					background: url(../img/4.png) no-repeat left bottom;
 				}
 			}
-			.f-btn2{
+			.f-btn5{
 				i{
-					background-position: 0 0;
+					background-position: -366px 0;
 				}
 				span{
-					background: url(../img/t2.png) no-repeat;
+					background: url(../img/t5.png) no-repeat;
 				}
+				&.on{
+					background: url(../img/5.png) no-repeat left bottom;
+				}
+			}
+			.f-btn6{
+				i{
+					background-position: -461px 0;
+				}
+				span{
+					background: url(../img/t6.png) no-repeat;
+				}
+				&.on{
+					background: url(../img/6.png) no-repeat left bottom;
+				}
+			}
+			.f-btn7{
+				i{
+					background-position: -550px 0;
+				}
+				span{
+					background: url(../img/t7.png) no-repeat;
+				}
+				&.on{
+					background: url(../img/7.png) no-repeat left bottom;
+				}
+				width: 176px;
+				margin-right: 0
 			}
 		}
 		// .swiper-slide{
@@ -704,16 +726,24 @@ button{
 			margin-top: 20px;
 		}
 		.layui-form-label{
-			width: 15%;
+			width: 20%;
 			display: inline-block;
 			font-size: 18px;
 			color: #464646;
+			vertical-align: middle;
 		}
 		.layui-input-inline{
-			width: 85%;
+			width: 80%;
 			display: inline-block;
-			
-			
+			vertical-align: middle;
+			position: relative;
+			.error-font{
+				font-size: 16px;
+				color: red;
+				position: absolute;
+				left: 0;
+				top: -22px;
+			}
 			input{
 				width: 100%;
 				padding: 12px 8px;
@@ -724,6 +754,9 @@ button{
 				color: #202020;
 				&.error{
 					border: 1px solid red;
+				}
+				&:-ms-input-placeholder{ 
+				    color: #999;        
 				}
 			}
 		}
@@ -739,6 +772,7 @@ button{
 	font-size: 0;
 	z-index: 1;
 	background: #fff;
+	border-bottom: 1px solid #ddd;
 	a{
 		margin: (90-58)/2px 10px;
 		width: 66px;

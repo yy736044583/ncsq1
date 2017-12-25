@@ -63,7 +63,6 @@ class Index extends \think\Controller{
             }
         }
         
-
         $this->assign('page', $page);
         $this->assign('list',$list);
         $this->assign('id',$id);
@@ -184,12 +183,17 @@ class Index extends \think\Controller{
 	//上传用户填写内容
 	public function loadinfo(){
 		$arr = input('post.');
+		if(empty($arr)){
+			echo 0;return;
+		}
 		$data = $arr['data'];
-
+		// echo json_encode($arr);die;
 		//根据临时模板id查询临时模板路径
 		$tempurl = Db::name('sys_table_temp')->where('id',$arr['tempid'])->value('tempurl');
 		//删除数组中的临时文件id
-
+		// if(empty($data)){
+		// 	echo 0;return;
+		// }
 		$name = $this->suburl($tempurl);
 		// 临时文件地址生产绝对路径
 		$path = ROOT_PATH.'/public/'.$name;
