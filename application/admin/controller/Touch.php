@@ -205,4 +205,38 @@ class Touch extends Common{
 		}
 	}	
 
+
+	/*导视机投诉建议*/
+	public function complain(){
+		$this->auth();
+
+		$data = DB::name('ds_complain')->order('uptime desc')->paginate(12);
+		
+		$list = $data->all();
+		$page = $data->render();
+
+		$this->assign('page',$page);
+		$this->assign('list',$list);
+		return $this->fetch();
+	}
+
+
+	//投诉详情
+	public function showcom(){
+		$id = input('id');
+		$list = Db::name('ds_complain')->where('id',$id)->find();
+
+		$this->assign('list',$list);
+		return $this->fetch();
+	}
+	//删除投诉
+	public function dlcomplain(){
+		$id = input('id');
+		if(Db::name('ds_complain')->where('id',$id)->delete()){
+			$this->success('删除成功','touch/complain');
+		}else{
+			$this->error('删除失败');
+		}
+
+	}
 }
