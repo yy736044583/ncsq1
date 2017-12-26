@@ -32,22 +32,22 @@ class Navigation extends \think\Controller{
         $info = Db::name('sys_section')->select();
         // $this->assign('info',$info);
         // 输出一楼数据
-        $sid = Db::name('ds_maps')->where('z',1)->column('id');
+        $sid = Db::name('ds_maps')->where('z',1)->column('sectionid');
         $map1['id'] = ['in',$sid]; 
         $info1 = Db::name('sys_section')->field('name,id')->where($map1)->select();
         $this->assign('info1',$info1);
         // 输出二楼数据
-        $sid = Db::name('ds_maps')->where('z',2)->column('id');
+        $sid = Db::name('ds_maps')->where('z',2)->column('sectionid');
         $map2['id'] = ['in',$sid]; 
         $info2 = Db::name('sys_section')->field('name,id')->where($map2)->select(); 
         $this->assign('info2',$info2);
         // 输出三楼数据
-        $sid = Db::name('ds_maps')->where('z',3)->column('id');
+        $sid = Db::name('ds_maps')->where('z',3)->column('sectionid');
         $map3['id'] = ['in',$sid]; 
         $info3 = Db::name('sys_section')->field('name,id')->where($map3)->select();
         $this->assign('info3',$info3);
         // 输四楼数据
-        $sid = Db::name('ds_maps')->where('z',4)->column('id');
+        $sid = Db::name('ds_maps')->where('z',4)->column('sectionid');
         $map4 = '';
         if($sid){
           $map4['id'] = ['in',$sid];  
