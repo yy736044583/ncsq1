@@ -23,7 +23,8 @@ class Index{
 			$aid = $return['aid'];
 			foreach ($return['list'] as $k => $val) {
 				if(!empty($val['tid'])){
-					if(!Db::name('gra_theme')->where('tid',$val['tid'])->value('id')){
+					$id = Db::name('gra_theme')->where('tid',$val['tid'])->value('id');
+					if(!$id){
 						$data1[$k]['aid'] = $aid;
 						$data1[$k]['nid'] = $v;
 						$data1[$k]['tid'] = $val['tid'];
@@ -50,7 +51,8 @@ class Index{
 			$aid = $return['aid'];
 			foreach ($return['list'] as $k => $val) {
 				if(!empty($val['tid'])){
-					if(!Db::name('gra_theme')->where('tid',$val['tid'])->value('id')){
+					$id = Db::name('gra_theme')->where('tid',$val['tid'])->value('id');
+					if(!$id){
 						$data1[$k]['aid'] = $aid;
 						$data1[$k]['nid'] = $v;
 						$data1[$k]['tid'] = $val['tid'];
@@ -72,7 +74,8 @@ class Index{
 		if($data['code']=='0000'){
 			$list = $data['data'];
 			foreach ($list as $k => $v) {
-				if(!Db::name('gra_handle')->where('sort',$v['sort'])->value('id')){
+				$id = Db::name('gra_handle')->where('sort',$v['sort'])->value('id');
+				if(!$id){
 					$arr[$k]['sort'] = $v['sort'];
 					$arr[$k]['key'] = $v['key'];
 					$arr[$k]['value'] = $v['value'];
@@ -94,6 +97,8 @@ class Index{
 		$data['themeId'] = '0'; //主题 部门
 		$data['userid'] = 'c96460d0c1e5509465e105935d22e2fe'; 
 		$data['keywords'] = '';
+		$data['locale'] = '1';
+		$data['verify'] = '3';
 		$data['size'] = '20';
 		$data['page'] = '1';
 
@@ -111,7 +116,7 @@ class Index{
 				$count = $data1['total'];//总条数
 				$pages = $data1['pages'];//总页数
 				//一页一页的获取事项
-				for ($i=0; $i <$pages ; $i++) { 
+				for ($i=1; $i <=$pages ; $i++) { 
 					$data['size'] = '20';
 					$data['page'] = $i;
 					$httpdata = $this->postData($url,$data);
@@ -119,13 +124,16 @@ class Index{
 					// 如果获取成功 就将数据插入数据库
 					if($returndata['code']=='0000'){
 						$list = $returndata['data']['list'];
+						
 						foreach ($list as $k => $v) {
+							$id = Db::name('gra_matter')->where('from_matterid',$v['matterid'])->value('id');
+							
 							//如果数据库改条数据不存在则存入
-							if(!Db::name('gra_matter')->where('from_matterid',$v['matterid'])->value('id')){}
+							if(!$id){
 								$arr[$k]["from_matterid"] =$v['matterid'];
 								$arr[$k]["tid"] =$v['tid'];
 								$arr[$k]["tname"] =$v['tname'];//事项名
-								$arr[$k]["online"] =($v['online'])?'0':$v['online'];
+								$arr[$k]["online"] =empty($v['online'])?'0':$v['online'];
 								$arr[$k]["store"] =empty($v['store'])?'0':$v['store'];
 								$arr[$k]["order"] =empty($v['order'])?'0':$v['order'];
 								$arr[$k]["type"] =empty($v['type'])?'0':$v['type'];
@@ -133,18 +141,17 @@ class Index{
 								$arr[$k]["deptid"] =$v['deptid'];
 								$arr[$k]["power"] =$v['power'];
 								$arr[$k]["oldCodeId"] =$v['oldCodeId'];
-								$arr[$k]["handle"] =$val['value']; //1窗口办理 2原件预审 3原件核验 5全程网办
+								$arr[$k]["handle"] =$val['value']; //1窗口办理 2原件预审 3原件核验 5全程网办							
+							}
 						}
 						if(!empty($arr)){
 							Db::name('gra_matter')->insertAll($arr);
+							$arr = array();
 						}
 					}
 				}
 			}
 		}
-
-
-		// dump($returndata);
 	}	
 
 	/**
@@ -162,7 +169,7 @@ class Index{
 			$data = $data['data'];
 			if(!empty($data['0'])){
 				foreach ($data['0'] as $key => $val) {
-					if(!Db::name('gra_matter')->where('telephone',$v['telephone'])->where('tid',$v['tid'])->value('id')){
+					if(!Db::name('gra_matter')->where('telephone=""')->where('tid',$v['tid'])->value('id')){
 						if($key==0){//资讯电话
 							$data1['telephone'] = $val['content'];
 						}	
@@ -209,42 +216,99 @@ class Index{
 			$data = $this->getData($url1,'','30');
 			$data = json_decode($data,true);
 			$data = $data['data'];
-			
-			//可能存在多条数据
-			foreach ($data as $kk => $vv) {
-				//每条数据获取内容
-				foreach ($vv as $key => $val) {
-					if($key==0){//获取序号
-						$data1[$kk]['sort'] = $val['content'];//序号
-						$map['sort'] = $val['content'];
-					}
+			if(!empty($data)){
+				//可能存在多条数据
+				foreach ($data as $kk => $vv) {
 					$map['matterid'] = $v['id'];
-					if(Db::name('gra_accept')->where($map)->value('id')){
-						dump($data1);die;
-						unset($data1[$kk]);
-					}else{
-						if($key==1){//获取内容
-							$data1[$kk]['name'] = $val['name']; //标题名称
-							$data1[$kk]['content'] = $val['content']; //内容
-							$data1[$kk]['matterid'] = $v['id'];//事项id
-						} 
-
+					if(!empty($vv['0']['content'])){
+						$map['sort'] = $vv['0']['content'];
+						$id = Db::name('gra_accept')->where($map)->value('id');
 					}
-					// dump($data1);die;
-				}	
-				//50条数据添加一次
-				if($kk==50&&!empty($data1)){
-					Db::name('gra_accept')->insertAll($data1);
-					$data1 = array();
+					if(!$id){
+						//每条数据获取内容
+						foreach ($vv as $key => $val) {
+							if($key==0){//获取序号
+								$data1['sort'] = $val['content'];//序号
+							}
+							if($key==1){//获取内容
+								$data1['name'] = $val['name']; //标题名称
+								$data1['content'] = $val['content']; //内容
+								$data1['matterid'] = $v['id'];//事项id
+							} 
+						}
+						if(!empty($data1)){
+							Db::name('gra_accept')->insert($data1);
+						}
+					}
 				}			
 			}
-			//最后不足50条数据
-			// if(!empty($data1)){
-			// 	Db::name('gra_accept')->insertAll($data1);
-			// }
 		}
-		
-		
+	}
+	//申请材料详情
+	public function item_detail_3(){
+
+		set_time_limit(1000);
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?aid=16a93eccc43c4fa98fa5162897548135&uid=c96460d0c1e5509465e105935d22e2fe';
+		$matterid = Db::name('gra_matter')->field('tid,id')->select();//查询事项id和tid(从行政来的事项id)
+		$data1 = array();
+		foreach ($matterid as $k => $v) {
+			//拼接事项id和受理标准的标志 
+			$url1 = $url.'&id='.$v['tid'].'&tid=3';
+			$data = $this->getData($url1,'','30');
+			$data = json_decode($data,true);
+			$data = $data['data'];
+			
+			if(!empty($data)){
+				//可能存在多条数据
+				foreach ($data as $kk => $vv) {
+					if(!empty($vv['8']['content'])){
+						$id = Db::name('gra_datum')->where('DatumID',$vv['8']['content'])->value('id');
+					}
+					if(!$id){
+						//每条数据获取内容
+						foreach ($vv as $key => $val) {
+							if($key==8){//材料id 行政过来的id
+								$data1['DatumID'] = empty($val['content'])?'0':$val['content'];
+							}
+
+							if($key==0){//序号
+								$data1['sort'] = empty($val['content'])?'0':$val['content'];
+							}
+							if($key==1){//标题
+								$data1['title'] = empty($val['content'])?'0':$val['content'];
+							}
+							if($key==2){//示范文本材料样本
+								$data1['dnumber'] = empty($val['dnumber'])?'0':$val['dnumber'];
+								$data1['filesname'] = empty($val['files']['name'])?'0':$val['files']['name'];
+								$data1['files'] = empty($val['files']['download'])?'0':$val['files']['download'];
+							}
+							if($key==3){//纸质
+								$data1['paper'] = empty($val['content'])?'0':$val['content'];
+							}
+							if($key==4){//电子
+								$data1['electronic'] = empty($val['content'])?'0':$val['content'];
+							}
+							if($key==5){//详情介绍
+								$data1['summary'] =empty($val['content'])?'0':$val['content'];
+							}
+							if($key==6){
+								$data1[$val['name']] = empty($val['content'])?'0':$val['content'];
+							}
+							if($key==7){
+								$data1[$val['name']] = empty($val['content'])?'0':$val['content'];
+							}
+							
+							$data1['matterid'] = $v['id'];//事项id					
+						}
+						
+						// 如果要插入的数据不为空则插入数据库
+						if(!empty($data1)){
+							Db::name('gra_datum')->insert($data1);
+						}
+					}					
+				}				
+			}
+		}
 	}
 
 	/**
