@@ -30,6 +30,7 @@ class Section extends Common{
 		if(request()->isPost()){
 			$data = input('post.');
 			$data['createtime'] = date('Y-m-d H:i:s',time());
+			$data['top'] = empty($data['top'])?'0':$data['top'];
 			$data['valid'] = '1';
 			if($data['name']==''){
 				$this->error('部门名称不能为空');return;
@@ -45,6 +46,7 @@ class Section extends Common{
 	public function upsec(){
 		if(request()->isPost()){
 			$data = input('post.');
+			$data['top'] = empty($data['top'])?'0':$data['top'];
 			$sid = $data['id'];
 			unset($data['id']);
 			if($data['name']==''){

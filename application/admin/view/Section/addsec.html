@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="__PUBLIC__static/css/style.css"/>
 	</head>
-		<!-- <script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script> -->
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
 		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
 
 	<body>
@@ -27,6 +27,12 @@
 					<label class="layui-form-label">部门名称</label>
 					<div class="layui-input-block">
 						<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="部门名称" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否展示</label>
+					<div class="layui-input-block">
+						<input type="checkbox" name="top" lay-skin="switch"  title="开关" value="1" {if condition="$list['top'] eq '1'"} checked="true" lay-filter="switchTest" {/if}>
 					</div>
 				</div>
 				<div class="layui-form-item layui-form-text">

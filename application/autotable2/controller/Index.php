@@ -27,7 +27,7 @@ class Index extends \think\Controller{
 	//部门首页 ifrom
 	//查询所有部门
 	public function index(){
-		$list = Db::name('sys_section')->paginate(12,true);
+		$list = Db::name('sys_section')->where('top',1)->paginate(12,true);
         $page = $list->render();
         $this->assign('page', $page);
         $this->assign('list',$list);

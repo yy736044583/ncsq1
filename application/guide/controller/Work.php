@@ -14,7 +14,7 @@ use think\Model;
 class Work extends \think\Controller{
 
     public function index(){
-    	$list = Db::name('sys_section')->paginate(18,true);
+    	$list = Db::name('sys_section')->where('top',1)->paginate(18,true);
         $page = $list->render();
         $this->assign('page', $page);
         $this->assign('list',$list);

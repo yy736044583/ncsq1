@@ -14,7 +14,7 @@
 		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="__PUBLIC__static/css/style.css"/>
 	</head>
-		<!-- <script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script> -->
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
 		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
 
 	<body>
@@ -28,6 +28,12 @@
 					<label class="layui-form-label">部门名称</label>
 					<div class="layui-input-block">
 						<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="部门名称" class="layui-input" value="{$list.name}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否展示</label>
+					<div class="layui-input-block">
+						<input type="checkbox" checked="" name="top" lay-skin="switch" lay-filter="switchTest" title="开关" value="1">
 					</div>
 				</div>
 				<div class="layui-form-item layui-form-text">
@@ -46,13 +52,13 @@
 		</div>
 	</body>
 	
-<!-- <script>
+<script>
 	layui.use(['form', 'layedit', 'laydate'], function() {
 		var form = layui.form(),
 			layer = layui.layer,
 			layedit = layui.layedit,
 			laydate = layui.laydate;
 	});
-</script> -->
+</script>
 
 </html>

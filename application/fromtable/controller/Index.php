@@ -46,7 +46,7 @@ class Index{
 
     //部门查询
     public function section(){
-    	$list = Db::name('sys_section')->where('valid',1)->field('id,name')->select();
+    	$list = Db::name('sys_section')->where('top',1)->field('id,name')->select();
     	if(!empty($list)){
 			echo json_encode(['data'=>$list,'code'=>'200','message'=>'成功'],JSON_UNESCAPED_UNICODE);
     	}else{
