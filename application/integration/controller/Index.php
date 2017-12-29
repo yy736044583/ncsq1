@@ -200,29 +200,27 @@ class Index{
 	 * @return [type] [description]
 	 */
 	public function detail1(){
-		set_time_limit(1000);
+		set_time_limit(1500);
 		$url = 'http://202.61.88.206/sczw-iface/gddetail?tid=0&aid=-1&uid=c96460d0c1e5509465e105935d22e2fe';
-		$matterid = Db::name('gra_matter')->field('tid,telephone')->select();
-		foreach ($matterid as $k => $v) {
+		$matter = Db::name('gra_matter')->where("telephone=''")->field('tid,id')->select();
+		foreach ($matter as $k => $v) {
 			$url1 = $url.'&id='.$v['tid'];
 			$data = $this->getData($url1,'','300');
 			$data = json_decode($data,true);
 			$data = $data['data'];
 			if(!empty($data['0'])){
 				foreach ($data['0'] as $key => $val) {
-					$id = Db::name('gra_matter')->where("telephone=''")->where('tid',$v['tid'])->value('id');
-					if($id){
-						if($key==0){//资讯电话
-							$data1['telephone'] = $val['content'];
-						}	
-						if($key==1){//资讯电话
-							$data1['sphone'] = $val['content'];
-						}
-						if($key==2){//办理地址
-							$data1['address'] = $val['content'];
-						}
-						Db::name('gra_matter')->where('id',$id)->update($data1);	
-					} 
+					if($key==0){//资讯电话
+						$data1['telephone'] = $val['content'];
+					}	
+					if($key==1){//资讯电话
+						$data1['sphone'] = $val['content'];
+					}
+					if($key==2){//办理地址
+						$data1['address'] = $val['content'];
+					}
+					Db::name('gra_matter')->where('id',$v['id'])->update($data1);	
+
 				}			
 			}
 		}
@@ -255,63 +253,60 @@ class Index{
 	//事项详情
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function detailinfo(){
-		set_time_limit(1000);
+		set_time_limit(1500);
 		$url ='http://202.61.88.206/sczw-iface/gddetail?tid=1&aid=-1&uid=c96460d0c1e5509465e105935d22e2fe';
-		$matter = Db::name('gra_matter')->where("hierarchy=''")->field('tid,telephone,id')->select();
+		$matter = Db::name('gra_matter')->where("hierarchy=''")->field('tid,id')->select();
 		foreach ($matter as $k => $v) {
 			$url1 = $url.'&id='.$v['tid'];
 			$data = $this->getData($url1,'','300');
 			$data = json_decode($data,true);
 			$data = $data['data'];
-			
-			//hierarchy 行使层级   service_object 服务对象   operation 运行系统   enforcement 实施机构  matter_type 事项类型   other_section 其他共同办理部门   limitday 办理时限   terrace 事项办理承载平台  number 办事者到办事现场次数  content 服务内容  theme 服务主题分类  handle_type 办理类型  onlin 是否支持网上预约 levels 认证等级需求  intake 是否纳入省政务服务和资源交易服务中心  charge 收费情况  online_pay 是否支持在线支付 express 是否支持快递取件  visit 是否支持上门收取申请材料  intermediary 涉及的中介机构  time 办理时间
 		
 			if(!empty($data['0'])){
 				foreach ($data['0'] as $key => $val) {
-					// $val['name'] = trim($val['name']);
 					switch ($key) {
 						case '1':
-							$data1['hierarchy'] = $val['content'];break;
+							$data1['hierarchy'] = $val['content'];break;//hierarchy 行使层级
 						case '2':
-							$data1['service_object'] = $val['content'];break;
+							$data1['service_object'] = $val['content'];break;//service_object 服务对象
 						case '3':
-							$data1['operation'] = $val['content'];break;
+							$data1['operation'] = $val['content'];break;//operation 运行系统
 						case '4':
-							$data1['enforcement'] = $val['content'];break;
+							$data1['enforcement'] = $val['content'];break;//enforcement 实施机构 
 						case '5':
-							$data1['matter_type'] = $val['content'];break;
+							$data1['matter_type'] = $val['content'];break;//matter_type 事项类型 
 						case '6':
-							$data1['other_section'] = $val['content'];break;
+							$data1['other_section'] = $val['content'];break;//other_section 其他共同办理部门
 						case '7':
-							$data1['limitday'] = $val['content'];break;
+							$data1['limitday'] = $val['content'];break;//limitday 办理时限
 						case '7':
-							$data1['terrace'] = $val['content'];break;
+							$data1['terrace'] = $val['content'];break;//terrace 事项办理承载平台
 						case '8':
-							$data1['number'] = $val['content'];break;
+							$data1['number'] = $val['content'];break;//number 办事者到办事现场次数
 						case '10':
-							$data1['content'] = $val['content'];break;
+							$data1['content'] = $val['content'];break;//content 服务内容
 						case '11':
-							$data1['theme'] = $val['content'];break;
+							$data1['theme'] = $val['content'];break;//theme 服务主题分类
 						case '12':
-							$data1['handle_type'] = $val['content'];break;
+							$data1['handle_type'] = $val['content'];break;//handle_type 办理类型
 						case '13':
-							$data1['online'] = $val['content'];break;
+							$data1['online'] = $val['content'];break;//onlin 是否支持网上预约
 						case '14':
-							$data1['levels'] = $val['content'];break;	
+							$data1['levels'] = $val['content'];break;//levels 认证等级需求	
 						case '15':
-							$data1['intake'] = $val['content'];break;
+							$data1['intake'] = $val['content'];break;//intake 是否纳入省政务服务和资源交易服务中心
 						case '16':
-							$data1['charge'] = $val['content'];break;
+							$data1['charge'] = $val['content'];break;// charge 收费情况  
 						case '17':
-							$data1['online_pay'] = $val['content'];break;
+							$data1['online_pay'] = $val['content'];break;//online_pay 是否支持在线支付
 						case '18':
-							$data1['express'] = $val['content'];break;
+							$data1['express'] = $val['content'];break;// express 是否支持快递取件
 						case '19':
-							$data1['visit'] = $val['content'];break;
+							$data1['visit'] = $val['content'];break;// visit 是否支持上门收取申请材料
 						case '20':
-							$data1['intermediary'] = $val['content'];break;
+							$data1['intermediary'] = $val['content'];break;//intermediary 涉及的中介机构  
 						case '21':
-							$data1['time'] = $val['content'];break;	
+							$data1['time'] = $val['content'];break;	//time 办理时间
 						default:
 							break;
 					}					
