@@ -74,7 +74,13 @@ class Index{
 		$lid = implode(',',$lid);
 		
 		$today = date('Y-m-d',time());
-
+		
+		//老式呼叫器响铃提醒
+		// $callnumber = Db::name('ph_deviceqid')->where('online',6)->whereLike('time',"%$today%")->field('id,qid,ledid,online,callnumber')->find();
+		// if(!empty($callnumber)){
+		// 	echo json_encode(['data'=>['qid'=>$callnumber['id'],'businessname'=>'','lednumber'=>'','flownum'=>'','fromnum'=>'','online'=>$callnumber['online'],'ledid'=>0,'callnumber'=>$callnumber['callnumber']],'code'=>'200','message'=>'成功']);
+		// 	return;
+		// }
 		//根据窗口屏id查询队列中当天的排号id
 		$deviceqid = Db::name('ph_deviceqid')->whereIn('ledid',$lid)->whereLike('time',"%$today%")->field('id,qid,ledid,online')->find();
 		// dump($deviceqid);die;
