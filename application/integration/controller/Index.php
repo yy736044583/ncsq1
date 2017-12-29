@@ -5,13 +5,19 @@ use think\Request;
 //一体化政务中心数据接口
 class Index{
 
+	protected $district='四川省';
+	public function __construct(){
+		$district = $this->district;
+	}
 	public function index(){
 
 	}
 	//获取个人服务的主题\部门
 	public function category_theme(){
 		$url = 'http://202.61.88.206/sczw-iface/category';
-		$data['aid'] = '-1';	//区域
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$data['aid'] = $aid;	//区域
 		$data['typeid'] = '1'; //1主题 2部门
 		$nid = ['0'=>'1','1'=>'2'];//1个人服务  2法人服务 
 		foreach ($nid  as $v) {
@@ -20,7 +26,7 @@ class Index{
 			$returndata = json_decode($httpdata,true);
 
 			$return = $returndata['data'];//数据
-
+			
 			$aid = $return['aid'];
 			foreach ($return['list'] as $k => $val) {
 				if(!empty($val['tid'])){
@@ -42,7 +48,9 @@ class Index{
 	//获取个人服务的主题\部门
 	public function category_section(){
 		$url = 'http://202.61.88.206/sczw-iface/category';
-		$data['aid'] = '-1'; //区域
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$data['aid'] = $aid;	//区域
 		$data['typeid'] = '2'; //1主题 2部门
 		$nid = ['0'=>'1','1'=>'2'];//1个人服务  2法人服务 
 		foreach ($nid  as $v) {
@@ -51,8 +59,7 @@ class Index{
 			$returndata = json_decode($httpdata,true);
 			$data1 = array();
 			$return = $returndata['data'];//数据
-			$aid = $return['aid'];
-
+			
 			foreach ($return['list'] as $k => $val) {
 				if(!empty($val['tid'])){
 					$id = Db::name('gra_section')->where('tid',$val['tid'])->value('id');
@@ -105,21 +112,26 @@ class Index{
 		
 	}
 	
-	//事项列表		
+	//事项列表	部门	
 	public function matterlist(){
 		set_time_limit(1500);
 		$url = 'http://202.61.88.206/sczw-iface/service/matter/list';
 		$data['dpmId'] = '0'; 
 		// $data['dpmId'] = '9356520acf91449dac044da0c9f81666'; 
 		//$data['nid'] = '2'; //1个人服务  2法人服务 
-		$data['aid'] = '-1'; //区域
-		// $data['aid'] = '16a93eccc43c4fa98fa5162897548135'; //区域
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$data['aid'] = $aid;
+		// $data['aid'] = 'f6b98d8a08a14858ad09a0ad4cc9ee5b'; //区域
 		$data['themeId'] = '0'; //主题 部门
 		$data['userid'] = 'c96460d0c1e5509465e105935d22e2fe'; 
 		$data['keywords'] = '';
 		$data['size'] = '20';
 		$data['page'] = '1';
-		// $data['online'] = '5';
+		$data['online'] = '5';
+		$data['locale'] = '1';
+		$data['auditing'] = '2';
+		$data['verify'] = '3';
 
 		$nid = ['0'=>'1','1'=>'2'];//1个人服务  2法人服务 
 		//办理形式表 1窗口办理 2原件预审 3原件核验 5全程网办
@@ -131,7 +143,7 @@ class Index{
 				$data[$val['key']] = $val['value'];
 				$httpdata = $this->postData($url,$data);
 				$returndata = json_decode($httpdata,true);
-				// dump($returndata);die;
+				
 				// 成功获取参数
 				if($returndata['code']=='0000'){
 					$data1 = $returndata['data'];
@@ -164,7 +176,7 @@ class Index{
 									$arr[$k]["deptid"] =$v['deptid'];
 									$arr[$k]["power"] =$v['power'];
 									$arr[$k]["oldCodeId"] =$v['oldCodeId'];
-									$arr[$k]["handle"] =$val['value']; //1窗口办理 2原件预审 3原件核验 5全程网办	
+									//$arr[$k]["handle"] =$val['value']; //1窗口办理 2原件预审 3原件核验 5全程网办	
 									if($vv==2){
 										$arr[$k]['legal'] = 1; //法人服务
 										$arr[$k]['nid'] = '0'; //个人服务
@@ -181,7 +193,7 @@ class Index{
 									}
 								}
 							}
-							// dump($arr);die;
+							
 							if(!empty($arr)){
 								Db::name('gra_matter')->insertAll($arr);
 								$arr = array();
@@ -189,7 +201,95 @@ class Index{
 						}
 					}
 				}
-			}			
+			}
+			// dump($arr);die;			
+		}
+	
+	}	
+	//事项列表  主题
+	public function matterlist_theme(){
+		set_time_limit(1500);
+		$url = 'http://202.61.88.206/sczw-iface/service/matter/list';
+		$data['dpmId'] = '0'; 
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$data['aid'] = $aid; //地区
+		$data['themeId'] = ''; //主题id
+		$data['userid'] = 'c96460d0c1e5509465e105935d22e2fe'; 
+		$data['keywords'] = '';
+		$data['size'] = '20';
+		$data['page'] = '1';
+
+		$theme = Db::name('gra_theme')->field('id,tid,nid')->select();
+		//办理形式表 1窗口办理 2原件预审 3原件核验 5全程网办
+		$handle = Db::name('gra_handle')->field('key,value')->select();
+		foreach ($theme as $kk => $vv) {
+			$data['themeId'] = $vv['tid']; //主题id
+			// dump($data);die;
+			//循环获取每个形式的事项
+			foreach ($handle as $key => $val) {
+				$data[$val['key']] = $val['value'];
+				$httpdata = $this->postData($url,$data);
+				$returndata = json_decode($httpdata,true);
+				// dump($returndata);die;
+				// 成功获取参数
+				if($returndata['code']=='0000'){
+					$data1 = $returndata['data'];
+					$count = $data1['total'];//总条数
+					$pages = $data1['pages'];//总页数
+					//一页一页的获取事项
+					for ($i=1; $i <=$pages ; $i++) { 
+						$data['size'] = '20';
+						$data['page'] = $i;
+						$httpdata = $this->postData($url,$data);
+						$returndata = json_decode($httpdata,true);
+						// 如果获取成功 就将数据插入数据库
+						if($returndata['code']=='0000'){
+							$list = $returndata['data']['list'];
+							
+							foreach ($list as $k => $v) {
+								$id = Db::name('gra_matter')->where('from_matterid',$v['matterid'])->value('id');
+								// echo $id;die;
+								//如果数据库改条数据不存在则存入
+								if(!$id){
+									$arr[$k]["from_matterid"] =$v['matterid'];
+									$arr[$k]["tid"] =$v['tid'];
+									$arr[$k]["tname"] =$v['tname'];//事项名
+									$arr[$k]["online"] =empty($v['online'])?'0':$v['online'];
+									$arr[$k]["store"] =empty($v['store'])?'0':$v['store'];
+									$arr[$k]["order"] =empty($v['order'])?'0':$v['order'];
+									$arr[$k]["type"] =empty($v['type'])?'0':$v['type'];
+									$arr[$k]["department"] =$v['department']; //部门
+									$arr[$k]["deptid"] =$v['deptid'];
+									$arr[$k]["power"] =$v['power'];
+									$arr[$k]["oldCodeId"] =$v['oldCodeId'];
+									$arr[$k]["themeid"] =$vv['id']; //主题id
+									if($vv['nid']==2){
+										$arr[$k]['legal'] = 1; //法人服务
+										$arr[$k]['nid'] = '0'; //个人服务
+									}else{
+										$arr[$k]['nid'] = 1; //个人服务
+										$arr[$k]['legal'] = '0'; //法人服务
+									}
+									
+									// Db::name('gra_matter')->insert($arr);
+								}else{
+									if(!empty($vv['id'])){
+										$data2['themeid'] = $vv['id']; //主题id
+										Db::name('gra_matter')->where('id',$id)->update($data2);
+									}
+								}
+							}
+						
+							if(!empty($arr)){
+								Db::name('gra_matter')->insertAll($arr);
+								$arr = array();
+							}
+						}
+					}
+				}
+			}
+			// dump($arr);die;			
 		}
 	
 	}	
@@ -201,13 +301,16 @@ class Index{
 	 */
 	public function detail1(){
 		set_time_limit(1500);
-		$url = 'http://202.61.88.206/sczw-iface/gddetail?tid=0&aid=-1&uid=c96460d0c1e5509465e105935d22e2fe';
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?tid=0&uid=c96460d0c1e5509465e105935d22e2fe';
 		$matter = Db::name('gra_matter')->where("telephone=''")->field('tid,id')->select();
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
 		foreach ($matter as $k => $v) {
-			$url1 = $url.'&id='.$v['tid'];
+			$url1 = $url.'&id='.$v['tid'].'&aid='.$aid;
 			$data = $this->getData($url1,'','300');
 			$data = json_decode($data,true);
 			$data = $data['data'];
+
 			if(!empty($data['0'])){
 				foreach ($data['0'] as $key => $val) {
 					if($key==0){//资讯电话
@@ -225,12 +328,14 @@ class Index{
 			}
 		}
 	}
-
+/*
 	//在插入事项时获取 一起插入
 	public function detail($tid){
 		set_time_limit(1000);
-		$url = 'http://202.61.88.206/sczw-iface/gddetail?tid=0&aid=-1&uid=c96460d0c1e5509465e105935d22e2fe';
-		$url1 = $url.'&id='.$tid;
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?tid=0&uid=c96460d0c1e5509465e105935d22e2fe';
+		$url1 = $url.'&id='.$tid.'&aid='.$aid;
 		$data = $this->getData($url1,'','300');
 		$data = json_decode($data,true);
 		$data = $data['data'];
@@ -249,15 +354,17 @@ class Index{
 			return $data1;			
 		}
 	}
-
+*/
 	//事项详情
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function detailinfo(){
-		set_time_limit(1500);
-		$url ='http://202.61.88.206/sczw-iface/gddetail?tid=1&aid=-1&uid=c96460d0c1e5509465e105935d22e2fe';
+		set_time_limit(2000);
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$url ='http://202.61.88.206/sczw-iface/gddetail?tid=1&uid=c96460d0c1e5509465e105935d22e2fe';
 		$matter = Db::name('gra_matter')->where("hierarchy=''")->field('tid,id')->select();
 		foreach ($matter as $k => $v) {
-			$url1 = $url.'&id='.$v['tid'];
+			$url1 = $url.'&id='.$v['tid'].'&aid='.$aid;
 			$data = $this->getData($url1,'','300');
 			$data = json_decode($data,true);
 			$data = $data['data'];
@@ -320,9 +427,12 @@ class Index{
 
 	//1基础信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function item(){
-		$url = 'http://202.61.88.206/sczw-iface/item?power=&aid=1&nid=1';
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$url = 'http://202.61.88.206/sczw-iface/item?power=&nid=1&aid='.$aid;
 		$data = $this->getData($url,'','30');
 		$data = json_decode($data,true);
+
 		foreach ($data['data'] as $k => $v) {
 			if(!Db::name('gra_item')->where('sort',$v['sort'])->value('id')){
 				$data1[$k]['sort'] = $v['sort'];
@@ -340,7 +450,9 @@ class Index{
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function item_detail_2(){
 		set_time_limit(1000);
-		$url = 'http://202.61.88.206/sczw-iface/gddetail?aid=16a93eccc43c4fa98fa5162897548135&uid=c96460d0c1e5509465e105935d22e2fe';
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?&uid=c96460d0c1e5509465e105935d22e2fe&aid='.$aid;
 		$matterid = Db::name('gra_matter')->field('tid,id')->select();//查询事项id和tid(从行政来的事项id)
 		$data1 = array();
 		foreach ($matterid as $k => $v) {
@@ -349,6 +461,7 @@ class Index{
 			$data = $this->getData($url1,'','30');
 			$data = json_decode($data,true);
 			$data = $data['data'];
+			
 			if(!empty($data)){
 				//可能存在多条数据
 				foreach ($data as $kk => $vv) {
@@ -381,16 +494,17 @@ class Index{
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function item_detail_3(){
 		set_time_limit(1000);
-		$url = 'http://202.61.88.206/sczw-iface/gddetail?aid=16a93eccc43c4fa98fa5162897548135&uid=c96460d0c1e5509465e105935d22e2fe';
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?&uid=c96460d0c1e5509465e105935d22e2fe';
 		$matterid = Db::name('gra_matter')->field('tid,id')->select();//查询事项id和tid(从行政来的事项id)
 		$data1 = array();
 		foreach ($matterid as $k => $v) {
 			//拼接事项id和受理标准的标志 
-			$url1 = $url.'&id='.$v['tid'].'&tid=3';
+			$url1 = $url.'&id='.$v['tid'].'&tid=3&aid='.$aid;
 			$data = $this->getData($url1,'','30');
 			$data = json_decode($data,true);
 			$data = $data['data'];
-			
 			if(!empty($data)){
 				//可能存在多条数据
 				foreach ($data as $kk => $vv) {
@@ -449,18 +563,20 @@ class Index{
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function item_detail_4(){
 		set_time_limit(1000);
-		$url = 'http://202.61.88.206/sczw-iface/gddetail?aid=16a93eccc43c4fa98fa5162897548135&uid=c96460d0c1e5509465e105935d22e2fe';
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?&uid=c96460d0c1e5509465e105935d22e2fe';
 		$matter = Db::name('gra_matter')->field('tid,id')->select();//查询事项id和tid(从行政来的事项id)
 		$data1 = array();
 		
 		foreach ($matter as $k => $v) {
 			//拼接事项id和受理标准的标志 
-			$url1 = $url.'&id='.$v['tid'].'&tid=4';
+			$url1 = $url.'&id=A-005698-5698-8282727'.'&tid=4&aid='.$aid;
 			$data = $this->getData($url1,'','30');
 			$data = json_decode($data,true);
 			// echo $data['message'].'<br>';
 			$data = $data['data'];
-		
+			dump($data);die;
 			if(!empty($data)){
 				// dump($data);die;
 				//可能存在多条数据
@@ -488,8 +604,25 @@ class Index{
 							case '取件':
 								$data1['flowlimit'] = 5;
 								break;
-							default:break;
+							case '办理':
+								$data1['flowlimit'] = 6;
+								break;
+							case '决定':
+								$data1['flowlimit'] = 7;
+								break;
+							case '证明':
+								$data1['flowlimit'] = 8;
+								break;
+							case '核实':
+								$data1['flowlimit'] = 9;
+								break;
+							case '答复':
+								$data1['flowlimit'] = 10;
+								break;
+							default:$data1['flowlimit'] = 0;
+							break;
 						}
+
 						//如果数据库已经添加就删除数组
 						$id = Db::name('gra_flowlimit')->where('matterid',$v['id'])->where('flowlimit',$data1['flowlimit'])->value('id');
 						if($id){
@@ -510,13 +643,15 @@ class Index{
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function item_detail_6(){
 		set_time_limit(1000);
-		$url = 'http://202.61.88.206/sczw-iface/gddetail?aid=16a93eccc43c4fa98fa5162897548135&uid=c96460d0c1e5509465e105935d22e2fe';
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
+		$url = 'http://202.61.88.206/sczw-iface/gddetail?&uid=c96460d0c1e5509465e105935d22e2fe';
 		$matter = Db::name('gra_matter')->field('tid,id')->select();//查询事项id和tid(从行政来的事项id)
 		$data1 = array();
 		
 		foreach ($matter as $k => $v) {
 			//拼接事项id和受理标准的标志 
-			$url1 = $url.'&id='.$v['tid'].'&tid=6';
+			$url1 = $url.'&id='.$v['tid'].'&tid=6&aid='.$aid;
 			$data = $this->getData($url1,'','30');
 			$data = json_decode($data,true);
 			$data = $data['data'];
@@ -568,16 +703,19 @@ class Index{
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function item_detail_7(){
 		set_time_limit(1000);
+		$district = $this->district;//地区
+		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
 		$url = 'http://202.61.88.206/sczw-iface/service/faq';
 		$matter = Db::name('gra_matter')->field('tid,id')->select();//查询事项id和tid(从行政来的事项id)
 		$data1 = array();
 		
 		foreach ($matter as $k => $v) {
 			//拼接事项id和受理标准的标志 
-			$url1 = $url.'&id='.$v['tid'].'&tid=7';
+			$url1 = $url.'&id='.$v['tid'].'&tid=7&aid='.$aid;
 			$data = $this->getData($url1,'','30');
 			$data = json_decode($data,true);
 			$data = $data['data'];
+		
 		
 			if(!empty($data)){
 				dump($data);die;
@@ -592,6 +730,23 @@ class Index{
 		}	
 	}
 
+	//获取所有地区和其编码
+	public function district(){
+		set_time_limit(1500);
+		$url = 'http://202.61.88.206/sczw-iface/area?&code=f6b98d8a08a14858ad09a0ad4cc9ee5b';
+		$data = $this->getData($url,'','30');
+		$data = json_decode($data,true);
+		$data = $data['data'];
+		// dump($data);die;
+		if(!empty($data['0'])){
+			foreach ($data['0'] as $k => $v) {
+				$data1['name'] = $v;
+				$data1['from_id'] = $k;
+				Db::name('gra_district')->insert($data1);
+			}
+		}	
+		
+	}
 	/**
 	 * [postData post提交]
 	 * @param  [type] $url  [url]
@@ -637,7 +792,6 @@ class Index{
 		  
 		 return curl_exec($con);
 	}
-
 
 
 }
