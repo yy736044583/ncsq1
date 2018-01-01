@@ -4,8 +4,9 @@ use think\Db;
 use think\Request;  
 //一体化政务中心数据接口
 class Index{
-
+	//定义获取那个地区的数据
 	protected $district='四川省';
+
 	public function __construct(){
 		$district = $this->district;
 	}
@@ -571,12 +572,12 @@ class Index{
 		
 		foreach ($matter as $k => $v) {
 			//拼接事项id和受理标准的标志 
-			$url1 = $url.'&id=A-005698-5698-8282727'.'&tid=4&aid='.$aid;
+			$url1 = $url.'&id='.$v['tid'].'&tid=4&aid='.$aid;
 			$data = $this->getData($url1,'','30');
 			$data = json_decode($data,true);
 			// echo $data['message'].'<br>';
 			$data = $data['data'];
-			dump($data);die;
+			// dump($data);die;
 			if(!empty($data)){
 				// dump($data);die;
 				//可能存在多条数据
@@ -747,6 +748,7 @@ class Index{
 		}	
 		
 	}
+
 	/**
 	 * [postData post提交]
 	 * @param  [type] $url  [url]
