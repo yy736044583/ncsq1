@@ -5,13 +5,58 @@ use think\Request;
 //一体化政务中心数据接口
 class Index{
 	//定义获取那个地区的数据
-	protected $district='四川省';
+	protected $district='顺庆区';
 
 	public function __construct(){
 		$district = $this->district;
 	}
 	public function index(){
 
+	}
+	//获取所有地区和其编码
+	public function district(){
+		set_time_limit(1500);
+		$code = 'f6b98d8a08a14858ad09a0ad4cc9ee5b';
+		$url = 'http://202.61.88.206/sczw-iface/area?&code='.$code;
+		$data = $this->getData($url,'','30');
+		$data = json_decode($data,true);
+		$data = $data['data'];
+	
+		if(!empty($data['0'])){
+			foreach ($data['0'] as $k => $v) {
+				if(!Db::name('gra_district')->where('from_id',$k)->find()){
+					$data1['name'] = $v;
+					$data1['from_id'] = $k;
+					$id = Db::name('gra_district')->insertGetId($data1);
+
+					$this->districtchild('0',$k,$id);
+				}
+			}
+		}	
+	}
+	//获取所有地区下级数据
+	public function districtchild($lv,$code,$id){
+		$url = 'http://202.61.88.206/sczw-iface/area?&code='.$code;
+		$data = $this->getData($url,'','30');
+		$data = json_decode($data,true);
+		$data = $data['data'];
+	
+		if(!empty($data['0'])){
+			foreach ($data['0'] as $k => $v) {
+				if(!Db::name('gra_district')->where('from_id',$k)->find()){
+					$data1['name'] = $v;
+					$data1['from_id'] = $k;
+					$lv1 =  $lv+1;
+					$data1['level'] = $lv1;
+					$data1['parent'] = $id;
+					$newid = Db::name('gra_district')->insertGetId($data1);
+					
+					$this->districtchild($lv1,$k,$newid);
+				}
+			}
+		}else{
+			return;
+		}
 	}
 	//获取个人服务的主题\部门
 	public function category_theme(){
@@ -731,23 +776,7 @@ class Index{
 		}	
 	}
 
-	//获取所有地区和其编码
-	public function district(){
-		set_time_limit(1500);
-		$url = 'http://202.61.88.206/sczw-iface/area?&code=f6b98d8a08a14858ad09a0ad4cc9ee5b';
-		$data = $this->getData($url,'','30');
-		$data = json_decode($data,true);
-		$data = $data['data'];
-		// dump($data);die;
-		if(!empty($data['0'])){
-			foreach ($data['0'] as $k => $v) {
-				$data1['name'] = $v;
-				$data1['from_id'] = $k;
-				Db::name('gra_district')->insert($data1);
-			}
-		}	
-		
-	}
+
 
 	/**
 	 * [postData post提交]
