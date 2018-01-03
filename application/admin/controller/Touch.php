@@ -229,6 +229,23 @@ class Touch extends Common{
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
+	//投诉回复
+	public function upcom(){
+		if(request()->isPost()){
+            $data['recontent'] = input('recontent');
+            $data['status'] = 1;
+            $id = input('id');
+            if(Db::name('ds_complain')->where('id',$id)->update($data)){
+                $this->success('回复成功','touch/complain');    
+            }else{
+                $this->error('回复失败');
+            }
+        }
+		$id = input('id');
+		$list = Db::name('ds_complain')->where('id',$id)->find();
+		$this->assign('list',$list);
+		return $this->fetch();
+	}
 	//删除投诉
 	public function dlcomplain(){
 		$id = input('id');
