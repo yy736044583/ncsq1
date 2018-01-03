@@ -16,6 +16,9 @@
 	<div class="admin-main">
 		<blockquote class="layui-elem-quote">
 			<div class="layui-inline">
+			    <a href="{:url('evaluate/downindex1')}" class="layui-btn layui-btn-small" id="add">导出</a>
+			</div>
+			<div class="layui-inline">
 			<form class="layui-form" action="{:url('Evaluate/count1')}" method="post">
 				<div class="layui-inline">
 			      <label class="layui-form-label">开始时间</label>
@@ -61,6 +64,7 @@
 						<tr>
 							<th>序号</th>
 							<th>员工</th>
+							<th>部门</th>
 							<th>态度不好</th>
 							<th>业务不熟</th>
 							<th>时间太长</th>
@@ -76,6 +80,7 @@
 						<tr>
 							<td>{$k}</td>
 							<td>{$v.name}</td>
+							<td>{$v.section}</td>
 							<td>{$v.evaluatelevel1}</td>
 							<td>{$v.evaluatelevel2}</td>
 							<td>{$v.evaluatelevel3}</td>
