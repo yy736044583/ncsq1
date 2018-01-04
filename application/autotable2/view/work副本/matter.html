@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="Speed_title">
+			<div class="t">
+				<p>请您选择事项</p>
+			</div>
+		</div>
+		<div class="title_cont">
+		{if empty($list) neq true}
+			<ul class="list_xs">
+				{volist name="list" id="v" key="k"}
+				<li>
+					<a href="{:url('work/mattershow')}?id={$v.id}"><p><span>{$k}、</span>{$v.name}</p></a>
+				</li>
+				{/volist}
+			
+			</ul>
+			<!-- 分页 -->
+			<div class="pager page">
+				<a href="{:url('work/index')}" class="home"></a>
+				<div>
+				{$page}
+					<!-- <ul class="pager">
+						<li class="disabled"><span>«</span></li> 
+						<li><a href="/sbxt/guide/work/index.html?page=2">»</a></li>
+					</ul> -->
+				</div>
+				<a href="{:url('work/index')}" class="return"></a>
+			</div>
+			<!-- 分页 -->
+		{else/}
+			暂时数据	
+		{/if}
+		</div>
+	</div>
+	<embed src="__PUBLIC__autotable2/sound/matter.mp3" hidden="true" autostart="true" style="display: none;">
+</body>
+</html>

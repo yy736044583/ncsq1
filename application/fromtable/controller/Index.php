@@ -46,7 +46,8 @@ class Index{
 
     //部门查询
     public function section(){
-    	$list = Db::name('sys_section')->where('top',1)->field('id,name')->select();
+    	$list = Db::name('gra_section')->where('top',1)->field('id,tname,tid')->select();
+        
     	if(!empty($list)){
 			echo json_encode(['data'=>$list,'code'=>'200','message'=>'成功'],JSON_UNESCAPED_UNICODE);
     	}else{
@@ -65,7 +66,7 @@ class Index{
     		echo json_encode(['data'=>array(),'code'=>'400','message'=>'部门不能为空']);
     		return;
     	}
-    	$list = Db::name('sys_matter')->where('sectionid',$sectionid)->field('id,name,sectionid')->select();
+    	$list = Db::name('gra_matter')->where('deptid',$sectionid)->field('id,tname,deptid')->select();
     	if(!empty($list)){
 			echo json_encode(['data'=>$list,'code'=>'200','message'=>'成功'],JSON_UNESCAPED_UNICODE);
     	}else{
@@ -128,7 +129,7 @@ class Index{
             $name = strtoupper($name);
             $matterid = Db::name('ph_queue')->where('flownum',$name)->where('today',$today)->value('matterid');
             if($matterid){
-                $list = Db::name('sys_matter')->where('id',$matterid)->find();
+                $list = Db::name('gra_matter')->where('id',$matterid)->find();
             }
         }
         

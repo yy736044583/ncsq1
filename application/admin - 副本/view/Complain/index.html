@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>投诉</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<div class="layui-inline">
+			<form class="layui-form" action="">				
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">工作人员：</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="workman" lay-verify="title" autocomplete="off" class="layui-input" placeholder="工作人员" {if condition="empty($workman) neq true"} value="{$workman}" {/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">设备编号：</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="number" lay-verify="title" autocomplete="off" class="layui-input" placeholder="编号" {if condition="empty($number) neq true"} value="{$number}" {/if}>
+			      	</div>
+			    </div>
+
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+		</div>
+		<fieldset class="layui-elem-field">
+			<legend>投诉管理</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>标题</th>
+							<th>提交时间</th>
+							<th>提交人</th>
+							<th>提交人电话</th>
+							<th>提交人邮箱</th>
+							<th>被投诉工作人员</th>
+							<th>投诉设备</th>
+							<th>投诉附件</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.title}</td>
+							<td>{$v.uptime}</td>
+							<td>{$v.upname}</td>
+							<td>{$v.upphone}</td>
+							<td>{$v.upmail}</td>
+							<td>{$v.workmanid}</td>
+							<td>{$v.deviceid}</td>
+							<td>{if condition="empty($v['file']) neq true"} <a href="__PUBLIC__uploads/{$v.file}">下载</a> {/if}</td>
+							<td>
+								<a href="{:url('complain/showcom')}?id={$v.id}" class="layui-btn layui-btn-mini">查看</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+</html>

@@ -21,14 +21,14 @@ class Window extends Common{
 		$page = $data->render();
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['sectionid'] = Db::name('sys_section')->where('id',$v['sectionid'])->value('name');
+			$list[$k]['sectionid'] = Db::name('gra_section')->where('id',$v['sectionid'])->value('tname');
 			$list[$k]['workmanid'] = Db::name('sys_workman')->where('id',$v['workmanid'])->value('name');
 			$list[$k]['leddeviceid'] = Db::name('ph_led')->where('id',$v['leddeviceid'])->value('number');
 			$list[$k]['calldeviceid'] = Db::name('ph_call')->where('id',$v['calldeviceid'])->value('number');
 			$list[$k]['pjdeviceid'] = Db::name('pj_device')->where('id',$v['pjdeviceid'])->value('number');
 
 		}
-		$section = DB::name('sys_section')->where('valid',1)->select();
+		$section = DB::name('gra_section')->where('valid',1)->select();
 		$this->assign('sectionid',$sectionid);
 		$this->assign('sec',$section);
 		$this->assign('page',$page);
@@ -55,7 +55,7 @@ class Window extends Common{
 
 		}
 
-		$section = DB::name('sys_section')->where('valid',1)->select();
+		$section = DB::name('gra_section')->where('valid',1)->select();
 		$led = DB::name('ph_led')->select();
 		$call = DB::name('ph_call')->select();
 		$device = DB::name('pj_device')->select();
@@ -86,7 +86,7 @@ class Window extends Common{
 		}
 		$id = input('id');
 		$list = Db::name('sys_window')->where('id',$id)->find();
-		$section = DB::name('sys_section')->where('valid',1)->select();
+		$section = DB::name('gra_section')->where('valid',1)->select();
 		$led = DB::name('ph_led')->select();
 		$call = DB::name('ph_call')->select();
 		$device = DB::name('pj_device')->select();

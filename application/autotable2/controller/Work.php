@@ -14,7 +14,7 @@ use think\Model;
 class Work extends \think\Controller{
 
     public function index(){
-    	$list = Db::name('sys_section')->where('top',1)->paginate(12,true);
+    	$list = Db::name('gra_section')->where('top',1)->paginate(12,true);
         $page = $list->render();
         $this->assign('page', $page);
         $this->assign('list',$list);
@@ -25,7 +25,8 @@ class Work extends \think\Controller{
         $id = input('id');
   
             //根据Id查询办事指南
-        $list = Db::name('sys_matter')->field('name,id')->where("sectionid",$id)->paginate(6,true,['query'=>array('id'=>input('id'))]);
+        $list = Db::name('gra_matter')->field('tname,id,tid')->where("deptid",$id)->paginate(6,true,['query'=>array('id'=>input('id'))]);
+
         if(empty($list)){
             $this->error('该部门暂无数据');
         }
@@ -39,55 +40,16 @@ class Work extends \think\Controller{
 
     public function mattershow(){
         $id = input('id');
-        if($id!=''){
-            $list = Db::name('sys_matter')
-            ->field('id,sectionid,name,workwindow,timelimit,limitday,promisesday,method,character,address')
-            ->where("id",$id)
-            ->find();
-        }   
-        //差：单位名称
-        $list['sectionname'] = Db::name('sys_section')->where('id',$list['sectionid'])->value('name');
+        $list = Db::name('gra_matter')
+        // ->field('id,sectionid,name,workwindow,timelimit,limitday,promisesday,method,character,address')
+        ->where("id",$id)
+        ->find();
+ 
         if(empty($list)){
             $this->error('无信息');
         }
        
-        switch ($list['method']) {
-                case '1':
-                    $list['method'] = '审批';
-                    break;
-                case '2':
-                    $list['method'] = '转报';
-                    break;
-                case '3':
-                    $list['method'] = '上报';
-                    break;
-                case '4':
-                    $list['method'] = '备案';
-                    break;
-                default:
-                    $list['method'] = '无';
-                    break;
-            }    
-         //是否进驻服务中心
-        if($list['workwindow']=='1'){
-            $list['workwindow'] = '是';
-        }else{
-            $list['workwindow'] = '';
-        }
-       
-
-        //应交材料
-        // $datlist = Db::name('sys_datum')->field('title')->where("matterid",$list['id'])->select();
-         
-        // //审批条件 
-        // $gscsetlist = Db::name('sys_conditionset')->field('approvecondition')->where("matterid",$list['id'])->select();
-        
-        // //法定依据
-        // $warlist = Db::name('sys_warrntset')->field('filetitle,govfilecontent,filetype')->where("matterid",$list['id'])->select();
-   
-        // $this->assign('warlist',$warlist); 
-        // $this->assign('gscsetlist',$gscsetlist);  
-        // $this->assign('datlist',$datlist);       
+      
         $this->assign('list',$list);
         return $this->fetch();
     }
@@ -99,18 +61,13 @@ class Work extends \think\Controller{
         $matterid = input('matterid');
         switch ($type) {
             case 'conditionset':
-                $table = 'sys_conditionset';
-                break;
-             case 'warrntset':
-                $table = 'sys_warrntset';
-                break;
-             case 'flowlimit':
-                $table = 'sys_flowlimit';
+                $table = 'gra_accept';
                 break;
             default:break; 
         }
-        $mattername = Db::name('sys_matter')->where('id',$matterid)->value('name');
-        $list = Db::name("$table")->where('matterid',$matterid)->find();
+        $mattername = Db::name('gra_matter')->where('id',$matterid)->value('tname');
+        $list = Db::name("$table")->where('matterid',$matterid)->select();
+        
         $this->assign('mattername',$mattername);
         $this->assign('list',$list);
         $this->assign('type',$type);
@@ -120,8 +77,76 @@ class Work extends \think\Controller{
     //办事指南办理材料
     public function materialtable(){
         $matterid = input('matterid');
-        $mattername = Db::name('sys_matter')->where('id',$matterid)->value('name');
-        $list = Db::name('sys_datum')->field('title')->where("matterid",$matterid)->select();
+        $mattername = Db::name('gra_matter')->where('id',$matterid)->value('tname');
+        $list = Db::name('gra_datum')->where("matterid",$matterid)->select();
+        foreach ($list as $k => $v) {
+            if($v['paper']==2){
+                $list[$k]['paper'] = '电子';
+            }elseif($v['paper']==1){
+                $list[$k]['paper'] = '纸质';
+            }else{
+                $list[$k]['paper'] = '';
+            }
+            
+        }
+        $this->assign('list',$list);
+        $this->assign('mattername',$mattername);
+        return $this->fetch();
+    }
+    //办事指南法定依据
+    public function materialtable2(){
+        $matterid = input('matterid');
+        $mattername = Db::name('gra_matter')->where('id',$matterid)->value('tname');
+        $list = Db::name('gra_warrntset')->where("matterid",$matterid)->select();
+        $this->assign('list',$list);
+        $this->assign('mattername',$mattername);
+        return $this->fetch();
+    }
+    //办事指南办理流程
+    public function materialtable1(){
+        $matterid = input('matterid');
+        $mattername = Db::name('gra_matter')->where('id',$matterid)->value('tname');
+        $list = Db::name('gra_flowlimit')->where("matterid",$matterid)->select();
+        foreach ($list as $k => $v) {
+            switch ($v['flowlimit']) {
+                case '1':
+                   $list[$k]['flowlimit'] = '申请受理';
+                    break;
+                case '2':
+                   $list[$k]['flowlimit'] = '审核';
+                    break;
+                case '3':
+                   $list[$k]['flowlimit'] = '办结';
+                    break;
+                case '4':
+                   $list[$k]['flowlimit'] = '制证';
+                    break;
+                case '5':
+                   $list[$k]['flowlimit'] = '取件';
+                    break;
+                case '6':
+                   $list[$k]['flowlimit'] = '办理';
+                    break;
+                case '7':
+                   $list[$k]['flowlimit'] = '决定';
+                    break;
+                case '8':
+                   $list[$k]['flowlimit'] = '证明';
+                    break;
+                case '9':
+                   $list[$k]['flowlimit'] = '核实';
+                    break;
+                case '10':
+                   $list[$k]['flowlimit'] = '答复';
+                    break;
+                case '0':
+                   $list[$k]['flowlimit'] = '其他';
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+        }
         $this->assign('list',$list);
         $this->assign('mattername',$mattername);
         return $this->fetch();

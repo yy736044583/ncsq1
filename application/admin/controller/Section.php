@@ -14,10 +14,10 @@ class Section extends Common{
 		//查询
 		$name = input('name');
 		if($name!=''){
-			$map['name'] = ['like',"%$name%"];
-			$list = DB::name('sys_section')->where('valid',1)->where($map)->order('name')->paginate(12,false,['query'=>array('name'=>$name)]);
+			$map['tname'] = ['like',"%$name%"];
+			$list = DB::name('gra_section')->where('valid',1)->where($map)->order('tname')->paginate(12,false,['query'=>array('name'=>$name)]);
 		}else{
-			$list = DB::name('sys_section')->where('valid',1)->order('name')->paginate(12);
+			$list = DB::name('gra_section')->where('valid',1)->order('tname')->paginate(12);
 		}
 		
 		$page = $list->render();
@@ -29,13 +29,13 @@ class Section extends Common{
 	public function addsec(){
 		if(request()->isPost()){
 			$data = input('post.');
-			$data['createtime'] = date('Y-m-d H:i:s',time());
 			$data['top'] = empty($data['top'])?'0':$data['top'];
+			$data['valid'] = empty($data['valid'])?'0':$data['valid'];
 			$data['valid'] = '1';
-			if($data['name']==''){
+			if($data['tname']==''){
 				$this->error('部门名称不能为空');return;
 			}
-			if(Db::name('sys_section')->insert($data)){
+			if(Db::name('gra_section')->insert($data)){
 				$this->success('添加成功','section/index');	
 			}else{
 				$this->error('添加失败,请重试');
@@ -47,26 +47,27 @@ class Section extends Common{
 		if(request()->isPost()){
 			$data = input('post.');
 			$data['top'] = empty($data['top'])?'0':$data['top'];
+			$data['valid'] = empty($data['valid'])?'0':$data['valid'];
 			$sid = $data['id'];
 			unset($data['id']);
-			if($data['name']==''){
+			if($data['tname']==''){
 				$this->error('部门名称不能为空');return;
 			}
-			if(Db::name('sys_section')->where('id',$sid)->update($data)){
+			if(Db::name('gra_section')->where('id',$sid)->update($data)){
 				$this->success('修改成功','section/index');	
 			}else{
 				$this->error('修改失败,请重试');
 			}
 		}
 		$id = input('id');
-		$list = DB::name('sys_section')->where('id',$id)->find();
+		$list = DB::name('gra_section')->where('id',$id)->find();
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
 	//删除部门
 	public function dlsec(){
 		$id = input('id');
-		if(Db::name('sys_section')->where('id',$id)->delete()){
+		if(Db::name('gra_section')->where('id',$id)->delete()){
 			$this->success('删除成功','section/index');
 		}else{
 			$this->error('删除失败');

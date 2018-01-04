@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="Speed_title">
+			<div class="t">
+				<p>办理流程</p>
+			</div>
+		</div>
+		<div class="zn_cont">
+			<table class="table_list" cellpadding="0" cellspacing="0">
+				<tr>
+					<th align="center">标题</th>
+					<th align="center">流程时限</th>
+					<th align="center">预警天数</th>
+					<th align="center">转外时限</th>
+					<th>备注</th>
+				</tr>
+				{volist name="list" id="v"}
+				<tr>
+					<td align="center">{$v.flowlimit}</td>
+					<td align="center">{$v.lctime}</td>
+					<td align="center">{$v.yjtime}</td>
+					<td align="center">{$v.wztime}</td>
+					<td>{$v.remark}</td>
+				</tr>
+				{/volist}
+		
+			</table>
+		</div>
+		<div class="pager page">
+			<a href="{:url('work/index')}" class="home"></a>
+			<a href="javascript:window.history.go(-1);" class="return"></a>
+		</div>
+	</div>
+</body>
+</html>

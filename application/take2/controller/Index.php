@@ -296,7 +296,7 @@ class Index extends \think\Controller{
         //根据业务id查询事项id集(字符串)
         $matterid = Db::name('sys_businessmatter')->where('businessid',$id)->value('matterid');
         // 根据事项id集查询事项信息
-        $list = Db::name('sys_matter')->whereIn('id',$matterid)->field('id,name,sectionid,summary')->select();
+        $list = Db::name('gra_matter')->whereIn('id',$matterid)->field('id,tname,deptid,content')->select();
         $isnumber = Db::table('ph_take')->where("number = '$devicenum'")->find();//查询事是否可现场 手机取号
         $this->assign('isnumber',$isnumber);  
         $this->assign('list',$list);

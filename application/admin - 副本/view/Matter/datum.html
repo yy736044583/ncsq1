@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>事项列表</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-1.7.2.min.js"></script>
+	</head>
+<style>
+	input{width: 100%;border:none;}
+	.center{text-align:center;margin-top:15px;}
+</style>
+
+<body>
+	<div class="admin-main">
+		<fieldset class="layui-elem-field">
+			<legend>办理材料添加</legend>
+			<div class="layui-field-box">
+				<form action="{:url('matter/datum')}" method="post" enctype="multipart/form-data">
+				<table class="site-table">
+					<thead>
+						<tr>
+							<th>材料内容</th>
+							<th>示例表格</th>
+							<th>空白表格</th>
+							<th>材料形式</th>
+							<th>材料详细要求</th>
+							<th>必要性及描述</th>
+							<th>备注</th>
+							<th>
+							<div class="layui-inline">
+					    		<button class="layui-btn layui-btn-mini add" type="button">继续添加</button>
+					   		</div></th>
+						</tr>
+					</thead>
+					<!-- <tbody class="apped">
+							<tr>
+								<td><input type="text" name="title" value=""></td>
+								<td>
+									<button type="button" class="upfile layui-btn layui-btn-mini">上传示例表格</button>
+									<input type="hidden" name="sampleurl" value="">
+								</td>
+								<td>
+									<button type="button" class="upfile layui-btn layui-btn-mini">上传空白表格</button>
+									<input type="hidden" name="url" value="">					
+								</td>
+								<td><input type="text" name="material_form" value="">
+								</td>
+								<td><input type="text" name="material_request" value=""></td>
+								<td><input type="text" name="describe" value=""></td>
+								<td><input type="text" name="summary" value=""></td>
+								<td>
+									
+								</td>
+							</tr>
+						</tbody> -->
+					<input type="hidden" name="matterid" value="{$id}">
+						<tbody class="apped">
+							<tr>
+								<td><input type="text" name="title[]" value=""></td>
+								<td>
+									<button type="button" class="upfile layui-btn layui-btn-mini">上传示例表格</button>
+									<input type="hidden" name="sampleurl[]" value="">
+								</td>
+								<td>
+									<button type="button" class="upfile layui-btn layui-btn-mini">上传空白表格</button>
+									<input type="hidden" name="url[]" value="">					
+								</td>
+								<td><input type="text" name="material_form[]" value="">
+								</td>
+								<td><input type="text" name="material_request[]" value=""></td>
+								<td><input type="text" name="describe[]" value=""></td>
+								<td><input type="text" name="summary[]" value=""></td>
+								<td>
+									<div class="layui-inline">
+					    				<a href="javascript:;" class="layui-btn layui-btn-mini remove">移除</a>
+					   				</div>
+								</td>
+							</tr>
+						</tbody>
+				</table>
+				<div class="layui-form-item center">
+					<button class="layui-btn" lay-submit="" lay-filter="demo1" id="but">立即提交</button>
+				</div>
+			</form>
+			<input type="file" id="upload" name="file" value="这是文件" style="display: none;">
+		</fieldset>
+		
+	</div>
+</html>
+<script type="text/javascript">
+	$(function(){
+		$('.add').click(function(e){
+			e.stopPropagation();
+			var input = '<tr class="rediv"><td><input type="text" name="title[]" value=""></td><td><button type="button" class="upfile layui-btn layui-btn-mini">上传示例表格</button><input type="hidden" name="sampleurl[]" value=""></td><td><button type="button" class="upfile layui-btn layui-btn-mini">上传空白表格</button><input type="hidden" name="url[]" value=""></td><td><input type="text" name="material_form[]" value=""></td><td><input type="text" name="material_request[]" value=""></td><td><input type="text" name="describe[]" value=""></td><td><input type="text" name="summary[]" value=""></td><td><div class="layui-inline"><a href="javascript:;" class="layui-btn layui-btn-mini remove">移除</a></div></td></tr>';
+			$('.apped').append(input);
+		})
+		//移除添加的input	
+		$('.remove').live('click',function(){
+			$(this).parents('.rediv').remove();
+		})
+
+		/***文件上传***/
+		$(".upfile").live('click', function(event){
+			var that = $(this);
+			var e = event;
+			event.stopPropagation();
+			$("#upload").off().click();
+
+			$("#upload").change(function(events) {
+				events.stopPropagation();
+				var formData = new FormData();
+				formData.append("file",$("#upload")[0].files[0]);
+				$.ajax({
+					url: "{:url('matter/upfile')}",
+					processData : false, 
+					contentType : false,
+					type: 'POST',
+					data: formData,
+					beforeSend:function(){
+						that.text("正在上传...");
+					},
+					success : function(responseStr) { 				
+						that.text("上传成功");
+						that.next().val(responseStr);
+						console.log(responseStr)
+					}, 
+					error : function(responseStr) { 
+						that.text("上传失败");
+						that.next().val("");
+						that.bind(e);
+					} 
+				})
+			});
+		})			
+	})
+</script>

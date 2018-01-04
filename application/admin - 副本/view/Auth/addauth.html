@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>表单</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+	</head>
+
+	<body>
+		<div style="margin: 15px;">
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+				<legend>添加权限</legend>
+			</fieldset>
+
+			<form class="layui-form" action="{:url('auth/addauth')}" method="post">
+				<div class="layui-form-item">
+					<label class="layui-form-label">权限名称</label>
+					<div class="layui-input-block">
+						<input type="text" name="au_name" lay-verify="title" autocomplete="off" placeholder="权限名称" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">权限等级</label>
+					<div class="layui-input-block">
+						<input type="text" name="au_level" lay-verify="required" placeholder="请输入权限等级" autocomplete="off" class="layui-input" {notempty name="$level"} value="{$level}" {/notempty}>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">父级ID</label>
+					<div class="layui-input-block">
+						<input type="text" name="au_parent" lay-verify="required" placeholder="请输入父级ID" autocomplete="off" class="layui-input" {notempty name="$parent"} value="{$parent}" {/notempty}>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">控制器名</label>
+					<div class="layui-input-block">
+						<input type="text" name="au_c" lay-verify="required" placeholder="请输入控制器名" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">方法名</label>
+					<div class="layui-input-block">
+						<input type="text" name="au_a" lay-verify="required" placeholder="请输入方法名" autocomplete="off" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+</html>

@@ -3,91 +3,121 @@
 		<meta charset="UTF-8">
 		<title>政务中心</title>
 		<!--<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery-3.1.1.min.js" ></script>-->
-		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery1.42.min.js" ></script>
-		<script type="text/javascript" src="__PUBLIC__home/js/all.js" ></script>
-		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/bootstrap.min.css"/>
-		<link rel="stylesheet" type="text/css" href="__PUBLIC__home/css/css.css"/>
-		<script type="text/javascript" src="__PUBLIC__home/js/lib/jquery.SuperSlide.2.1.1.js" ></script>
-		<script type="text/javascript" src="__PUBLIC__home/js/lib/iscroll.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery1.42.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__guide/js/all.js" ></script>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__guide/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/jquery.SuperSlide.2.1.1.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__guide/js/lib/iscroll.js" ></script>
 	</head>
-	<body onload="loaded()" oncontextmenu=self.event.returnValue=false>
+	<body>
 		<div class="cont-box bszn">
 			<div class="bszn-box">
 				<div class="bazs-bm bazs-showbox">
 					<a href="javascript:history.go(-1)" class="main-last"><i></i>返回上一级列表</a>
-					<a href="" class="right-dy" style="display: none;"></a>
-					<h3>{$list.name}</h3>
+					<a href="javascript:;"  onClick="doPrint()" class="right-dy" id="right-dy" style="display: block;"></a>
+					<h3>{$list.tname}</h3>
+					<div style="position: absolute;left: 0;top: 110px;right: 0;bottom: 40px;overflow-y: auto;">
 					<div class="bszn-show">
 						<h4><p>项目概括</p></h4>
 						<div class="bszn-show-text clearfix">
-							<p><span class="cp1">审批性质：</span><span class="cp2">{$list.character}</span></p>
-							<p><span class="cp1">审批方式：</span><span class="cp2">{$list.method}</span></p>
-							<p><span class="cp1">审批时限：</span><span class="cp2">{$list.timelimit}</span></p>
-							<p><span class="cp1">法定时限：</span><span class="cp2">{$list.limitday}个工作日</span></p>
-							<p><span class="cp1">是否进驻政务中心：</span><span class="cp2">{$list.workwindow}</span></p>
-							<p><span class="cp1">承诺时限：</span><span class="cp2">{$list.promisesday}个工作日</span></p>
-							<p class="bazb-d"><span class="cp1">办理地点：</span><span class="cp2">{$list.address}</span></p>
+							<p><span class="cp1">事项编码：</span><span class="cp2">{$list.tid}</span></p>
+							<!-- <p><span class="cp1">行使层级：</span><span class="cp2">{$list.hierarchy}</span></p> -->
+							<p><span class="cp1">服务对象：</span><span class="cp2">{$list.service_object}</span></p>
+							<p><span class="cp1">实施机构：</span><span class="cp2">{$list.enforcement}</span></p>
+							<p><span class="cp1">事项类型：</span><span class="cp2">{$list.matter_type}</span></p>
+						<!-- 	<p><span class="cp1">其他共同办理部门：</span><span class="cp2">{$list.other_section}</span></p> -->
+							<p><span class="cp1">办理时限：</span><span class="cp2">{$list.limitday}</span></p>
+							<p class="bazb-d"><span class="cp1">办事者到场次数：</span><span class="cp2">{$list.number}</span></p>
+							<p><span class="cp1">服务内容：</span><span class="cp2">{$list.content}</span></p>
+							<p><span class="cp1">服务主题分类：</span><span class="cp2">{$list.theme}</span></p>
+							<p><span class="cp1">办理类型：</span><span class="cp2">{$list.handle_type}</span></p>
+							<p><span class="cp1">认证等级需求：</span><span class="cp2">{$list.intake}</span></p>
+							<p><span class="cp1">收费情况：</span><span class="cp2">{$list.charge}</span></p>
+							<p><span class="cp1">办理时间：</span><span class="cp2">{$list.time}</span></p>
+							<p><span class="cp1">咨询电话：</span><span class="cp2">{$list.telephone}</span></p>
+							<p><span class="cp1">监督电话：</span><span class="cp2">{$list.sphone}</span></p>
+							<p><span class="cp1">办理地点：</span><span class="cp2">{$list.address}</span></p>
+							
 						</div>
 					</div>
 					<div class="bszn-show-tab">
 						<div class="hd">
 							<ul class="clearfix">
 								<li class="on">应交材料</li>
-								<li>审批条件</li>
+								<li>受理标准</li>
 								<li>法定依据</li>
-								<li>备注</li>
+								<li>办理流程</li>
 							</ul>
 						</div>
 						<div class="bd">
 							<div id="wrapper">
-								<div id="scroller">
+								
 									<ul>
 										<li>
-											<table class="table table-striped">
-												<tr><th style="width: 10%;">序号</th><th>应交材料</th></tr>
+											<table class="table table-striped"  border="0" cellspacing="0" cellpadding="0">
+												<tr><th style="width: 10%;">序号</th><th>材料形式</th><th style="width:10%">应交材料</th><th>说明</th></tr>
 												{volist name="datlist" key="k" id="v"}
 												<tr>
 												<td>{$k}</td>
 												<td>{$v.title}</td>
+												<td>{$v.paper}</td>
+												<td>{$v.summary}</td>
 												</tr>
 												{/volist}
 											</table>
 										</li>
 										<li>
-											<table class="table table-striped">
+											<table class="table table-striped"  border="0" cellspacing="0" cellpadding="0">
 												<tr><th style="width: 10%;">序号</th><th>审批条件</th></tr>
 												{volist name="gscsetlist" key="k" id="v"}
 												<tr>
 												<td>{$k}</td>
-												<td>{$v.approvecondition}</td>
+												<td>{$v.content}</td>
 												</tr>
 												{/volist}
 											</table>
 										</li>
 										<li>
-											<table class="table table-striped">
-												<tr><th style="width: 10%;">序号</th><th>标题</th><th>内容</th><th style="width: 10%;">文件类型</th></tr>
+											<table class="table table-striped"  border="0" cellspacing="0" cellpadding="0">
+												<tr>
+													<th style="width: 10%;">序号</th>
+													<th style="width: 15%;">标题</th>
+													<th style="width: 10%;">种类</th>
+													<th style="width: 10%;">文号</th>
+													<th style="width: 10%;">条款</th>
+													<th>内容</th>
+													<th style="width: 10%;">文件类型</th></tr>
 										{volist name="warlist" key="k" id="v"}
 												<tr>
 												<td>{$k}</td>
-												<td>{$v.filetitle}</td>
-												<td>{$v.govfilecontent}</td>
-												<td>{$v.filetype}</td>
+												<td>{$v.title}</td>
+												<td>{$v.type}</td>
+												<td>{$v.proof}</td>
+												<td>{$v.terms}</td>
+												<td>{$v.content}</td>
 												</tr>
 											{/volist}
 											</table>
 										</li>
-					<!-- 					<li>
-											<table class="table table-striped">
-												<tr><th style="width: 10%;">序号</th><th>应交材料</th></tr>
-												<tr><td></td><td></td>
+										<li>
+											<table class="table table-striped"  border="0" cellspacing="0" cellpadding="0">
+												<tr><th style="width: 10%;">标题</th><th>流程时限</th><th>预警天数</th><th>转外时限</th><th>备注</th></tr>
+												{volist name="flowlimit" key="k" id="v"}
+												<tr>
+												<td>{$v.flowlimit}</td>
+												<td>{$v.lctime}</td>
+												<td>{$v.yjtime}</td>
+												<td>{$v.wztime}</td>
+												<td>{$v.remark}</td>
 												</tr>
+												{/volist}
 											</table>
-										</li> -->
+										</li>
 									</ul>
-								</div>
+								
 							</div>
 						</div>
+					</div>
 					</div>
 					<script>
 						jQuery(".bszn-show-tab").slide({mainCell:".bd ul",trigger:"click",pnLoop:false});
@@ -95,18 +125,53 @@
 				</div>
 			</div>
 		</div>
-		<script type="text/javascript">
-			var myScroll;
-		
-			function loaded () {
-				myScroll = new IScroll('#wrapper', {
-					scrollbars: true,
-					mouseWheel: true,
-					interactiveScrollbars: true,
-					shrinkScrollbars: 'scale',
-					fadeScrollbars: true
-				});
-			}		
+		<div class="print-text">
+			<div id='page1' style='width:100%;'>     	
+		      
+		    </div>
+		</div>
+		 <!-- 插入打印控件 -->
+      <OBJECT  ID="jatoolsPrinter" CLASSID="CLSID:B43D3361-D075-4BE2-87FE-057188254255" 
+         codebase="__PUBLIC__guide/jatoolsPrinter_free/jatoolsPrinter.cab#version=8,6,0,0"></OBJECT>
+         <script type="text/javascript">
+			function doPrint(how) {
+	         	myDoc = {
+	         		settings:{topMargin:0,
+	                  leftMargin:5,
+	                  bottomMargin:5,
+	                  rightMargin:5},
+	         		documents: document,
+	         		copyrights: '杰创软件拥有版权  www.jatools.com'    
+	         	};	         	
+	          	document.getElementById("jatoolsPrinter").print(myDoc ,false);       // 不弹出对话框打印
+	        } 
+			$.ajax({
+					url: '{:url("stamp/index")}',
+					type: 'GET',
+					dataType: 'json',
+					data: {action: 'work','id':'{$list.id}'},
+					success:function(data){
+						console.log(data);
+						if(data.code == 200){
+							var Html = '<h1 style="font-size: 16px;text-align: left;margin: 0;margin-bottom: 10px;text-align: center;">顺城区政务服务中心办事指南</h1>'
+							Html += '<h1 style="font-size: 16px;text-align: left;margin: 0;">一、项目概述</h1>'
+					      	Html += '<p style="font-size: 14px;">1、项目名称：'+data.data.matter.tname+'</p>'
+					      	Html += '<p style="font-size: 14px;">2、法定时限：'+data.data.matter.limitday+'</p>'
+					      	Html += '<p style="font-size: 14px;">3、是否收费：'+data.data.matter.charge+'</p>'
+					      	Html += '<p style="font-size: 14px;">4、办事者到办事现场次数：'+data.data.matter.number+'次</p>'
+					      	Html += '<h1 style="font-size: 16px;text-align: left;margin: 0;margin-top: 15px;">二、法定依据</h1>'
+					      	
+					      	for (var i = 0; i <= data.data.warrntset.length-1; i++) {
+					      		Html += '<p style="font-size: 14px;">'+ parseInt(i+1) +'、'+data.data.warrntset[i]+'</p>'
+					      	}
+					      	Html += '<h1 style="font-size: 16px;text-align: left;margin: 0;margin-top: 15px;">三、申请材料(窗口办理)</h1>'
+					      	for (var i = 0; i <= data.data.datum.length-1; i++) {
+					      		Html += '<p style="font-size: 14px;">'+ parseInt(i+1) +'、'+data.data.datum[i]+'</p>'
+					      	}
+					      	$("#page1").append(Html);
+						}
+					}
+				})							
 		</script>
 	</body>
 </html>

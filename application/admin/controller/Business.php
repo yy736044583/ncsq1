@@ -146,16 +146,22 @@ class Business extends Common{
 		$bmatter = Db::name('sys_businessmatter')->where('businessid',$businessid)->value('matterid');
 		$wid = Db::name('sys_winbusiness')->where('businessid','like',"%,$businessid,%")->whereor('businessid','like',"%,$businessid")->whereor('businessid','like',"$businessid,%")->column('windowid');
 		$map = array();
+
 		// 根据业务查询窗口id  再根据窗口id查询部门id
 		// 根据部门查询所有的事项
 		if($wid){
 			$wid = implode(',',$wid);
 			$section = Db::name('sys_window')->whereIn('id',$wid)->column('sectionid');
-			$section = implode(',',$section);
-			$map['sectionid'] = ['in',$section];
+			$daptid = [];
+			foreach ($section as $k => $v) {
+				$deptid[$k] = Db::name('gra_section')->where('id',$v)->value('tid');
+			}
+			$deptid = implode(',',$deptid); 
+			$map['deptid'] = ['in',$deptid];
 		}
-		$map['mattertype'] = 1;
-		$list = Db::name('sys_matter')->where($map)->select();
+
+		// $map['mattertype'] = 1;
+		$list = Db::name('gra_matter')->where($map)->select();
 		$this->assign('businessid',$businessid);
 		$this->assign('list',$list);
 		$this->assign('bmatter',$bmatter);

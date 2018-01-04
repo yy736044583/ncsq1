@@ -11,21 +11,13 @@
 	<div class="content_iframe">
 		<div class="Speed_title">
 			<div class="t">
-				<p>{switch name="type"}
-				{case value="conditionset"}审批条件{/case}
-				{case value="warrntset"}法定依据{/case}
-				{case value="flowlimit"}办理流程{/case}
-				{default /}
-			{/switch}</p>
+				<p>审批条件</p>
 			</div>
 		</div>
 		<div class="zn_cont">
-			{switch name="type"}
-				{case value="conditionset"}{$list.approvecondition}{/case}
-				{case value="conditionset"}{$list.govfilecontent}{/case}
-				{case value="conditionset"}{$list.content}{/case}
-				{default /}
-			{/switch}
+			{volist name="$list" id="v" key="k"}
+				{$k}、{$v.content}
+			{/volist}
 		</div>
 		<div class="pager page">
 			<a href="{:url('work/index')}" class="home"></a>

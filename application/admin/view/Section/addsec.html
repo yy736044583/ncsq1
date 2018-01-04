@@ -26,21 +26,28 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">部门名称</label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="部门名称" class="layui-input">
+						<input type="text" name="tname" lay-verify="title" autocomplete="off" placeholder="部门名称" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">部门编号</label>
+					<div class="layui-input-block">
+						<input type="text" name="tid" lay-verify="title" autocomplete="off" placeholder="部门编号" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">是否展示</label>
 					<div class="layui-input-block">
-						<input type="checkbox" name="top" lay-skin="switch"  title="开关" value="1" {if condition="$list['top'] eq '1'"} checked="true" lay-filter="switchTest" {/if}>
+						<input type="checkbox" name="top" lay-skin="switch"  title="开关" value="1"  checked="true" lay-filter="switchTest">
 					</div>
 				</div>
-				<div class="layui-form-item layui-form-text">
-					<label class="layui-form-label">备注</label>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否使用</label>
 					<div class="layui-input-block">
-						<textarea placeholder="请输入内容" lay-verify="title" name="summary" class="layui-textarea"></textarea>
+						<input type="checkbox" name="valid" lay-skin="switch"  title="开关" value="1"  checked="true" lay-filter="switchTest" >
 					</div>
 				</div>
+				
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>

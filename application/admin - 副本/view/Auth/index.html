@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Table</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<a href="{:url('auth/addauth')}" class="layui-btn layui-btn-small" id="add" data-url="{:url('auth/addauth')}">
+					<i class="layui-icon">&#xe608;</i> 添加
+				</a>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>数据列表</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>权限名</th>
+							<th>控制器名</th>
+							<th>方法名</th>
+							<th>级别</th>
+							<th>父级id</th>
+							<!-- <th>状态</th> -->
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$v.au_id}</td>
+							<td>{$v.au_name}</td>
+							<td>{$v.au_c}</td>
+							<td>{$v.au_a}</td>
+							<td>{$v.au_level}</td>
+							<td>{$v.au_parent}</td>
+			
+							<td>
+								{if condition="($v['au_level'] eq '0') or ($v['au_level'] eq '1')"}
+								<a href="{:url('auth/addauth')}?id={$v.au_id}" class="layui-btn layui-btn-mini">添加下一级</a>
+								{/if}
+								<a href="{:url('auth/upauth')}?id={$v.au_id}" class="layui-btn layui-btn-mini">编辑</a>
+								<a href="{:url('auth/dlauth')}?id={$v.au_id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+</html>

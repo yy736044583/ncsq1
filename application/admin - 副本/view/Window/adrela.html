@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>窗口关系</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>窗口关系</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>窗口</th>
+							<th>窗口屏</th>
+							<th>呼叫屏</th>
+							<th>集中屏</th>
+							<th>业务</th>
+							<th>评价屏</th>
+							
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.name}</td>
+							<td>{$v.lednumber}</td>
+							<td>{$v.callnumber}</td>
+							<td class="cled" style="overflow: hidden;width: 300px"><p style="overflow:hidden;width:300px;white-space: nowrap; height:20px;text-overflow: ellipsis; display: inline-block;" onclick="oncled('{$v.clednumber}')">{$v.clednumber}</p></td>
+							<td style="overflow: hidden;width: 300px"><p style="overflow:hidden;width:300px;white-space: nowrap; height:20px;text-overflow: ellipsis; display: inline-block;" onclick="onbusiness('{$v.business}')">{$v.business}</p></td>
+							<td>{$v.devicenumber}</td>
+		
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+	<div class="shownumber clearfix" style="width:300px;height:300px;display:none;background-color:#fff;position:absolute;top:20%;left:50%;margin-left:-150px;">
+		<p style="float:right;margin:10px 5px;" class="close clearfix">X</p>
+
+		<div class="content" style="width:250px;font-size:18px;word-wrap:break-word;margin-top: 20px;margin-left:30px  "></div>
+	</div>
+</html>
+<script type="text/javascript">
+	function oncled(value){
+		$('.shownumber').show();
+		value = value.replace(/,|\./g, ' \n');
+		$('.content').text(value);
+	}
+	function onbusiness(value){
+		$('.shownumber').show();
+		$('.content').text(value);
+	}
+	$(function(){
+		$('.close').click(function(){
+			$('.shownumber').hide();
+		})
+	})	
+
+</script>

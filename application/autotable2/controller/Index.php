@@ -27,7 +27,7 @@ class Index extends \think\Controller{
 	//部门首页 ifrom
 	//查询所有部门
 	public function index(){
-		$list = Db::name('sys_section')->where('top',1)->paginate(12,true);
+		$list = Db::name('gra_section')->where('top',1)->paginate(12,true);
         $page = $list->render();
         $this->assign('page', $page);
         $this->assign('list',$list);
@@ -43,14 +43,14 @@ class Index extends \think\Controller{
 		$map = array();
 		$search = '';
 		if($name){
-    		$map['name'] = ['like',"%$name%"];
+    		$map['tname'] = ['like',"%$name%"];
     		$search = '1';
     	}
     	if($id){
-    		$map['sectionid'] = $id;
+    		$map['deptid'] = $id;
     	}
         //根据Id查询办事指南
-        $list = Db::name('sys_matter')->field('name,id')->where($map)->paginate(15,true,['query'=>array('id'=>$id,'name'=>$name)]);
+        $list = Db::name('gra_matter')->field('tname,id')->where($map)->paginate(6,true,['query'=>array('id'=>$id,'name'=>$name)]);
         $page = $list->render();
         $list = $list->all();
         $today = date('Ymd',time());
@@ -59,7 +59,7 @@ class Index extends \think\Controller{
             $name = strtoupper($name);
             $matterid = Db::name('ph_queue')->where('flownum',$name)->where('today',$today)->value('matterid');
             if($matterid){
-                $list = Db::name('sys_matter')->where('id',$matterid)->field('name,id')->select();
+                $list = Db::name('gra_matter')->where('id',$matterid)->field('name,id')->select();
             }
         }
         

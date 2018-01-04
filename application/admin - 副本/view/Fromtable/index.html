@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>事项管理</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+	</head>
+		
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+			<a href="{:url('fromtable/addfrom')}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe608;</i> 添加
+			</a>
+			</div>
+			<div class="layui-inline">
+			<form class="layui-form" action="">
+
+			    <div class="layui-inline">			    		
+			    	<label class="layui-form-label">部门名称</label>
+      				<div class="layui-input-inline">
+				    	<select name="sectionid" lay-verify="required" lay-search="">
+		         			 <option value="">全部</option>
+		         			 {volist name="sec" id="v"}
+		         			 <option value="{$v.id}" {if condition="$sectionid eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+		         			 {/volist}
+		         			 <option value="">全部</option>
+	         			</select>
+         			</div>	         		
+			    </div>
+
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+			</div>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>业务列表</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>事项名称</th>
+							<th>部门名称</th>
+							<th>备注</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.name|textlength=30}</td>
+							<td>{$v.section}</td>
+							<td>{$v.summary|textlength=30}</td>
+		
+							<td>
+								<a href="{:url('fromtable/filelist')}?mid={$v.id}" class="layui-btn layui-btn-mini">文件管理</a>
+								<a href="{:url('fromtable/upfrom')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
+								<a href="javascript:;" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini" onclick="delet({$v.id})">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+	<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+	<script>
+		layui.use(['form', 'layedit', 'laydate'], function() {
+			var form = layui.form(),
+				layer = layui.layer,
+				layedit = layui.layedit,
+				laydate = layui.laydate;
+		});
+		function delet(id){
+			layer.confirm('确定删除该文件夹吗？', {
+			  btn: ['确认','取消'] //按钮
+			}, function(){			  
+			  $.ajax({
+			  	url: "{:url('fromtable/dlfrom')}",
+			  	type: 'POST',
+			  	data: {'id': id},
+			  	success:function(data){
+			  		layer.msg(data, {icon: 1});
+			  	}
+			  })
+			  
+			}, function(){
+			  
+			});
+		}
+	</script>
+	</body>
+</html>

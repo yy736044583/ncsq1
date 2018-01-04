@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>排号</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+				<form class="layui-form" action="{:url('Queue/countview')}">
+				    <div class="layui-inline">
+				    	<label class="layui-form-label">业务：</label>
+				    	<div class="layui-input-inline">
+				        <select name="businessid" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+				          {volist name="bus" id="v"}
+				          <option value="{$v.id}" {if condition="$businessid eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+				          {/volist}
+				          <option value="">全部</option>
+				        </select>
+				      </div>
+				    </div>
+				    <div class="layui-inline">
+				    	<label class="layui-form-label">时间：</label>
+				    	<div class="layui-input-inline">
+				        <select name="type" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+				          <option value="1" {if condition="$type eq 1"} selected="true" {/if}>当天</option>
+				          <option value="2" {if condition="$type eq 2"} selected="true" {/if}>一周</option>
+				          <option value="3" {if condition="$type eq 3"} selected="true" {/if}>一月</option>
+				          <option value="4" {if condition="$type eq 4"} selected="true" {/if}>当年</option>
+				          <option value="5">全部</option>
+				        </select>
+				      </div>
+				    </div>		
+				    <div class="layui-inline">
+				    	<button class="layui-btn">搜索</button>
+				    </div>
+				</form>
+			</div>
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>排号统计(当天)</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>业务名称</th>
+							<th>取号人数</th>
+							<th>等待人数</th>
+							<th>办理人数</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.name}</td>
+							<td>{$v.allcount}</td>
+							<td>{$v.waitcount}</td>
+							<td>{$v.callcount}</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+</body>
+	<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});
+</script>
+</html>

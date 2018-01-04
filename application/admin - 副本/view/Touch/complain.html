@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>投诉</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<div class="layui-inline">
+			<!-- <form class="layui-form" action="">				
+
+
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form> -->
+		</div>
+		<fieldset class="layui-elem-field">
+			<legend>投诉管理</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>标题</th>
+							<th>提交时间</th>
+							<th>提交人</th>
+							<!-- <th>提交人电话</th> -->
+							<!-- <th>提交人邮箱</th> -->
+							<th>回复</th>
+							
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.title}</td>
+							<td>{$v.uptime}</td>
+							<td>{$v.upname}</td>
+							<!-- <td>{$v.upphone}</td> -->
+							<!-- <td>{$v.upmail}</td> -->
+							<td>{$v.recontent|textlength=50}</td>
+
+							<td>
+								<a href="{:url('touch/showcom')}?id={$v.id}" class="layui-btn layui-btn-mini">查看</a>
+								<a href="{:url('touch/upcom')}?id={$v.id}" class="layui-btn layui-btn-mini">回复</a>
+								<a href="{:url('touch/dlcomplain')}?id={$v.id}" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+</html>

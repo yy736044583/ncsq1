@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>我的信息</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+	</head>
+<body>
+	<div class="admin-main">
+	<blockquote class="layui-elem-quote">
+		<a href="{:url('index/index')}" class="layui-btn layui-btn-small" >
+			<i class="layui-icon">&#xe609;</i> 回到首页
+		</a>
+	</blockquote>
+		<fieldset class="layui-elem-field">
+
+			<legend>我的信息</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>用户名</th>
+							<th>姓名</th>
+							<th>电话</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{$user.username}</td>
+							<td>{$user.name}</td>
+							<td>{$user.phone}</td>
+							<td>
+								<a href="{:url('Myinfo/revise')}?userid={$user.id}" class="layui-btn layui-btn-mini">修改信息</a>
+							</td>
+						</tr>
+					</tbody>	
+				</table>
+		</fieldset>
+	</div>
+</html>

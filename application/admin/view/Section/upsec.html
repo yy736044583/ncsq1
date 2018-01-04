@@ -27,19 +27,25 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">部门名称</label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="部门名称" class="layui-input" value="{$list.name}">
+						<input type="text" name="tname" lay-verify="title" autocomplete="off" placeholder="部门名称" class="layui-input" value="{$list.tname}">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">部门编号</label>
+					<div class="layui-input-block">
+						<input type="text" name="tid" lay-verify="title" autocomplete="off" placeholder="部门编号" class="layui-input" value="{$list.tid}">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">是否展示</label>
 					<div class="layui-input-block">
-						<input type="checkbox" checked="" name="top" lay-skin="switch" lay-filter="switchTest" title="开关" value="1">
+						<input type="checkbox" name="top" lay-skin="switch" {if condition="$list['top'] eq '1'"} lay-filter="switchTest" checked="true"{/if} title="开关" value="1">
 					</div>
 				</div>
-				<div class="layui-form-item layui-form-text">
-					<label class="layui-form-label">备注</label>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否使用</label>
 					<div class="layui-input-block">
-						<textarea placeholder="请输入内容" name="summary" class="layui-textarea">{$list.summary}</textarea>
+						<input type="checkbox" name="valid" lay-skin="switch"  title="开关" value="1" {if condition="$list['valid'] eq '1'"} checked="true" lay-filter="switchTest" {/if}>
 					</div>
 				</div>
 				</div>

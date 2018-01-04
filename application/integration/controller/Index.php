@@ -404,7 +404,7 @@ class Index{
 	//事项详情
 	//tid 0电话信息 1详细信息 2受理标准 3申请材料 4办理流程 5中介服务 6设定依据 7常见问题
 	public function detailinfo(){
-		set_time_limit(2000);
+		set_time_limit(2500);
 		$district = $this->district;//地区
 		$aid = Db::name('gra_district')->where('name',$district)->value('from_id');
 		$url ='http://202.61.88.206/sczw-iface/gddetail?tid=1&uid=c96460d0c1e5509465e105935d22e2fe';
@@ -414,7 +414,7 @@ class Index{
 			$data = $this->getData($url1,'','300');
 			$data = json_decode($data,true);
 			$data = $data['data'];
-		
+
 			if(!empty($data['0'])){
 				foreach ($data['0'] as $key => $val) {
 					switch ($key) {
@@ -432,9 +432,9 @@ class Index{
 							$data1['other_section'] = $val['content'];break;//other_section 其他共同办理部门
 						case '7':
 							$data1['limitday'] = $val['content'];break;//limitday 办理时限
-						case '7':
-							$data1['terrace'] = $val['content'];break;//terrace 事项办理承载平台
 						case '8':
+							$data1['terrace'] = $val['content'];break;//terrace 事项办理承载平台
+						case '9':
 							$data1['number'] = $val['content'];break;//number 办事者到办事现场次数
 						case '10':
 							$data1['content'] = $val['content'];break;//content 服务内容
@@ -577,10 +577,10 @@ class Index{
 								$data1['files'] = empty($val['files']['download'])?'0':$val['files']['download'];
 							}
 							if($key==3){//纸质
-								$data1['paper'] = empty($val['content'])?'0':$val['content'];
+								$data1['paper'] = empty($val['content'])?'0':1;
 							}
 							if($key==4){//电子
-								$data1['electronic'] = empty($val['content'])?'0':$val['content'];
+								$data1['paper'] = empty($val['content'])?'0':2;
 							}
 							if($key==5){//详情介绍
 								$data1['summary'] =empty($val['content'])?'0':$val['content'];

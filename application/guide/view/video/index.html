@@ -14,6 +14,7 @@
 	<body>
 		<div class="cont-box">
 			<div class="index-box">
+			{notempty name="$list[0]"}
 			{if condition ="$list[0]['type'] eq 2"}
 				<video autoplay="autoplay" loop="loop">
 					<source src="__PUBLIC__uploads/{$list[0]['url']}" type="video/mp4"></source>
@@ -32,6 +33,7 @@
 					jQuery(".bg-silider").slide({mainCell:".bd ul",effect:"fold",autoPlay:true,mouseOverStop:false});
 				</script>
 			{/if}
+			{/notempty}
 			</div>
 		</div>
 	</body>

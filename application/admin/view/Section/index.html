@@ -41,8 +41,7 @@
 						<tr>
 							<th>序号</th>
 							<th>部门名称</th>
-							<th>创建时间</th>
-							<th>备注</th>
+							
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -50,11 +49,8 @@
 						{volist name="list" key="k" id="v"}
 						<tr>
 							<td>{$k}</td>
-							<td>{$v.name}</td>
-							<td>{$v.createtime}</td>
-							<td style="overflow: hidden;width: 550px">
-								<p style="overflow:hidden;width:500px;white-space: nowrap; height:20px;text-overflow: ellipsis; display: inline-block;">{$v.summary}</p>
-							</td>
+							<td>{$v.tname}</td>
+					
 							<td>
 								<a href="{:url('section/upsec')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
 								<a href="{:url('section/dlsec')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>

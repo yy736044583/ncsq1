@@ -1,5 +1,5 @@
 <?php 
-namespace app\autotable1\controller;
+namespace app\autotable2\controller;
 use think\Db;
 use think\View;
 use think\Loader;
@@ -27,7 +27,7 @@ class Index extends \think\Controller{
 	//部门首页 ifrom
 	//查询所有部门
 	public function index(){
-		$list = Db::name('sys_section')->paginate(12,true);
+		$list = Db::name('sys_section')->where('top',1)->paginate(12,true);
         $page = $list->render();
         $this->assign('page', $page);
         $this->assign('list',$list);
@@ -63,7 +63,6 @@ class Index extends \think\Controller{
             }
         }
         
-
         $this->assign('page', $page);
         $this->assign('list',$list);
         $this->assign('id',$id);
@@ -128,32 +127,17 @@ class Index extends \think\Controller{
 		return $this->fetch();
 	}
 	//填单详情
-	public function tableinfo(){
+	public function tableinfo(Request $request){
 		$id = input('id');
-		$url = Db::name('sys_showfileup')->where('id',$id)->value('nullurl');
 		$tempid = input('tempid');
-		if(!empty($url)){
-			// if(!$tempid){
-			// 	//填表临时文件
-			// 	$tempid = $this->excelcopy($url,$id);	
-			// }
-			
-			// 根据临时文件id 查询填表临时文件表中的 临时文件地址
-			$resturl = Db::name('sys_table_temp')->where('id',$tempid)->value('tempurl');
-		}else{
-			$resturl = '';
-		}
-
-		$request = Request::instance();
-		$domain = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public/';
-
-		$this->assign('resturl',$resturl);	
-		$this->assign('domain',$domain);	
+		$fileup = Db::name('sys_showfileup')->where('id',$id)->find();
+		$fileup['nullurl'] = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public'.$fileup['nullurl'];	
 		$this->assign('tempid',$tempid);	
+		$this->assign('fileup',$fileup);	
 		$this->assign('id',$id);	
 		return $this->fetch();	
 	}
-
+/*
 	//上传excel
 	public function upexcel(){
 		$tempid = input('tempid');
@@ -164,6 +148,18 @@ class Index extends \think\Controller{
 		}
 	}
 
+	//临时文件再次保存
+	public function save_excel(){
+		$tempid = input('tempid');
+		$path1 = Db::name('sys_table_temp')->where('id',$tempid)->value('tempurl');
+		$path = ROOT_PATH.DS.'public/'.$this->suburl($path1);
+		if(!empty($_FILES['ExcelFile']['tmp_name'])){
+			//将文件保存到临时文件
+			copy ($_FILES['ExcelFile']['tmp_name'],$path )  or die ("Could not copy file"); 
+			echo 1;
+		}
+	}	
+*/
 	//前端ajax请求 查询是否有身份证信息需要读写
 	//生成临时文件 并传回临时文件存储的表id
 	public function ajaxview(){
@@ -181,20 +177,59 @@ class Index extends \think\Controller{
 		$data['type'] = empty($fileup['aotuwrite'])?'0':'1';
 		$data['tempid'] = $tempid;
 		echo json_encode($data);return;	
-
 	}
 
-	//临时文件再次保存
-	public function save_excel(){
-		$tempid = input('tempid');
-		$path1 = Db::name('sys_table_temp')->where('id',$tempid)->value('tempurl');
-		$path = ROOT_PATH.DS.'public/'.$this->suburl($path1);
-		if(!empty($_FILES['ExcelFile']['tmp_name'])){
-			//将文件保存到临时文件
-			copy ($_FILES['ExcelFile']['tmp_name'],$path )  or die ("Could not copy file"); 
-			echo 1;
+
+	//上传用户填写内容
+	public function loadinfo(){
+		$arr = input('post.');
+		if(empty($arr)){
+			echo 0;return;
 		}
+		$data = $arr['data'];
+		// echo json_encode($arr);die;
+		//根据临时模板id查询临时模板路径
+		$tempurl = Db::name('sys_table_temp')->where('id',$arr['tempid'])->value('tempurl');
+		//删除数组中的临时文件id
+		// if(empty($data)){
+		// 	echo 0;return;
+		// }
+		$name = $this->suburl($tempurl);
+		// 临时文件地址生产绝对路径
+		$path = ROOT_PATH.'/public/'.$name;
+		//实例化phpexcel
+    	Loader::import('first.PHPExcel');
+    	$excel = new \PHPExcel();
+
+        //实例化写入excel
+       	$objSheet = \PHPExcel_IOFactory::load($path); 
+
+       	// 将传过来的数据遍历到excel中
+       	foreach ($data as $key => $val) {
+    		$objSheet->setActiveSheetIndex(0)->setCellValue($val['name'],$val['val']);
+        }
+
+         //执行写入操作
+        header('Cache-Control: max-age=0');
+        $objSheet->setActiveSheetIndex(0);
+       	$objWriter = \PHPExcel_IOFactory::createWriter($objSheet, 'excel2007');
+       	$objWriter->save($path);
+
+       	$tempurl = Db::name('sys_table_temp')->where('id',$arr['tempid'])->update(['type'=>'2']);
+       	echo 1;
+       	
+       	// dump($str);die;
+       	//将临时文件存储到正式文件中去
+       	// $path1 = createfile('autotable');
+       	// $path1 = $path1.DS.'public'.DS.$name;
+       	// copy ($path,$path1)  or die ("Could not copy file"); 
+
 	}
+
+	// //再次上传用户填写内容页面
+	// public function loadinfoagin(){
+	// 	$data = input('post.');
+	// }
 
 	//将excel模板拷贝成临时文件 返回路径 
 	public function excelcopy($excelurl,$id){
@@ -215,7 +250,7 @@ class Index extends \think\Controller{
 		//将模板id和临时文件地址存入 模板临时文件表中
 		$tempid = Db::name('sys_table_temp')->insertGetId(['tableid'=>$id,'tempurl'=>$path2]);
 
-
+		//在上传时替换
 		//返回填表需要替换的单元格位置
 		// $rest = $this->readexcel($path1);
 		// if(!empty($rest)){
@@ -271,6 +306,7 @@ class Index extends \think\Controller{
        	$objSheet = \PHPExcel_IOFactory::load($path);   
 
         $str = '';
+        $str1 = '';
         foreach ($AllSheet as $sheet) {
         	// 获取excel里的内容 转为数组
             $rest[$sheet->getTitle()] = $sheet->toArray();
@@ -278,15 +314,20 @@ class Index extends \think\Controller{
             //循环数组 将每个单元格拿出来
             foreach ($rest[$sheet->getTitle()] as $k => $v) {
             	foreach ($v as $key => $val) {
-            		//判断是否有@@符号,如果有获取坐标
+            		//判断是否有#@符号,如果有获取坐标
             		if($val){
-            			if(strstr($val,'@@')){
-	            			$row = $k + 1; //横坐标
-	            			$col = chr($key + 65); //纵坐标
-	            			$zb = $col.$row;
+            			$row = $k + 1; //横坐标
+            			$col = chr($key + 65); //纵坐标
+            			$zb = $col.$row;
+            			if(strstr($val,'#@')){
 	            			// 组合坐标变量和坐标 以;分隔
-	            			$str .= str_replace('@@','',$val).','.$zb.';';
-	            			// 将@@坐标的内容替换为空
+	            			$str .= str_replace('#@','',$val).','.$zb.';';
+	            			// 将#@坐标的内容替换为空
+	            			$objSheet->setActiveSheetIndex(0)->setCellValue($zb,'');
+            			}
+            			if(strstr($val,'##')){
+            				$str1 .= str_replace('##','',$val).',zb='.$zb.';';
+            				// 将##坐标的内容替换为空
 	            			$objSheet->setActiveSheetIndex(0)->setCellValue($zb,'');
             			}	
             		}
@@ -408,14 +449,34 @@ class Index extends \think\Controller{
     }
 
 
-    //扫描身份证失败 更新状态
-    public function typeup($tempid){
-    	Db::name('sys_table_temp')->where('id',$tempid)->update(['type'=>'2']);
+    //查询
+    public function typeshow($tempid){
+    	$data = Db::name('sys_table_temp')->where('id',$tempid)->field('type,tempurl')->find();
+    	echo json_encode($data);return;
     }
 
     public function test(){
+    	// $data = ['data'=>['G15'=>'XXX公司1','G14'=>'双流东升1','G16'=>'13625658745'],'tempid'=>382];
+    	// $url = '192.168.0.10:8076/sbxt/index.php/autotable2/index/loadinfo';
+    	// $http = $this->postData($url,$data);
+    	// dump($http);
     	return $this->fetch();
 
     }
+
+    public function postData($url, $data){
+
+	    $ch = curl_init();        
+	    $timeout = 300;
+	    // $data = http_build_query($data);          
+	    curl_setopt($ch, CURLOPT_URL, $url);   //请求地址      
+	    curl_setopt($ch, CURLOPT_POST, true);  //post请求     
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, $data);      //数据  
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  //当CURLOPT_RETURNTRANSFER设置为1时 $head 有请求的返回值      
+	    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);    //设置请求超时时间    
+	    $handles = curl_exec($ch);     
+	    curl_close($ch);          
+	    return $handles;  
+	} 
 }
 

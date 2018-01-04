@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>排号机</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+				<a href="{:url('take/addtake')}" class="layui-btn layui-btn-small" id="add">
+						<i class="layui-icon">&#xe608;</i> 添加
+				</a>
+				<a href="{:url('take/showtype')}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe609;</i> 运行状态
+				</a>
+			</div>
+			<div class="layui-inline">
+			<form class="layui-form" action="">				
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">编号：</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="number" lay-verify="title" autocomplete="off" class="layui-input" placeholder="编号" {if condition="empty($number) neq true"} value="{$number}" {/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">			    		
+			    	<label class="layui-form-label">使用状态</label>
+      				<div class="layui-input-inline">
+				    	<select name="usestatus" lay-verify="required" lay-search="">
+		         			 <option value="">全部</option>
+		         			 <option value="0" {if condition="$usestatus eq '0'"} selected="true" {/if}>未使用</option>
+		         			 <option value="1" {if condition="$usestatus eq '1'"} selected="true" {/if}>使用中</option>
+		         			 <option value="2" {if condition="$usestatus eq '2'"} selected="true" {/if}>已作废</option>
+		         			 <option value="">全部</option>
+	         			</select>
+         			</div>	         		
+			    </div>
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+			</div>
+		</blockquote>
+
+		<fieldset class="layui-elem-field">
+			<legend>排号机管理</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>设备编号</th>
+							<th>设备位置</th>
+							<th>最后登陆时间</th>
+							<th>取号方法</th>
+							<th>使用状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k} <input type="hidden" value="{$v.id}" class="id"></td>
+							<td>{$v.number}</td>
+							<td>{$v.address}</td>
+							<td>{$v.lastlogin}</td>
+							<td>
+								{if condition="$v['scenetake'] eq 1"} 现场{/if}
+								{if condition="$v['idcardtake'] eq 1"} ,身份证{/if}
+								{if condition="$v['socialsecuritycardtake'] eq 1"} ,社保卡{/if}
+							</td>
+							<td>{$v.usestatus}</td>
+							<td>
+								<a href="{:url('take/business')}?id={$v.id}" class="layui-btn layui-btn-mini">业务</a>
+								<a href="{:url('take/uptake')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
+								<button type="button" class="layui-btn layui-btn-mini clickjt" data-src='{$v.screenurl}' value="{$v.id}">截图</button>
+								<a href="{:url('take/nowdown')}?id={$v.id}" class="layui-btn layui-btn-danger layui-btn-mini" >关机</a>
+								<a href="{:url('take/down')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">定时关机</a>
+								<a href="{:url('take/dltake')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+	<!-- 截图 -->
+	<style type="text/css">
+		.panel .panel-body{margin:0 auto;display: inline-block;position: absolute;left: 50%;margin-left: -480px;top: 20%;}
+	</style>
+	<div class="panel panel-primary shows" style="display:none;width:100%;height:100%;position:fixed;left:0;top:0;z-index: 2;">
+	  <div class="panel-body clearfix">
+	    <img src="" alt="" class="img" width="960px" height="540px">
+	    <a href="javasxript:"  class="pull-right close" style="color: #fff;font-size: 30px;margin-left: 10px;">x</a>
+	  </div>
+	</div>
+	<div class="bg" style="display: none;position: fixed;background-color: #000;opacity: 0.5;filter:alpha(opacity=50);left: 0;top: 0;right: 0;bottom: 0;z-index: 1;"></div>
+	<!-- 截图 -->	
+
+<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});
+
+</script>
+<!-- 每10秒更新一个设备运行状态 -->	
+<script type="text/javascript">
+    var setime;
+    var Srcsettime;
+	$(function(){
+	    //点击截图修改截图状态
+		$('.clickjt').click(function(e){
+			e.preventDefault();
+			var id = $(this).val();
+			var Src = $(this).attr('data-src');
+			//执行ajax方法
+			
+	    	Srcsettime = setInterval(function(){
+	    		clickjt(id);
+	    	},300);
+	    	Screed(Src);
+	    })
+
+	    // 关闭截图
+		$(".close").click(function(e){
+			e.preventDefault();
+			$(".shows").hide();
+			// clickjt(id);
+			
+			clearInterval(setime);
+			clearInterval(Srcsettime);
+			$('.img').attr('src',null);
+			$(".bg").hide();
+			setime = null;
+			Srcsettime = null;
+		})
+	})
+
+	//发送当前当前时间搓
+	function clickjt(id){
+		var id = id;
+		$.ajax({
+    		data:{id:id,screentime:new Date().getTime()},
+    		url:"{:url('take/screenshot')}",
+    		type:'post',
+    		success:function(data){
+    			// console.log(data);
+    		}
+		})
+	}
+	//点击截图显示图片
+	function Screed(str){
+		
+		//链接
+		$(".bg").show();
+		clearInterval(setime);
+		$('.img').attr('src',null);
+		var index = 0;
+		$(".shows").show();
+		// if (str == "") {
+		// 	$('.img').attr('src','__PUBLIC__uploads/workman/loding.png');
+		// 	return;
+		// }
+		setime = setInterval(function(){
+			index++;
+			var Imgsrc = '__PUBLIC__uploads/'+str+'?'+index;
+			$('.img').attr('src',Imgsrc);
+		},1000);
+	}
+</script>
+	</body>
+</html>

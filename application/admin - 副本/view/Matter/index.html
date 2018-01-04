@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>事项列表</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<a href="{:url('matter/addmatter')}" class="layui-btn layui-btn-small" id="add" >
+					<i class="layui-icon">&#xe608;</i> 添加
+			</a>
+			<div class="layui-inline">
+			<form class="layui-form" action="{:url('matter/index')}" method="post">
+				<div class="layui-inline">
+			    	<label class="layui-form-label">事项名称</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($title) neq true"} value="{$title}"{/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+			</div>    
+		</blockquote>
+		<fieldset class="layui-elem-field">
+			<legend>事项列表</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>事项名称</th>
+							<th>事项类型</th>
+							<th>所属部门</th>
+							<th>创建时间</th>
+							<!-- <th>办事类型</th> -->
+							<th style="width:20%">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.name}</td>
+							<td>{$v.character}</td>
+							<td>{$v.section}</td>
+							<td>{$v.createtime}</td>
+							<!-- <td>{$v.type}</td> -->
+							<td>
+								<a href="{:url('matter/upmatter')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
+								<a href="{:url('matter/conditionset')}?id={$v.id}" class="layui-btn layui-btn-mini">审批条件</a>
+								<a href="{:url('matter/datum')}?id={$v.id}" class="layui-btn layui-btn-mini">办理材料</a>
+								<a href="{:url('show/datum')}?id={$v.id}" class="layui-btn layui-btn-mini">材料列表</a>
+								<a href="{:url('matter/managementprocess')}?id={$v.id}" class="layui-btn layui-btn-mini">办理流程</a>
+								<!-- <a href="{:url('matter/charge')}?id={$v.id}" class="layui-btn layui-btn-mini">收费情况</a> -->
+								<a href="{:url('matter/warrntset')}?id={$v.id}" class="layui-btn layui-btn-mini">法定依据</a>
+								<!-- <a href="{:url('matter/FAQ')}?id={$v.id}" class="layui-btn layui-btn-mini">FAQ</a> -->
+								<a href="{:url('matter/dlmatter')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+</html>

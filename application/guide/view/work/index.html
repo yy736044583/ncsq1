@@ -16,7 +16,7 @@
 					<div class="bszn-itme clearfix">
 					{volist name="list" id="v" key="k"}
 						<div class="bszn-link">
-							<a href="{:url('work/main4_1')}?id={$v.id}" {if condition="$k elt  6"} class="bg1" {elseif condition="$k elt  12"} class="bg2" {else} class="bg3"{/if}><p>{$v.name}</p></a>
+							<a href="{:url('work/main4_1')}?id={$v.tid}" {if condition="$k elt  6"} class="bg1" {elseif condition="$k elt  12"} class="bg2" {else} class="bg3"{/if}><p>{$v.tname}</p></a>
 						</div>
 					{/volist}	
 					</div>

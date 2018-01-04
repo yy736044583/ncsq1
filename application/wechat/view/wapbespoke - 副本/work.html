@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/layer.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/touch.js" ></script>
+	</head>
+	<body>
+	<a href="javascript:history.go(-1)" class="prv-main">返回</a>
+		<div class="controller">
+			<div class="banner-img">
+				<img src="__PUBLIC__weixin/images/banner.png"/>
+			</div>
+			<div class="controller-box">
+				<h1>选择预约业务</h1>
+				<div class="select-yw">
+					<div class="weui-cells">
+						{volist name="work" id="v"}	
+						{if condition="$v['canorder'] eq 1"}
+						<div class="weui-cell">
+							<div class="weui-cell__bd">
+								<p class="color-defut">{$v.name}</p>								
+							</div>
+							<div class="weui-cell__ft color-info">
+							{if condition="$v['matterok'] eq 1"}
+								<a href="javascript:;" data-id="{$v.id}"  class="weui-btn bg-info btn-yy matters">预约</a>
+							{else/}
+								<a href="{:url('wapbespoke/worktime')}?id={$v.id}" class="weui-btn bg-info btn-yy">预约</a>
+							{/if}
+							</div>
+						</div>
+						{/if}
+						{/volist}						
+					</div>
+				</div>				
+			</div>
+		</div>
+		<div class="matter" style="bottom: -100%;height: 400px;">
+			<h2>请选择办理事项</h2>
+			<form action="{:url('wapbespoke/worktime')}" method="get">
+			<div class="matter-waper">
+				<div class="weui-cells weui-cells_checkbox">
+		            
+		        </div>
+			</div>
+			<div class="matter-btn">
+				<button type="submit" class="weui-btn weui-btn_primary">确认</button>
+			</div>
+			</form>
+		</div>
+		<script type="text/javascript">
+			var Html = "";
+			$(function(){
+				$(".matters").tap(function(){
+					//id 业务id
+					var id = $(this).attr('data-id');
+					$(".matter .weui-cells_checkbox input").remove();
+					$(".matter .weui-cells_checkbox").append("<input type='hidden' name='id' value='"+id+"'/>");
+					$.ajax({
+						url: "{:url('wapbespoke/mattername')}",
+						type: 'POST',
+						dataType: 'json',
+						data: {'id': id},
+						success: function(info){
+							if(info){
+								for(var i=0; i<info.length; i++){
+									if(i == 0){
+										Html= '<label class="weui-cell weui-check__label" for="s'+i+'">';
+							            Html+='<div class="weui-cell__hd">';
+							             		Html+='<input type="radio" class="weui-check" name="s_id" id="s'+i+'" checked="checked" value="'+info[i]['id']+'">';
+							                    Html+='<i class="weui-icon-checked"></i>';
+							                Html+='</div>';
+							                Html+='<div class="weui-cell__bd">';
+							                    Html+='<p>'+info[i]['name']+'</p>';
+							                Html+='</div>';
+							            Html+='</label>';
+									}else {
+										Html= '<label class="weui-cell weui-check__label" for="s'+i+'">';
+							            Html+='<div class="weui-cell__hd">';
+							             		Html+='<input type="radio" class="weui-check" name="s_id" id="s'+i+'" value="'+info[i]['id']+'">';
+							                    Html+='<i class="weui-icon-checked"></i>';
+							                Html+='</div>';
+							                Html+='<div class="weui-cell__bd">';
+							                    Html+='<p>'+info[i]['name']+'</p>';
+							                Html+='</div>';
+							            Html+='</label>';
+									}
+								
+						            $(".matter .weui-cells_checkbox").append(Html);
+								}
+								
+								$(".matter").animate({'bottom':0});
+								var bghtml = "<div class='bghtml'></div>";
+								$('body').append(bghtml);
+								$(".bghtml").tap(function(e){
+									e.stopPropagation();
+									Html = null;
+									$(".matter label").remove();
+									$(this).remove();
+									$(".matter").animate({'bottom':'-100%'},300);
+								})
+							}
+						},
+						error: function(){
+							alert("系统错误稍后再试！");
+						}
+					})	
+				})
+			});
+			function matter(id){
+				//id 业务id
+				$.ajax({
+					url: "{:url('wapbespoke/mattername')}",
+					type: 'POST',
+					dataType: 'json',
+					data: {'id': id},
+					success: function(info){
+						if(info){
+							var Html = "";
+							for(var i=0; i<info.length; i++){
+								Html += "<a href=''>"+info[i]['name']+"</a>";
+							}
+							$(".matter").animate({'bottom':0});
+							var bghtml = "<div class='bghtml'></div>";
+							$('body').append(bghtml);
+							$(".bghtml").click(function(e){
+								e.stopPropagation();
+								$(this).remove();
+								$(".matter").animate({'bottom':'-100%'});
+							})
+							console.log(Html);
+							// layer.open({
+						 //    type: 1
+						 //    ,content: Html
+						 //    ,anim: 'up'
+						 //    ,style: 'position:fixed; bottom:0; left:0; width: 100%; height: 200px; padding:10px 0; border:none;overflow-y:auto;-webkit-overflow-scrolling : touch;'
+						 //  });
+						}
+					},
+					error: function(){
+						alert("系统错误稍后再试！");
+					}
+				})
+				
+											
+			}
+		</script>
+	</body>
+</html>

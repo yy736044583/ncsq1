@@ -21,7 +21,7 @@
 		{if empty($list) neq true}
 			{volist name="list" id="v" key="k"}
 				<li>
-					<a href="{:url('index/table_showfile')}?matterid={$v.id}&secid={$id}" style="display: block;"><p><span>{$k}、</span>{$v.name}</p></a>
+					<a href="{:url('index/table_showfile')}?matterid={$v.id}&secid={$id}" style="display: block;"><p><span>{$k}、</span>{$v.tname}</p></a>
 				</li>
 			{/volist}
 		{else/}

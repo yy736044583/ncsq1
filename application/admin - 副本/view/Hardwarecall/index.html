@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>呼叫器</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+
+
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+			<a href="{:url('hardwarecall/addcall')}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe608;</i> 添加
+			</a>
+			<a href="{:url('hardwarecall/showtype')}" class="layui-btn layui-btn-small" id="add">
+					<i class="layui-icon">&#xe609;</i> 运行状态
+			</a>
+			</div>
+			<div class="layui-inline">
+			<form class="layui-form" action="">				
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">编号：</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="number" lay-verify="title" autocomplete="off" class="layui-input" placeholder="编号" {if condition="empty($number) neq true"} value="{$number}" {/if}>
+			      	</div>
+			    </div>
+				    <div class="layui-inline">
+				    	<label class="layui-form-label">窗口：</label>
+				    	<div class="layui-input-inline">
+				        <select name="windowid" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+				          {volist name="window" id="v"}
+				          <option value="{$v.id}" {if condition="$windowid eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+				          {/volist}
+				          <option value="">全部</option>
+				        </select>
+				      </div>
+				    </div>
+			    <div class="layui-inline">			    		
+			    	<label class="layui-form-label">使用状态</label>
+      				<div class="layui-input-inline">
+				    	<select name="usestatus" lay-verify="required" lay-search="">
+		         			 <option value="">全部</option>
+		         			 <option value="0" {if condition="$usestatus eq '0'"} selected="true" {/if}>未使用</option>
+		         			 <option value="1" {if condition="$usestatus eq '1'"} selected="true" {/if}>使用中</option>
+		         			 <option value="2" {if condition="$usestatus eq '2'"} selected="true" {/if}>已作废</option>
+		         			 <option value="">全部</option>
+	         			</select>
+         			</div>	         		
+			    </div>
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+			</div>
+		</blockquote>
+
+		<fieldset class="layui-elem-field">
+			<legend>呼叫器管理</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>设备编号</th>
+							<th>设备位置</th>
+							<th>窗口</th>
+							<th>最后登陆时间</th>
+							<!-- <th>运行状态</th> -->
+							<th>使用状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k} <input type="hidden" value="{$v.id}" class="id"></td>
+							<td>{$v.number}</td>
+							<td>{$v.address}</td>
+							<td>{$v.windowid}</td>
+							<td>{$v.lastlogin}</td>
+							<td>{$v.usestatus}</td>
+							<td>
+								<a href="{:url('hardwarecall/upcall')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
+								<a href="{:url('hardwarecall/dlcall')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});
+</script>
+
+	</body>
+</html>

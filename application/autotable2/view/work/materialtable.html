@@ -19,16 +19,12 @@
 				<tr>
 					<th>材料名称</th>
 					<th>材料形式</th>
-					<th>材料详细要求</th>
-					<th>必要性描述</th>
 					<th>备注</th>
 				</tr>
 				{volist name="list" id="v"}
 				<tr>
 					<td>{$v.title}</td>
-					<td>{$v.material_form}</td>
-					<td>{$v.material_request}</td>
-					<td>{$v.describe}</td>
+					<td>{$v.paper}</td>
 					<td>{$v.summary}</td>
 				</tr>
 				{/volist}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html class="index-cont">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style_btn.css">
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__autotable2/css/style.css">	
+	<title></title>
+	<script type="text/javascript" src="__PUBLIC__autotable2/js/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div class="content_iframe">
+		<div class="mattershow">
+			<h1>{$list.name}</h1>
+			<div class="mattershow-cont">
+				<table border="0" cellspacing="0">
+					<tr>
+						<td class="t">审批性质</td>
+						<td class="c">{$list.character}</td>
+						<td class="t">审批方式</td>
+						<td>{$list.method}</td>
+					</tr>
+					<tr>
+						<td class="t">审批时限</td>
+						<td class="c">{$list.timelimit}个工作日</td>
+						<td class="t">法定时限</td>
+						<td class="c">{$list.limitday}个工作日</td>
+					</tr>
+					<tr>
+						<td class="t">是否进驻政务中心</td>
+						<td class="c">{$list.workwindow}</td>
+						<td class="t">承诺时限</td>
+						<td class="c">{$list.promisesday}个工作日</td>
+					</tr>
+					<tr>
+						<td class="t">办理地点</td>
+						<td colspan="3" style="text-align: left;padding-left: 50px;">{$list.address}</td>
+					</tr>
+				</table>
+				<div class="btn">
+					<a href="{:url('work/materialtable')}?matterid={$list.id}" class="b1"></a>
+					<a href="{:url('work/material')}?type=conditionset&matterid={$list.id}" class="b2"></a>
+					<a href="{:url('work/material')}?type=warrntset&matterid={$list.id}" class="b3"></a>
+					<a href="{:url('work/material')}?type=flowlimit&matterid={$list.id}" class="b4"></a>
+				</div>
+			</div>
+			<!-- 分页 -->
+			<div class="pager page">
+				<a href="{:url('work/index')}" class="home"></a>
+				<a href="javascript:window.history.go(-1);" class="return"></a>
+			</div>
+			<!-- 分页 -->
+		</div>
+	</div>
+</body>
+</html>

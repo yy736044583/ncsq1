@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>工作人员</title>
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+	</head>
+	
+<body>
+	<div class="admin-main">
+		<blockquote class="layui-elem-quote">
+			<div class="layui-inline">
+				<a href="{:url('workman/addworkman')}" class="layui-btn layui-btn-small" id="add">
+						<i class="layui-icon">&#xe608;</i> 添加
+				</a>
+			</div>
+			<div class="layui-inline">
+			<form class="layui-form" action="">
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">信息：</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input" placeholder="姓名/电话"  {if condition="empty($title) neq true"} value="{$title}" {/if}>
+			      	</div>
+			    </div>
+				    <div class="layui-inline">
+				    	<label class="layui-form-label">部门名称：</label>
+				    	<div class="layui-input-inline">
+				        <select name="sectionid" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+				          {volist name="sec" id="v"}
+				          <option value="{$v.id}" {if condition="$secid eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+				          {/volist}
+				          <option value="">全部</option>
+				        </select>
+				      </div>
+				    </div>
+			    <div class="layui-inline">
+			    	<button class="layui-btn">搜索</button>
+			    </div>
+			</form>
+			</div>
+		</blockquote>
+
+		<fieldset class="layui-elem-field">
+			<legend>工作人员管理</legend>
+			<div class="layui-field-box">
+				<table class="site-table table-hover">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>姓名</th>
+							<th>工号</th>
+							<th>电话</th>
+							<th>称号</th>
+							<th>所属部门</th>
+							<th>创建时间</th>
+							<th>最后登陆时间</th>
+							<!-- <th>是否在线</th> -->
+							<!-- <th>当前窗口</th> -->
+							<th>摄像设备编号</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						{volist name="list" key="k" id="v"}
+						<tr>
+							<td>{$k}</td>
+							<td>{$v.name}</td>
+							<td>{$v.number}</td>
+							<td>{$v.phone}</td>
+							<td>{$v.posttitle}</td>
+							<td>{$v.sectionid}</td>
+							<td>{$v.createtime}</td>
+							<td>{$v.lastlogin}</td>
+							<!-- <td>{$v.online}</td> -->
+							<!-- <td>{$v.loginwindowid}</td> -->
+							<td>{$v.cameranum}</td>
+							<td>
+								<a href="{:url('workman/upworkman')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
+								<a href="{:url('workman/dlworkman')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+							</td>
+						</tr>
+						{/volist}
+					</tbody>	
+				</table>
+		</fieldset>
+		{$page}
+	</div>
+<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});
+</script>
+
+	</body>
+</html>
