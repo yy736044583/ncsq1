@@ -29,7 +29,7 @@
 				    	<select name="sectionid" lay-verify="required" lay-search="">
 		         			 <option value="">全部</option>
 		         			 {volist name="sec" id="v"}
-		         			 <option value="{$v.id}" {if condition="$sectionid eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+		         			 <option value="{$v.tid}" {if condition="$sectionid eq $v['tid']"} selected="true" {/if}>{$v.tname}</option>
 		         			 {/volist}
 		         			 <option value="">全部</option>
 	         			</select>
@@ -43,7 +43,7 @@
 			</div>
 		</blockquote>
 		<fieldset class="layui-elem-field">
-			<legend>业务列表</legend>
+			<legend>事项列表</legend>
 			<div class="layui-field-box">
 				<table class="site-table table-hover">
 					<thead>
@@ -59,9 +59,9 @@
 						{volist name="list" key="k" id="v"}
 						<tr>
 							<td>{$k}</td>
-							<td>{$v.name|textlength=30}</td>
+							<td>{$v.tname|textlength=30}</td>
 							<td>{$v.section}</td>
-							<td>{$v.summary|textlength=30}</td>
+							<td>{$v.content|textlength=30}</td>
 		
 							<td>
 								<a href="{:url('fromtable/filelist')}?mid={$v.id}" class="layui-btn layui-btn-mini">文件管理</a>

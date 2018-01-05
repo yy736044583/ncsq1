@@ -51,7 +51,7 @@ class Evaluate extends Common{
 			$workman = Db::name('sys_workman')->where('id',$v['workmanid'])->field('name,sectionid')->find();
 			//员工姓名
 			$list[$k]['workmanid']	 = $workman['name'];
-			$list[$k]['section']	 = Db::name('sys_section')->where('id',$workman['sectionid'])->value('name');
+			$list[$k]['section']	 = Db::name('gra_section')->where('id',$workman['sectionid'])->value('tname');
 			$list[$k]['deviceid']	 = Db::name('pj_device')->where('id',$v['deviceid'])->value('number');
 			//评价
 			switch ($v['evaluatelevel']) {
@@ -111,7 +111,7 @@ class Evaluate extends Common{
 				$list[$k]['many'] = '0.00';
 			}
 
-			$list[$k]['section'] = Db::name('sys_section')->where('id',$v['sectionid'])->value('name');
+			$list[$k]['section'] = Db::name('gra_section')->where('id',$v['sectionid'])->value('tname');
 			
 		}		
 		$page = $data->render();
@@ -175,7 +175,7 @@ class Evaluate extends Common{
 				$list[$k]['many'] = '0.00';
 			}
 
-			$list[$k]['section'] = Db::name('sys_section')->where('id',$v['sectionid'])->value('name');
+			$list[$k]['section'] = Db::name('gra_section')->where('id',$v['sectionid'])->value('tname');
 			
 		}		
 		$page = $data->render();
@@ -202,7 +202,7 @@ class Evaluate extends Common{
 		$start = input('start');
 		$end = input('end');
 
-		$section = Db::name('sys_section')->where('valid',1)->select();
+		$section = Db::name('gra_section')->where('valid',1)->select();
 		if($sectionid||$name||$start||$end){
 			$data = Db::name('pj_evaluate')->where("evaluatetype='1' and evaluatestatus='1'")->order('id desc')->paginate(8,false,['query'=>['sectionid'=>$sectionid,'name'=>$name,'start'=>$start,'end'=>$end]]);
 		}else{
@@ -251,7 +251,7 @@ class Evaluate extends Common{
 			$workman = Db::name('sys_workman')->where('id',$v['workmanid'])->field('name,sectionid')->find();
 			//员工姓名
 			$list[$k]['workman']	 = $workman['name'];
-			$list[$k]['section'] = Db::name('sys_section')->where('id',$workman['sectionid'])->value('name');
+			$list[$k]['section'] = Db::name('gra_section')->where('id',$workman['sectionid'])->value('tname');
 			switch ($v['evaluatelevel']) {
 				case '0':$list[$k]['evaluatelevel'] = '态度不好';break;
 				case '1':$list[$k]['evaluatelevel'] = '业务不熟';break;
@@ -344,7 +344,7 @@ class Evaluate extends Common{
 			}else{
 				$list[$k]['many'] = '0.00';
 			}
-			$list[$k]['section'] = Db::name('sys_section')->where('id',$v['sectionid'])->value('name');
+			$list[$k]['section'] = Db::name('gra_section')->where('id',$v['sectionid'])->value('tname');
 			
 		}
     	// 实例化phpexcel
@@ -361,7 +361,7 @@ class Evaluate extends Common{
             ->setCellValue('F1','业务不熟')
             ->setCellValue('G1','态度不好')
             ->setCellValue('H1','满意率')
-            ->setCellValue('I1','小计');
+            ->setCellValue('I1','小计')
             ->setCellValue('J1','部门');
             $i = 2;
 
@@ -379,7 +379,7 @@ class Evaluate extends Common{
                 ->setCellValue('F'.$i,$v['evaluatelevel2'])
                 ->setCellValue('G'.$i,$v['evaluatelevel1'])
                 ->setCellValue('H'.$i,$v['many'].'%')
-                ->setCellValue('I'.$i,$v['sum']);
+                ->setCellValue('I'.$i,$v['sum'])
                 ->setCellValue('J'.$i,$v['section']);
                 $i++;
             }

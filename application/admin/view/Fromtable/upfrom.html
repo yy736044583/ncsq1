@@ -28,7 +28,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">事项名</label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="事项名" class="layui-input" value="{$list.name}">
+						<input type="text" name="tname" lay-verify="required" autocomplete="off" placeholder="事项名" class="layui-input" value="{$list.tname}">
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -40,10 +40,10 @@
 				<div class="layui-form-item sectionname">
 					<label class="layui-form-label">部门</label>
 				      <div class="layui-input-inline">
-				        <select name="sectionid" lay-verify="required" lay-search="" >
+				        <select name="deptid" lay-verify="required" lay-search="" >
 				          <option value="">请选择</option>
 				          {volist name="sec" id="v"}
-				          <option value="{$v.id}" {eq name="$v['id']" value="$list['sectionid']"} selected="true" {/eq}>{$v.name}</option>
+				          <option value="{$v.tid}" {eq name="$v['tid']" value="$list['deptid']"} selected="true" {/eq}>{$v.tname}</option>
 				          {/volist}
 				        </select>
 				      </div>
@@ -52,7 +52,7 @@
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">备注</label>
 					<div class="layui-input-block">
-						<textarea placeholder="请输入内容" name="summary" class="layui-textarea">{$list.summary}</textarea>
+						<textarea placeholder="请输入内容" name="content" class="layui-textarea">{$list.content}</textarea>
 					</div>
 				</div>				    
 				<div class="layui-form-item">

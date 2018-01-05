@@ -77,8 +77,12 @@ class Common extends \think\Controller{
 	public function uploadfile($name,$type,$path){
  		// 获取表单上传文件 例如上传了001.jpg
 	    $file = request()->file($name);
-
-	    $info = $file->validate(['ext'=>$type])->move($path);
+	    if(empty($type)){
+	    	$info = $file->move($path);
+	    }else{
+	    	$info = $file->validate(['ext'=>$type])->move($path);
+	    }
+	    
 	    if($info){
 	    	//获取文件名称
         	$url = $info->getSaveName();

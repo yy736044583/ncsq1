@@ -24,6 +24,12 @@
 			      	</div>
 			    </div>
 			    <div class="layui-inline">
+			    	<label class="layui-form-label">事项id</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="matterid" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($matterid) neq true"} value="{$matterid}"{/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">
 			    	<button class="layui-btn">搜索</button>
 			    </div>
 			</form>
@@ -35,8 +41,8 @@
 				<table class="site-table table-hover">
 					<thead>
 						<tr>
-							<th>序号</th>
-							<!-- <th>受理条件</th> -->
+							<th>ID</th>
+							<th>受理标准</th>
 							<th>所属事项</th>
 							<th style="width:15%">操作</th>
 						</tr>
@@ -44,8 +50,8 @@
 					<tbody>
 						{volist name="list" key="k" id="v"}
 						<tr>
-							<td>{$k}</td>
-						
+							<td>{$v.id}</td>
+							<td>{$v.content|textlength=50}</td>
 							<td>{$v.matter}</td>
 							<td>
 								<a href="{:url('show/upconditionset')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>

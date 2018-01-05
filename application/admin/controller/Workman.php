@@ -29,10 +29,10 @@ class Workman extends Common{
 		}else{
 			$data = Db::name('sys_workman')->paginate(12);
 		}	
-		$section = Db::name('sys_section')->where('valid',1)->select();
+		$section = Db::name('gra_section')->where('valid',1)->select();
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['sectionid'] = Db::name('sys_section')->where('id',$v['sectionid'])->value('name');
+			$list[$k]['sectionid'] = Db::name('gra_section')->where('id',$v['sectionid'])->value('tname');
 			//登陆窗口
 			$list[$k]['loginwindowid'] = Db::name('sys_window')->where('id',$v['loginwindowid'])->value('name');
 			//是否在线
@@ -116,7 +116,7 @@ class Workman extends Common{
 				$this->error($validate->getError());
 			}
 		}
-		$section = Db::name('sys_section')->where('valid',1)->select();
+		$section = Db::name('gra_section')->where('valid',1)->select();
 		$this->assign('sec',$section);
 		return $this->fetch();
 	}
@@ -166,7 +166,7 @@ class Workman extends Common{
 			}
 		}
 		$id = input('id');
-		$section = Db::name('sys_section')->where('valid',1)->select();
+		$section = Db::name('gra_section')->where('valid',1)->select();
 		$list = Db::name('sys_workman')->where('id',$id)->find();
 		$this->assign('list',$list);
 		$this->assign('sec',$section);

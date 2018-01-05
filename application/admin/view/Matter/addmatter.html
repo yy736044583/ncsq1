@@ -12,14 +12,11 @@
 
 		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
 		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
-		<!-- <link rel="stylesheet" href="__PUBLIC__static/css/style.css"/> -->
+
 	</head>
 		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
 		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
-			     <!-- 编辑器  -->
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.config.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.all.min.js"> </script>
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/lang/zh-cn/zh-cn.js"></script>
+
 
 <style>
 .layui-form-label{width:120px;}
@@ -35,7 +32,13 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">事项名称</label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="事项名称" class="layui-input">
+						<input type="text" name="tname" lay-verify="title" autocomplete="off" placeholder="事项名称" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">事项编号</label>
+					<div class="layui-input-block">
+						<input type="text" name="tid" lay-verify="title" autocomplete="off" placeholder="事项编号" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -47,98 +50,123 @@
 				<div class="layui-form-item mattername">
 					<label class="layui-form-label">部门</label>
 				      <div class="layui-input-inline">
-				        <select name="sectionid" lay-verify="required" lay-search="" >
+				        <select name="deptid" lay-verify="required" lay-search="" >
 				          <option value="">请选择</option>
 				          {volist name="sec" id="v"}
-				          <option value="{$v.id}">{$v.name}</option>
+				          <option value="{$v.tid}">{$v.tname}</option>
 				          {/volist}
 				        </select>
 				      </div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">审批性质</label>
+					<label class="layui-form-label">行使层级</label>
 					<div class="layui-input-block">
-						<input type="text" name="character" lay-verify="" autocomplete="off" placeholder="审批性质" class="layui-input">
+						<input type="text" name="hierarchy" lay-verify="" autocomplete="off" placeholder="行使层级" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">办事类型</label>
+					<label class="layui-form-label">服务对象</label>
+					<div class="layui-input-block">
+						<input type="text" name="service_object" lay-verify="" autocomplete="off" placeholder="服务对象(法人/自然人等)" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">实施机构</label>
+					<div class="layui-input-block">
+						<input type="text" name="enforcement" lay-verify="" autocomplete="off" placeholder="实施机构(南充市顺庆区人力资源和社会保障局)" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">办理时限</label>
+					<div class="layui-input-block">
+						<input type="text" name="limitday" lay-verify="" autocomplete="off" placeholder="办理时限(30个工作日)" class="layui-input">
+					</div>
+				</div>
+				
+				<div class="layui-form-item">
+					<label class="layui-form-label">事项类型</label>
+					<div class="layui-input-block">
+						<input type="radio" name="matter_type"  autocomplete="off" title="行政许可" class="layui-input" value="行政许可">
+						<input type="radio" name="matter_type"  autocomplete="off" title="公共服务" class="layui-input" value="公共服务">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">个人/法人</label>
 					<div class="layui-input-block">
 						<input type="checkbox" name="tag[]" value="2" title="个人办事" checked="">
 						<input type="checkbox" name="tag[]" value="1" title="法人办事">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">法定期限</label>
+					<label class="layui-form-label">办事者到办事现场次数</label>
 					<div class="layui-input-block">
-						<input type="text" name="limitday" lay-verify="" autocomplete="off" placeholder="法定期限" class="layui-input">
+						<input type="text" name="number" lay-verify="" autocomplete="off" placeholder="办事者到办事现场次数" class="layui-input">
 					</div>
 				</div>
 				
 				<div class="layui-form-item">
-					<label class="layui-form-label">承诺期限</label>
+					<label class="layui-form-label">服务主题分类</label>
 					<div class="layui-input-block">
-						<input type="text" name="promisesday" lay-verify="" autocomplete="off" placeholder="承诺期限" class="layui-input">
+						<input type="text" name="theme" lay-verify="" autocomplete="off" placeholder="服务主题分类(如:社会保障)" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">审批时限</label>
+					<label class="layui-form-label">办理类型</label>
 					<div class="layui-input-block">
-						<select name="timelimit" lay-verify="required" lay-search="" >
+						<select name="handle_type" lay-verify="required" lay-search="" >
 				          <option value="">请选择</option>
-						  <option value="1">承诺件</option>
-				          <option value="2">即办件</option>
-				        </select>
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">审批方式</label>
-					<div class="layui-input-block">
-						<select name="method" lay-verify="required" lay-search="" >
+						  <option value="窗口办理">窗口办理</option>
+				          <option value="原件预审">原件预审</option>
+				          <option value="原件核验">原件核验</option>
+				          <option value="全程网办">全程网办</option>
 				          <option value="">请选择</option>
-						  <option value="1">审批</option>
-				          <option value="2">转报</option>
-				          <option value="3">上报</option>
-				          <option value="4">备案</option>
 				        </select>
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">专家评审现场核查等待时限</label>
-					<div class="layui-input-block">
-						<input type="text" name="expertday" lay-verify="" autocomplete="off" placeholder="专家评审现场核查等待时限/天" class="layui-input">
 					</div>
 				</div>
 				
 				<div class="layui-form-item">
-					<label class="layui-form-label">办事地址</label>
+					<label class="layui-form-label">认证需求</label>
 					<div class="layui-input-block">
-						<input type="text" name="address" lay-verify="" autocomplete="off" placeholder="办事地址" class="layui-input">
+						<input type="text" name="levels" lay-verify="" autocomplete="off" placeholder="认证需求(如:实体大厅现场审核验证)" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">办理时间</label>
+					<div class="layui-input-block">
+						<input type="text" name="time" lay-verify="" autocomplete="off" placeholder="上午9:00-12:00，下午1:30-5:30" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">咨询电话</label>
 					<div class="layui-input-block">
-						<input type="text" name="phone" lay-verify="title" autocomplete="off" placeholder="咨询电话" class="layui-input">
+						<input type="text" name="telephone" lay-verify="title" autocomplete="off" placeholder="咨询电话" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">行政系统来的编号</label>
+					<label class="layui-form-label">监督电话</label>
 					<div class="layui-input-block">
-						<input type="text" name="sectionfromnum" lay-verify="title" autocomplete="off" placeholder="行政系统来的编号" class="layui-input">
+						<input type="text" name="sphone" lay-verify="title" autocomplete="off" placeholder="监督电话" class="layui-input">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">办事者到现场次数</label>
+					<label class="layui-form-label">办理地点</label>
 					<div class="layui-input-block">
-						<input type="text" name="number" lay-verify="" autocomplete="off" placeholder="办事者到办事现场次数" class="layui-input">
+						<input type="text" name="address" lay-verify="" autocomplete="off" placeholder="办理地点" class="layui-input">
 					</div>
 				</div>
+				
 				<div class="layui-form-item">
-					<label class="layui-form-label">是否进驻政务中心</label>
+					<label class="layui-form-label">以前的事项id</label>
 					<div class="layui-input-block">
-						<input type="radio" name="workwindow"  autocomplete="off" title="是" class="layui-input" value="1">
-						<input type="radio" name="workwindow"  autocomplete="off" title="否" class="layui-input" value="0">
+						<input type="text" name="oldCodeId" lay-verify="title" autocomplete="off" placeholder="以前的事项id" class="layui-input">
+					</div>
+				</div>
+		
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否收费</label>
+					<div class="layui-input-block">
+						<input type="radio" name="charge"  autocomplete="off" title="是" class="layui-input" value="是">
+						<input type="radio" name="charge"  autocomplete="off" title="否" class="layui-input" value="是">
 					</div>
 				</div>	
 				<div class="layui-form-item">
@@ -148,12 +176,24 @@
 						<input type="radio" name="mattertype"  autocomplete="off" title="否" class="layui-input" value="0">
 					</div>
 				</div>
-				
-				<div class="layui-form-item layui-form-text">
-					<label class="layui-form-label">备注</label>
+				<div class="layui-form-item">
+					<label class="layui-form-label">其他部门共同办理</label>
 					<div class="layui-input-block">
-						<script id="editor" name="summary" type="text/plain" style="width:85%;height:400px;">
-		    			 </script>
+						<input type="radio" name="other_section"  autocomplete="off" title="是" class="layui-input" value="是">
+						<input type="radio" name="other_section"  autocomplete="off" title="否" class="layui-input" value="否">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">是否支持网上预约</label>
+					<div class="layui-input-block">
+						<input type="radio" name="online"  autocomplete="off" title="是" class="layui-input" value="是">
+						<input type="radio" name="online"  autocomplete="off" title="否" class="layui-input" value="否">
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">服务内容</label>
+					<div class="layui-input-block">
+					<textarea name="content"  cols="100" rows="10"></textarea>
 					</div>
 				</div>				    
 				<div class="layui-form-item">
@@ -181,11 +221,5 @@
 		  });
 	});
 </script>
-<script type="text/javascript">
-	var ue = UE.getEditor('editor');
-	function createEditor() {
-        enableBtn();
-        UE.getEditor('editor');
-    }
-</script>
+
 </html>

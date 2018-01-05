@@ -18,17 +18,17 @@ class Fromtable extends Common{
 		//判断是否有部门id查询
 		$sectionid = input('sectionid');
 		if(!empty($sectionid)){
-			$data = Db::name('sys_matter')->where('sectionid',$sectionid)
+			$data = Db::name('gra_matter')->where('deptid',$sectionid)
 			->paginate(12,false,['query'=>array('sectionid'=>$sectionid)]);
 			
 		}else{
-			$data = Db::name('sys_matter')->paginate(12);
+			$data = Db::name('gra_matter')->paginate(12);
 		}
 		//显示全部部门列表	
-		$sec = Db::name('sys_section')->field('id,name')->where('valid',1)->select();
+		$sec = Db::name('gra_section')->field('id,tname,tid')->where('valid',1)->select();
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['section'] = Db::name('sys_section')->where('id',$v['sectionid'])->value('name');
+			$list[$k]['section'] = Db::name('gra_section')->where('tid',$v['deptid'])->value('tname');
 		}
 		$page = $data->render();
 
@@ -43,15 +43,16 @@ class Fromtable extends Common{
 	public function addfrom(){
 		if(request()->isPost()){
 			$data = input('post.');
+			$data['department'] = Db::name('gra_section')->where('tid',$data['deptid'])->value('tname');
 			$data['mattertype'] = 1;
-			if(Db::name('sys_matter')->insert($data)){
+			if(Db::name('gra_matter')->insert($data)){
 				$this->success('添加成功','fromtable/index');	
 			}else{
 				$this->error('添加失败,请重试');
 			}
 		}
 		//显示全部部门列表	
-		$sec = Db::name('sys_section')->field('id,name')->where('valid',1)->select();
+		$sec = Db::name('gra_section')->field('id,tname,tid')->where('valid',1)->select();
 		$this->assign('sec',$sec);
 		return $this->fetch();
 	}
@@ -65,16 +66,16 @@ class Fromtable extends Common{
 			$mid = $data['id'];
 			unset($data['id']);
 				
-			if(Db::name('sys_matter')->where('id',$mid)->update($data)){
+			if(Db::name('gra_matter')->where('id',$mid)->update($data)){
 				$this->success('修改成功','fromtable/index');	
 			}else{
 				$this->error('修改失败,请重试');
 			}
 		}
 		$id = input('id');
-		$list = DB::name('sys_matter')->where('id',$id)->find();
+		$list = DB::name('gra_matter')->where('id',$id)->find();
 		//显示全部部门列表	
-		$sec = Db::name('sys_section')->field('id,name')->where('valid',1)->select();
+		$sec = Db::name('gra_section')->field('id,tname,tid')->where('valid',1)->select();
 		$this->assign('sec',$sec);
 		$this->assign('list',$list);
 		return $this->fetch();
@@ -89,7 +90,7 @@ class Fromtable extends Common{
 		if($list){
 			return '该事项下有文件无法直接删除';
 		}
-		if(Db::name('sys_matter')->where('id',$id)->delete()){
+		if(Db::name('gra_matter')->where('id',$id)->delete()){
 			echo '删除成功';
 		}else{
 			echo '删除失败';
@@ -106,7 +107,7 @@ class Fromtable extends Common{
 		// $m_name = session('m_name');
 
 		//查询事项名
-		$m_name = Db::name('sys_matter')->where('id',$mid)->value('name');
+		$m_name = Db::name('gra_matter')->where('id',$mid)->value('tname');
 		session('m_name',$m_name);			
 
 

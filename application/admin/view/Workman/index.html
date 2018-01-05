@@ -32,7 +32,7 @@
 				        <select name="sectionid" lay-verify="required" lay-search="" >
 				          <option value="">请选择</option>
 				          {volist name="sec" id="v"}
-				          <option value="{$v.id}" {if condition="$secid eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+				          <option value="{$v.id}" {if condition="$secid eq $v['id']"} selected="true" {/if}>{$v.tname}</option>
 				          {/volist}
 				          <option value="">全部</option>
 				        </select>

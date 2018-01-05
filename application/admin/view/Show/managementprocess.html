@@ -24,6 +24,12 @@
 			      	</div>
 			    </div>
 			    <div class="layui-inline">
+			    	<label class="layui-form-label">事项id</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="matterid" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($matterid) neq true"} value="{$matterid}"{/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">
 			    	<button class="layui-btn">搜索</button>
 			    </div>
 			</form>
@@ -35,8 +41,12 @@
 				<table class="site-table table-hover">
 					<thead>
 						<tr>
-							<th>序号</th>
-							<th>办理流程查看</th>
+							<th>ID</th>
+							<th>标题</th>
+							<th>流程时限(天)</th>
+							<th>预警天数(天)</th>
+							<th>转外时限(天)</th>
+							<th>备注</th>
 							<th>所属事项</th>
 							<th style="width:15%">操作</th>
 						</tr>
@@ -44,8 +54,12 @@
 					<tbody>
 						{volist name="list" key="k" id="v"}
 						<tr>
-							<td>{$k}</td>
-							<td><a href="{:url('show/showmanagementprocess')}?id={$v.id}" class="layui-btn layui-btn-mini">查看详情</a></td>
+							<td>{$v.id}</td>
+							<td>{$v.flowlimit}</td>
+							<td>{$v.lctime}</td>
+							<td>{$v.yjtime}</td>
+							<td>{$v.wztime}</td>
+							<td>{$v.remark|textlength=30}</td>
 							<td>{$v.matter}</td>
 							<td>
 								<a href="{:url('show/upmanagementprocess')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>

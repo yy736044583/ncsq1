@@ -12,14 +12,9 @@
 
 		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
 		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
-		<!-- <link rel="stylesheet" href="__PUBLIC__static/css/style.css"/> -->
 	</head>
 		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
 		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
-			     <!-- 编辑器  -->
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.config.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.all.min.js"> </script>
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/lang/zh-cn/zh-cn.js"></script>
 
 <style>
 .layui-form-label{width:120px;}
@@ -33,11 +28,47 @@
 
 			<form class="layui-form" action="{:url('matter/managementprocess')}" method="post">
 			<input type="hidden" name="matterid" value="{$id}">
-
-				<div class="layui-form-item layui-form-text">
-					<label class="layui-form-label">办理流程</label>
+				<div class="layui-form-item mattername">
+					<label class="layui-form-label">标题</label>
+				      <div class="layui-input-inline">
+				        <select name="flowlimit" lay-verify="required" lay-search="" >
+				          <option value="">请选择</option>
+				          <option value="1">申请受理</option>
+				          <option value="2">审核</option>
+				          <option value="3">办结</option>
+				          <option value="4">制证</option>
+				          <option value="5">取件</option>
+				          <option value="6">办理</option>
+				          <option value="7">决定</option>
+				          <option value="8">证明</option>
+				          <option value="9">核实</option>
+				          <option value="10">答复</option>
+				          <option value="0">其他</option>
+				        </select>
+				      </div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">流程时限</label>
 					<div class="layui-input-block">
-						<script id="editor" name="content" type="text/plain" style="width:85%;height:400px;">{$list.content}</script>
+						<input type="text" name="lctime" lay-verify="" autocomplete="off" placeholder="流程时限" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">预警天数</label>
+					<div class="layui-input-block">
+						<input type="text" name="yjtime" lay-verify="" autocomplete="off" placeholder="预警天数" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">转外时限</label>
+					<div class="layui-input-block">
+						<input type="text" name="wztime" lay-verify="" autocomplete="off" placeholder="转外时限" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item layui-form-text">
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-block">
+						<textarea name="remark" id="" cols="100" rows="10"></textarea>	
 					</div>
 				</div>				    
 				<div class="layui-form-item">

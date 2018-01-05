@@ -26,7 +26,7 @@
 				<form action="{:url('show/updatum')}" method="post" enctype="multipart/form-data">
 			<input type="hidden" name="id" value="{$list.id}">
 				<div class="layui-form-item">
-					<label class="layui-form-label">材料内容</label>
+					<label class="layui-form-label">材料标题</label>
 					<div class="layui-input-block">
 						<input type="text" name="title" lay-verify="" autocomplete="off" placeholder="材料内容" class="layui-input" value="{$list.title}">
 					</div>
@@ -34,33 +34,33 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">示例文件</label>
 					<div class="layui-input-block">
-						<input type="file" name="sampleurl"  autocomplete="off" placeholder="文件上传" class="layui-input" >
-						<span>{$list.sampleurl}</span>
+						<input type="file" name="files"  autocomplete="off" placeholder="文件上传" class="layui-input" >
+						<span>{$list.files}</span>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">空白文件</label>
 					<div class="layui-input-block">
-						<input type="file" name="url"  autocomplete="off" placeholder="文件上传" class="layui-input" >
-						<span>{$list.url}</span>
+						<input type="file" name="nullurl"  autocomplete="off" placeholder="文件上传" class="layui-input" >
+						<span>{$list.nullurl}</span>
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">材料形式</label>
 					<div class="layui-input-block">
-						<input type="text" name="material_form" lay-verify="" autocomplete="off" placeholder="材料形式" class="layui-input" value="{$list.material_form}">
+						<input type="text" name="paper" lay-verify="" autocomplete="off" placeholder="材料形式(纸质/电子)" class="layui-input" value="{$list.paper}">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">材料详细要求</label>
+					<label class="layui-form-label">材料ID</label>
 					<div class="layui-input-block">
-						<input type="text" name="material_request" lay-verify="" autocomplete="off" placeholder="材料详细要求" class="layui-input" value="{$list.material_request}">
+						<input type="text" name="DatumID" lay-verify="title" autocomplete="off" placeholder="材料ID" class="layui-input" value="{$list.DatumID}">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">必要性及描述</label>
+					<label class="layui-form-label">序号</label>
 					<div class="layui-input-block">
-						<input type="text" name="describe" lay-verify="" autocomplete="off" placeholder="必要性及描述" class="layui-input" value="{$list.describe}">
+						<input type="text" name="sort" lay-verify="title" autocomplete="off" placeholder="序号" class="layui-input" value="{$list.sort}">
 					</div>
 				</div>
 				<div class="layui-form-item">

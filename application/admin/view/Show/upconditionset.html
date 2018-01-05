@@ -16,10 +16,7 @@
 	</head>
 		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
 		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
-			     <!-- 编辑器  -->
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.config.js"></script>
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/ueditor.all.min.js"> </script>
-	    <script type="text/javascript" charset="utf-8" src="__PUBLIC__ueditor/lang/zh-cn/zh-cn.js"></script>
+		
 
 <style>
 .layui-form-label{width:120px;}
@@ -34,12 +31,18 @@
 			<form class="layui-form" action="{:url('show/upconditionset')}" method="post">
 			<input type="hidden" name="id" value="{$list.id}">
 
+				<div class="layui-form-item">
+					<label class="layui-form-label">序号</label>
+					<div class="layui-input-block">
+						<input type="text" name="sort" lay-verify="title" autocomplete="off" placeholder="序号(1)" class="layui-input" value="{$list.sort}">
+					</div>
+				</div>
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">审批条件</label>
 					<div class="layui-input-block">
-						<script id="editor" name="approvecondition" type="text/plain" style="width:85%;height:400px;">{$list.approvecondition}</script>
+						<textarea name="content" id="" cols="100" rows="10">{$list.content}</textarea>
 					</div>
-				</div>				    
+				</div>					    
 				<div class="layui-form-item">
 					<div class="layui-input-block">
 						<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>

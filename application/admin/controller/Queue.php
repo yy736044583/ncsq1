@@ -303,7 +303,7 @@ class Queue extends Common{
 		}
 
 		// 查询所有部门
-		$sec = Db::name('sys_section')->where('valid',1)->select();
+		$sec = Db::name('gra_section')->where('valid',1)->select();
 		// 查询所有窗口
 		$window = Db::name('sys_window')->where('valid',1)->select();
 		$page = $data->render();	

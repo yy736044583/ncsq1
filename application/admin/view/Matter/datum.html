@@ -22,68 +22,52 @@
 			<legend>办理材料添加</legend>
 			<div class="layui-field-box">
 				<form action="{:url('matter/datum')}" method="post" enctype="multipart/form-data">
-				<table class="site-table">
-					<thead>
-						<tr>
-							<th>材料内容</th>
-							<th>示例表格</th>
-							<th>空白表格</th>
-							<th>材料形式</th>
-							<th>材料详细要求</th>
-							<th>必要性及描述</th>
-							<th>备注</th>
-							<th>
-							<div class="layui-inline">
-					    		<button class="layui-btn layui-btn-mini add" type="button">继续添加</button>
-					   		</div></th>
-						</tr>
-					</thead>
-					<!-- <tbody class="apped">
-							<tr>
-								<td><input type="text" name="title" value=""></td>
-								<td>
-									<button type="button" class="upfile layui-btn layui-btn-mini">上传示例表格</button>
-									<input type="hidden" name="sampleurl" value="">
-								</td>
-								<td>
-									<button type="button" class="upfile layui-btn layui-btn-mini">上传空白表格</button>
-									<input type="hidden" name="url" value="">					
-								</td>
-								<td><input type="text" name="material_form" value="">
-								</td>
-								<td><input type="text" name="material_request" value=""></td>
-								<td><input type="text" name="describe" value=""></td>
-								<td><input type="text" name="summary" value=""></td>
-								<td>
-									
-								</td>
-							</tr>
-						</tbody> -->
-					<input type="hidden" name="matterid" value="{$id}">
-						<tbody class="apped">
-							<tr>
-								<td><input type="text" name="title[]" value=""></td>
-								<td>
-									<button type="button" class="upfile layui-btn layui-btn-mini">上传示例表格</button>
-									<input type="hidden" name="sampleurl[]" value="">
-								</td>
-								<td>
-									<button type="button" class="upfile layui-btn layui-btn-mini">上传空白表格</button>
-									<input type="hidden" name="url[]" value="">					
-								</td>
-								<td><input type="text" name="material_form[]" value="">
-								</td>
-								<td><input type="text" name="material_request[]" value=""></td>
-								<td><input type="text" name="describe[]" value=""></td>
-								<td><input type="text" name="summary[]" value=""></td>
-								<td>
-									<div class="layui-inline">
-					    				<a href="javascript:;" class="layui-btn layui-btn-mini remove">移除</a>
-					   				</div>
-								</td>
-							</tr>
-						</tbody>
-				</table>
+				<input type="hidden" name="matterid" value="{$id}">
+				<div class="layui-form-item">
+					<label class="layui-form-label">材料内容</label>
+					<div class="layui-input-block">
+						<input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="材料内容" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">示例表格</label>
+					<div class="layui-input-block">
+						<button type="button" class="upfile layui-btn layui-btn-mini">上传示例表格</button>
+						<input type="hidden" name="files" value="">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">空白表格</label>
+					<div class="layui-input-block">
+						<button type="button" class="upfile layui-btn layui-btn-mini">上传空白表格</button>
+						<input type="hidden" name="nullurl" value="">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">材料形式</label>
+					<div class="layui-input-block">
+						<input type="text" name="paper" lay-verify="title" autocomplete="off" placeholder="材料形式(纸质/电子)" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">材料ID</label>
+					<div class="layui-input-block">
+						<input type="text" name="DatumID" lay-verify="title" autocomplete="off" placeholder="材料ID" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">序号</label>
+					<div class="layui-input-block">
+						<input type="text" name="sort" lay-verify="title" autocomplete="off" placeholder="序号" class="layui-input">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">备注</label>
+					<div class="layui-input-block">
+						<textarea name="summary" cols="100" rows="10"></textarea>
+						
+					</div>
+				</div>
 				<div class="layui-form-item center">
 					<button class="layui-btn" lay-submit="" lay-filter="demo1" id="but">立即提交</button>
 				</div>
@@ -95,16 +79,6 @@
 </html>
 <script type="text/javascript">
 	$(function(){
-		$('.add').click(function(e){
-			e.stopPropagation();
-			var input = '<tr class="rediv"><td><input type="text" name="title[]" value=""></td><td><button type="button" class="upfile layui-btn layui-btn-mini">上传示例表格</button><input type="hidden" name="sampleurl[]" value=""></td><td><button type="button" class="upfile layui-btn layui-btn-mini">上传空白表格</button><input type="hidden" name="url[]" value=""></td><td><input type="text" name="material_form[]" value=""></td><td><input type="text" name="material_request[]" value=""></td><td><input type="text" name="describe[]" value=""></td><td><input type="text" name="summary[]" value=""></td><td><div class="layui-inline"><a href="javascript:;" class="layui-btn layui-btn-mini remove">移除</a></div></td></tr>';
-			$('.apped').append(input);
-		})
-		//移除添加的input	
-		$('.remove').live('click',function(){
-			$(this).parents('.rediv').remove();
-		})
-
 		/***文件上传***/
 		$(".upfile").live('click', function(event){
 			var that = $(this);

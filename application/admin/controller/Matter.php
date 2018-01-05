@@ -12,25 +12,31 @@ class Matter extends Common{
 	public function index(){
 		$this->auth();
 		$title = input('title');
-
-		if($title!=''){
-			$map['name'] = ['like',"%$title%"];
-			$data = Db::name('sys_matter')->where($map)->order('createtime desc')->paginate(12,false,['query'=>array('title'=>$title)]);
+		$id = input('matterid');
+		if($title!=''||$id!=''){
+			if($title){
+				$map['tname'] = ['like',"%$title%"];
+			}
+			if($id){
+				$map['id'] = $id;
+			}
+			$data = Db::name('gra_matter')->where($map)->order('sort desc')->paginate(12,false,['query'=>array('title'=>$title)]);
 			$this->assign('title',$title);
 		}else{
-			$data = Db::name('sys_matter')->order('createtime desc')->paginate(12);
+			$data = Db::name('gra_matter')->order('sort desc')->paginate(12);
 		}
 
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['section'] = Db::name('sys_section')->where('id',$v['sectionid'])->value('name');
-			$list[$k]['type'] =$v['tag']==1?'法人办事':'个人办事';
+			$list[$k]['section'] = Db::name('gra_section')->where('tid',$v['deptid'])->value('tname');
 		}
-		$section = Db::name('sys_section')->select();
+		$section = Db::name('gra_section')->select();
 		$this->assign('sec',$section);
 		$page = $data->render();
 		$this->assign('list',$list);
 		$this->assign('page',$page);
+		$this->assign('title',$title);
+		$this->assign('matterid',$id);
 		return $this->fetch();
 	}
 
@@ -39,22 +45,24 @@ class Matter extends Common{
 		if(request()->isPost()){
 			$data = input('post.');
 			// 将复选框数组转换成字符串
-			if(!empty($data['type'])){
-				$data['type'] = implode(',', $data['type']);
-			}
-			$data['createtime'] = date('Y-m-d H:i:s',time());
-			$validate = validate('Matter');
-			if($validate->check($data)){
-				if(Db::name('sys_matter')->insert($data)){
-					$this->success('添加成功','matter/index');	
-				}else{
-					$this->error('添加失败,请重试');
+			if(!empty($data['tag'])){
+				foreach ($data['tag'] as $k => $v) {
+					if($v==1)$data['legal'] = 1;
+					if($v==2)$data['nid'] = 1;	
 				}
-			}else{
-				$this->error($validate->getError());
 			}
+			unset($data['tag']);
+			//部门名称
+			$data['department'] = Db::name('gra_section')->where('tid',$data['deptid'])->value('tname');
+
+			if(Db::name('gra_matter')->insert($data)){
+				$this->success('添加成功','matter/index');	
+			}else{
+				$this->error('添加失败,请重试');
+			}
+
 		}
-		$section = Db::name('sys_section')->select();
+		$section = Db::name('gra_section')->select();
 		$this->assign('sec',$section);
 		return $this->fetch();
 	}
@@ -64,29 +72,28 @@ class Matter extends Common{
 		if(request()->isPost()){
 			$data = input('post.');
 			// 将复选框数组转换成字符串
-			if(empty($data['tag'])){
-				$data['tag'] = '0';
-			}else{
-				$data['tag'] = implode(',', $data['tag']);
+			if(!empty($data['tag'])){
+				foreach ($data['tag'] as $k => $v) {
+					if($v==1)$data['legal'] = 1;
+					if($v==2)$data['nid'] = 1;	
+				}
 			}
 			$nid = intval($data['id']);
+			unset($data['tag']);
 			unset($data['id']);
-			$data['createtime'] = date('Y-m-d H:i:s',time());
+			//部门名称
+			$data['department'] = Db::name('gra_section')->where('tid',$data['deptid'])->value('tname');
 
-			$validate = validate('Matter');
-			if($validate->check($data)){
-				if(Db::name('sys_matter')->where('id',$nid)->update($data)){
-					$this->success('修改成功','matter/index');	
-				}else{
-					$this->error('修改失败,请重试');
-				}
+			if(Db::name('gra_matter')->where('id',$nid)->update($data)){
+				$this->success('修改成功','matter/index');	
 			}else{
-				$this->error($validate->getError());
+				$this->error('修改失败,请重试');
 			}
+
 		}
 		$id = input('id');
-		$list = DB::name('sys_matter')->where('id',$id)->find();
-		$section = Db::name('sys_section')->select();
+		$list = DB::name('gra_matter')->where('id',$id)->find();
+		$section = Db::name('gra_section')->select();
 		$this->assign('sec',$section);
 		$this->assign('list',$list);
 		return $this->fetch();
@@ -95,15 +102,12 @@ class Matter extends Common{
 	// 删除事项
 	public function dlmatter(){
 		$id = intval(input('id'));
-		if(Db::name('sys_matter')->where('id',$id)->delete()){
-			// conditionset datum management_process charge warrntset FAQ 
+		if(Db::name('gra_matter')->where('id',$id)->delete()){
 			// 删除对应该事项对应的数据
-			Db::name('sys_conditionset')->where('matterid',$id)->delete();
-			Db::name('sys_datum')->where('matterid',$id)->delete();
-			Db::name('sys_flowlimit')->where('matterid',$id)->delete();
-			// Db::name('sys_charge')->where('matterid',$id)->delete();
-			Db::name('sys_warrntset')->where('matterid',$id)->delete();
-			// Db::name('FAQ')->where('matterid',$id)->delete();
+			Db::name('gra_accept')->where('matterid',$id)->delete();
+			Db::name('gra_datum')->where('matterid',$id)->delete();
+			Db::name('gra_flowlimit')->where('matterid',$id)->delete();
+			Db::name('gra_warrntset')->where('matterid',$id)->delete();
 			$this->success('删除成功','matter/index');
 		}else{
 			$this->error('删除失败');
@@ -124,23 +128,15 @@ class Matter extends Common{
 		$id = intval(input('id'));
 		if(request()->isPost()){
 			$data = input('post.');
-			$matterid = intval($data['matterid']);
-			$cid = Db::name('sys_conditionset')->where('matterid',$matterid)->value('id');
-			if(empty($cid)){
-				if(Db::name('sys_conditionset')->insert($data)){
-					$this->success('添加成功','matter/index');
-				}else{
-					$this->error('添加失败');
-				}
+
+			if(Db::name('gra_accept')->insertGetId($data)){
+				$this->redirect('show/conditionset',['matterid'=>$data['matterid']]);
 			}else{
-				if(Db::name('sys_conditionset')->where('matterid',$matterid)->update($data)){
-					$this->success('修改成功','matter/index');
-				}else{
-					$this->error('修改失败');
-				}
+				$this->error('添加失败');
 			}
+
 		}
-		$list = Db::name('sys_conditionset')->where('matterid',$id)->find();
+		$list = Db::name('gra_accept')->where('matterid',$id)->find();
 		$this->assign('list',$list);
 		$this->assign('id',$id);
 		return $this->fetch();
@@ -164,48 +160,14 @@ class Matter extends Common{
 
 	// 办理材料
 	public function datum(Request $request){
-
 		$id = intval(input('id'));
 		if(request()->isPost()){
 			$data = input('post.');
-			$matterid = intval($data['matterid']);
-	        // 标题
-	        foreach ($data['title'] as $k => $v) {
-	        	$data1[$k]['matterid'] = $matterid;
-			    $data1[$k]['title'] = $v;
-	        }
-	        // 材料形式
-	        foreach ($data['material_form'] as $k => $v) {
-	        	$data1[$k]['material_form'] = $v;
-	        }
-	        // 材料详细要求
-	        foreach ($data['material_request'] as $k => $v) {
-	        	$data1[$k]['material_request'] = $v;
-	        }
-	        // 必要性及描述
-	        foreach ($data['describe'] as $k => $v) {
-	        	$data1[$k]['describe'] = $v;
-	        }
-	        // 必要性及描述
-	        foreach ($data['summary'] as $k => $v) {
-	        	$data1[$k]['summary'] = $v;
-	        }
-	        // 实例文件
-	        foreach ($data['sampleurl'] as $k => $v) {
-	        	$data1[$k]['sampleurl'] = $v;
-	        }
-	        // 空白文件
-	        foreach ($data['url'] as $k => $v) {
-	        	$data1[$k]['url'] = $v;
-	        }
-	        // dump($data1);die;
-	        if(!empty($data1)){
-		        if(Db::name('sys_datum')->insertAll($data1)){
-					$this->success('添加成功','matter/index');
-				}else{
-					$this->error('添加失败');
-				}
-	        }
+	        if(Db::name('gra_datum')->insert($data)){
+	        	$this->redirect('show/datum',['matterid'=>$data['matterid']]);
+			}else{
+				$this->error('添加失败');
+			}
 
 		}
 		$list = Db::name('sys_datum')->where('matterid',$id)->select();
@@ -219,54 +181,19 @@ class Matter extends Common{
 		$id = intval(input('id'));
 		if(request()->isPost()){
 			$data = input('post.');
-			$matterid = intval($data['matterid']);
-			$cid = Db::name('sys_flowlimit')->where('matterid',$matterid)->value('id');
-			if(empty($cid)){
-				if(Db::name('sys_flowlimit')->insert($data)){
-					$this->success('添加成功','matter/index');
-				}else{
-					$this->error('添加失败');
-				}
+			if(Db::name('gra_flowlimit')->insert($data)){
+				$this->redirect('show/managementprocess',['matterid'=>$data['matterid']]);
 			}else{
-				if(Db::name('sys_flowlimit')->where('matterid',$matterid)->update($data)){
-					$this->success('修改成功','matter/index');
-				}else{
-					$this->error('修改失败');
-				}
+				$this->error('添加失败');
 			}
+
 		}
-		$list = Db::name('sys_flowlimit')->where('matterid',$id)->find();
+		$list = Db::name('gra_flowlimit')->where('matterid',$id)->find();
 		$this->assign('list',$list);
 		$this->assign('id',$id);
 		return $this->fetch();
 	}
 
-	// 收费情况
-	// public function charge(){
-	// 	$id = intval(input('id'));
-	// 	if(request()->isPost()){
-	// 		$data = input('post.');
-	// 		$matterid = intval($data['matterid']);
-	// 		$cid = Db::name('charge')->where('matterid',$matterid)->value('id');
-	// 		if(empty($cid)){
-	// 			if(Db::name('charge')->insert($data)){
-	// 				$this->success('添加成功','matter/index');
-	// 			}else{
-	// 				$this->error('添加失败');
-	// 			}
-	// 		}else{
-	// 			if(Db::name('charge')->where('matterid',$matterid)->update($data)){
-	// 				$this->success('修改成功','matter/index');
-	// 			}else{
-	// 				$this->error('修改失败');
-	// 			}
-	// 		}
-	// 	}
-	// 	$list = Db::name('charge')->where('matterid',$id)->find();
-	// 	$this->assign('list',$list);
-	// 	$this->assign('id',$id);
-	// 	return $this->fetch();
-	// }
 
 	// 法定依据
 	public function warrntset(){
@@ -296,35 +223,6 @@ class Matter extends Common{
 		return $this->fetch();
 	}
 
-	// 常规问题及解答
-	// public function FAQ(){
-	// 	$id = intval(input('id'));
-	// 	if(request()->isPost()){
-	// 		$data = input('post.');
-
-	// 		$matterid = intval($data['matterid']);
-	// 		$data1 = array();
-	// 		foreach ($data['problem'] as $k => $v) {
-	// 			$data1[$k]['problem'] = $v;
-	// 			$data1[$k]['matterid'] = $matterid;
-
-	// 		}
-	// 		foreach ($data['questions'] as $k => $v) {
-	// 			$data1[$k]['questions'] = $v;
-	// 		}
-
-	// 		if(Db::name('faq')->insertAll($data1)){
-	// 			$this->success('添加成功','matter/index');
-	// 		}else{
-	// 			$this->error('添加失败');
-	// 		}
-
-	// 	}
-	// 	$list = Db::name('warrntset')->where('matterid',$id)->find();
-	// 	$this->assign('list',$list);
-	// 	$this->assign('id',$id);
-	// 	return $this->fetch();
-	// }
 
 
 	/**

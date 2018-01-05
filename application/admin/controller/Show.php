@@ -24,17 +24,11 @@ class Show extends Common{
 	 * @param  [type] $table [要删除的表名]
 	 * @param  [type] $name  [要跳转的方法]
 	 */
-	public function dl($id='',$table='',$name='',$url=''){
+	public function dl($id,$table,$name='',$url=''){
 		if($url){
 			// 将域名地址转为物理地址 删除该路径下的文件
-			$url = explode('/',$url);
-			foreach ($url as $k => $v) {
-				if($k<4){
-					unset($url[$k]);
-				}
-			}
-			$url = implode('/',$url);
-			$url = ROOT_PATH.DS.$url;
+
+			$url = ROOT_PATH.DS.'public'.$url;
 			if(file_exists($url)==true){
 				unlink($url);
 			}
@@ -68,23 +62,29 @@ class Show extends Common{
 	// 审批条件
 	public function conditionset(){
 		$matter = input('matter');
-		if($matter!=''){
-			$matterid = Db::name('sys_matter')->whereLike('name',"%$matter%")->value('id');
+		$id = input('matterid');
+		if($matter!=''||$id!=''){
+			$matterid = Db::name('gra_matter')->whereLike('tname',"%$matter%")->value('id');
 			$map = array();
 			if($matterid){
 				$map['matterid'] = $matterid;
 			}
-			$data = Db::name('sys_conditionset')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
+			if($id){
+				$map['matterid'] = $id;
+			}
+			$data = Db::name('gra_accept')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
 		}else{
-			$data = Db::name('sys_conditionset')->paginate(12);
+			$data = Db::name('gra_accept')->paginate(12);
 		}
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['matter'] = Db::name('sys_matter')->where('id',$v['matterid'])->value('name');
+			$list[$k]['matter'] = Db::name('gra_matter')->where('id',$v['matterid'])->value('tname');
 		}
 		$page = $data->render();
 		$this->assign('list',$list);
 		$this->assign('page',$page);
+		$this->assign('matterid',$id);
+		$this->assign('matter',$matter);
 
 		return $this->fetch();
 	}
@@ -93,13 +93,12 @@ class Show extends Common{
 	public function upconditionset(){
 		if(request()->isPost()){
 			$data = input('post.');
-
 			// 提交到修改方法进行修改
-			$this->up($data,'sys_conditionset','conditionset');
+			$this->up($data,'gra_accept','conditionset');
 		}
 
 		$id = intval(input('id'));
-		$list = Db::name('sys_conditionset')->where('id',$id)->find();
+		$list = Db::name('gra_accept')->where('id',$id)->find();
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
@@ -107,33 +106,35 @@ class Show extends Common{
 	// 删除审批条件
 	public function dlconditionset(){
 		$id = intval(input('id'));
-		$this->dl($id,'sys_conditionset','conditionset');
+		$this->dl($id,'gra_accept','conditionset');
 	}
 
 	// 办理材料
 	public function datum(Request $request){
 		$matter = input('matter');
-		$id = input('id');
+		$id = input('matterid');
 		if($matter!=''||$id!=''){
 			$map = array();
 			if($matter){
-				$matterid = Db::name('sys_matter')->whereLike('name',"%$matter%")->value('id');
+				$matterid = Db::name('gra_matter')->whereLike('tname',"%$matter%")->value('id');
 				$map['matterid'] = $matterid;
 			}
 			if($id){
 				$map['matterid'] = $id;
 			}
-			$data = Db::name('sys_datum')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter,'id'=>$id)]);
+			$data = Db::name('gra_datum')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter,'id'=>$id)]);
 		}else{
-			$data = Db::name('sys_datum')->paginate(12);
+			$data = Db::name('gra_datum')->paginate(12);
 		}
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['matter'] = Db::name('sys_matter')->where('id',$v['matterid'])->value('name');
+			$list[$k]['matter'] = Db::name('gra_matter')->where('id',$v['matterid'])->value('tname');
 		}
 		$page = $data->render();
 		$this->assign('list',$list);
 		$this->assign('page',$page);
+		$this->assign('matter',$matter);
+		$this->assign('matterid',$id);
 		return $this->fetch();
 	}
 
@@ -141,31 +142,31 @@ class Show extends Common{
 	public function updatum(Request $request){
 		if(request()->isPost()){
 			$data = input('post.');
-			if(!empty($_FILES['sampleurl']['tmp_name'])){
+			if(!empty($_FILES['files']['tmp_name'])){
 				// 创建banner文件夹 返回文件夹路径
 				$path = $this->createfile('datum');
 
 				// 上传文件 返回上传文件夹名称
-				$url = $this->uploadfile('sampleurl','jpg,jpeg,png',$path);
+				$url = $this->uploadfile('files','',$path);
 				
-				$data['sampleurl'] = '/uploads/datum/'.$url;				
+				$data['files'] = '/uploads/datum/'.$url;				
 			}
-			if(!empty($_FILES['url']['tmp_name'])){
+			if(!empty($_FILES['nullurl']['tmp_name'])){
 				// 创建banner文件夹 返回文件夹路径
 				$path = $this->createfile('datum');
 
 				// 上传文件 返回上传文件夹名称
-				$url = $this->uploadfile('url','jpg,jpeg,png',$path);
+				$url = $this->uploadfile('nullurl','',$path);
 				
-				$data['url'] = '/uploads/datum/'.$url;				
+				$data['nullurl'] = '/uploads/datum/'.$url;				
 			}			
 
 			// 提交到修改方法进行修改
-			$this->up($data,'datum','datum');
+			$this->up($data,'gra_datum','datum');
 		}
 
 		$id = intval(input('id'));
-		$list = Db::name('sys_datum')->where('id',$id)->find();
+		$list = Db::name('gra_datum')->where('id',$id)->find();
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
@@ -173,38 +174,80 @@ class Show extends Common{
 	// 删除办理材料
 	public function dldatum(){
 		$id = intval(input('id'));
-		$url = Db::name('sys_datum')->where('id',$id)->value('sampleurl');
-		$this->dl($id,'sys_datum','datum',$url);
+		$url = Db::name('gra_datum')->where('id',$id)->value('files');
+		$this->dl($id,'gra_datum','datum',$url);
 
 	}
 
 	// 办理流程
 	public function managementprocess(){
 		$matter = input('matter');
-		if($matter!=''){
-			$matterid = Db::name('sys_matter')->whereLike('name',"%$matter%")->value('id');
+		$id = input('matterid');
+		if($matter!=''||$id!=''){
+			$matterid = Db::name('gra_matter')->whereLike('tname',"%$matter%")->value('id');
 			$map = array();
 			if($matterid){
 				$map['matterid'] = $matterid;
 			}
-			$data = Db::name('sys_flowlimit')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
+			if($id){
+				$map['matterid'] = $id;
+			}
+			$data = Db::name('gra_flowlimit')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
 		}else{
-			$data = Db::name('sys_flowlimit')->paginate(12);
+			$data = Db::name('gra_flowlimit')->paginate(12);
 		}
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['matter'] = Db::name('sys_matter')->where('id',$v['matterid'])->value('name');
+			$list[$k]['matter'] = Db::name('gra_matter')->where('id',$v['matterid'])->value('tname');
+			switch ($v['flowlimit']) {
+                case '1':
+                   $list[$k]['flowlimit'] = '申请受理';
+                    break;
+                case '2':
+                   $list[$k]['flowlimit'] = '审核';
+                    break;
+                case '3':
+                   $list[$k]['flowlimit'] = '办结';
+                    break;
+                case '4':
+                   $list[$k]['flowlimit'] = '制证';
+                    break;
+                case '5':
+                   $list[$k]['flowlimit'] = '取件';
+                    break;
+                case '6':
+                   $list[$k]['flowlimit'] = '办理';
+                    break;
+                case '7':
+                   $list[$k]['flowlimit'] = '决定';
+                    break;
+                case '8':
+                   $list[$k]['flowlimit'] = '证明';
+                    break;
+                case '9':
+                   $list[$k]['flowlimit'] = '核实';
+                    break;
+                case '10':
+                   $list[$k]['flowlimit'] = '答复';
+                    break;
+                case '0':
+                   $list[$k]['flowlimit'] = '其他';
+                    break;
+                default:break;
+            }
 		}
 		$page = $data->render();
 		$this->assign('list',$list);
 		$this->assign('page',$page);
+		$this->assign('matter',$matter);
+		$this->assign('matterid',$id);
 		return $this->fetch();
 	}
 
 	// 查看办理流程
 	public function showmanagementprocess(){
 		$id = intval(input('id'));
-		$list = Db::name('sys_flowlimit')->where('id',$id)->find();
+		$list = Db::name('gra_flowlimit')->where('id',$id)->find();
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
@@ -215,11 +258,11 @@ class Show extends Common{
 			$data = input('post.');
 
 			// 提交到修改方法进行修改
-			$this->up($data,'sys_flowlimit','managementprocess');
+			$this->up($data,'gra_flowlimit','managementprocess');
 		}
 
 		$id = intval(input('id'));
-		$list = Db::name('sys_flowlimit')->where('id',$id)->find();
+		$list = Db::name('gra_flowlimit')->where('id',$id)->find();
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
@@ -227,36 +270,42 @@ class Show extends Common{
 	// 删除办理流程
 	public function dlmanagementprocess(){
 		$id = intval(input('id'));
-		$this->dl($id,'sys_flowlimit','managementprocess');
+		$this->dl($id,'gra_flowlimit','managementprocess');
 
 	}
 	// 法定依据
 	public function warrntset(){
 		$matter = input('matter');
+		$id = input('matterid');
 		if($matter!=''){
-			$matterid = Db::name('sys_matter')->whereLike('name',"%$matter%")->value('id');
+			$matterid = Db::name('gra_matter')->whereLike('tname',"%$matter%")->value('id');
 			$map = array();
 			if($matterid){
 				$map['matterid'] = $matterid;
 			}
-			$data = Db::name('sys_warrntset')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
+			if($id){
+				$map['matterid'] = $id;
+			}
+			$data = Db::name('gra_warrntset')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
 		}else{
-			$data = Db::name('sys_warrntset')->paginate(12);
+			$data = Db::name('gra_warrntset')->paginate(12);
 		}
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['matter'] = Db::name('sys_matter')->where('id',$v['matterid'])->value('name');
+			$list[$k]['matter'] = Db::name('gra_matter')->where('id',$v['matterid'])->value('name');
 		}
 		$page = $data->render();
 		$this->assign('list',$list);
 		$this->assign('page',$page);
+		$this->assign('matter',$matter);
+		$this->assign('matterid',$id);
 		return $this->fetch();
 	}
 
 	// 查看法定依据
 	public function showwarrntset(){
 		$id = intval(input('id'));
-		$list = Db::name('sys_warrntset')->where('id',$id)->find();
+		$list = Db::name('gra_warrntset')->where('id',$id)->find();
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
@@ -266,11 +315,11 @@ class Show extends Common{
 			$data = input('post.');
 
 			// 提交到修改方法进行修改
-			$this->up($data,'warrntset','warrntset');
+			$this->up($data,'gra_warrntset','warrntset');
 		}
 
 		$id = intval(input('id'));
-		$list = Db::name('sys_warrntset')->where('id',$id)->find();
+		$list = Db::name('gra_warrntset')->where('id',$id)->find();
 		$this->assign('list',$list);
 		return $this->fetch();
 	}
@@ -278,100 +327,8 @@ class Show extends Common{
 	// 删除法定依据
 	public function dlwarrntset(){
 		$id = intval(input('id'));
-		$this->dl($id,'sys_warrntset','warrntset');
+		$this->dl($id,'gra_warrntset','warrntset');
 
 	}
 
-	// 收费情况
-	// public function charge(){
-	// 	$matter = input('matter');
-	// 	if($matter!=''){
-	// 		$matterid = Db::name('sys_matter')->whereLike('title',"%$matter%")->value('id');
-	// 		$map = array();
-	// 		if($matterid){
-	// 			$map['matterid'] = $matterid;
-	// 		}
-	// 		$data = Db::name('charge')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
-	// 	}else{
-	// 		$data = Db::name('charge')->paginate(12);
-	// 	}
-	// 	$list = $data->all();
-	// 	foreach ($list as $k => $v) {
-	// 		$list[$k]['matter'] = Db::name('sys_matter')->where('id',$v['matterid'])->value('title');
-	// 	}
-	// 	$page = $data->render();
-	// 	$this->assign('list',$list);
-	// 	$this->assign('page',$page);
-	// 	return $this->fetch();
-	// }
-
-	// // 编辑收费情况
-	// public function upcharge(){
-	// 	if(request()->isPost()){
-	// 		$data = input('post.');
-
-	// 		// 提交到修改方法进行修改
-	// 		$this->up($data,'charge','charge');
-	// 	}
-
-	// 	$id = intval(input('id'));
-	// 	$list = Db::name('charge')->where('id',$id)->find();
-	// 	$this->assign('list',$list);
-	// 	return $this->fetch();
-	// }
-
-	// // 删除收费情况
-	// public function dlcharge(){
-	// 	$id = intval(input('id'));
-	// 	$this->dl($id,'charge','charge');
-
-	// }
-
-
-
-
-	// 常规问题及解答
-	// public function FAQ(){
-	// 	$matter = input('matter');
-	// 	if($matter!=''){
-	// 		$matterid = Db::name('sys_matter')->whereLike('name',"%$matter%")->value('id');
-	// 		$map = array();
-	// 		if($matterid){
-	// 			$map['matterid'] = $matterid;
-	// 		}
-	// 		$data = Db::name('faq')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
-	// 	}else{
-	// 		$data = Db::name('faq')->paginate(12);
-	// 	}
-	// 	$list = $data->all();
-	// 	foreach ($list as $k => $v) {
-	// 		$list[$k]['matter'] = Db::name('sys_matter')->where('id',$v['matterid'])->value('name');
-	// 	}
-	// 	$page = $data->render();
-	// 	$this->assign('list',$list);
-	// 	$this->assign('page',$page);
-	// 	return $this->fetch();
-	// }
-
-	// // 编辑常规问题及解答
-	// public function upfaq(){
-	// 	if(request()->isPost()){
-	// 		$data = input('post.');
-
-	// 		// 提交到修改方法进行修改
-	// 		$this->up($data,'faq','faq');
-	// 	}
-
-	// 	$id = intval(input('id'));
-	// 	$list = Db::name('faq')->where('id',$id)->find();
-	// 	$this->assign('list',$list);
-	// 	return $this->fetch();
-	// }
-
-	// // 删除常规问题及解答
-	// public function dlfaq(){
-	// 	$id = intval(input('id'));
-	// 	$this->dl($id,'faq','faq');
-
-	// }
 }

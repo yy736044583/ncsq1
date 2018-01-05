@@ -24,6 +24,12 @@
 			      	</div>
 			    </div>
 			    <div class="layui-inline">
+			    	<label class="layui-form-label">事项id</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="matterid" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($matterid) neq true"} value="{$matterid}"{/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">
 			    	<button class="layui-btn">搜索</button>
 			    </div>
 			</form>
@@ -36,10 +42,10 @@
 					<thead>
 						<tr>
 							<th>序号</th>
-							<th style="width:40%">内容标题</th>
+							<th>材料内容</th>
+							<th>备注</th>
 							<th>材料形式</th>
-							<th>材料详细要求</th>
-							<th>必要性及描述</th>
+							<th>序号</th>
 							<th>所属事项</th>
 							<th style="width:15%">操作</th>
 						</tr>
@@ -48,10 +54,10 @@
 						{volist name="list" key="k" id="v"}
 						<tr>
 							<td>{$k}</td>
-							<td><div style="width:100%;height:40px;overflow:hidden;">{$v.title}</div></td>
-							<td>{$v.material_form}</td>
-							<td>{$v.material_request}</td>
-							<td>{$v.describe}</td>
+							<td>{$v.title|textlength=30}</td>
+							<td>{$v.summary|textlength=30}</td>
+							<td>{$v.paper}</td>
+							<td>{$v.sort}</td>
 							<td>{$v.matter}</td>
 							<td>
 								<a href="{:url('show/updatum')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
