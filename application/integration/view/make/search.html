@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要预约</a><span> > </span>
+			<a href="">选择单位</a>
+		</div>
+		<div class="cont_container dw">
+			<div class="dw-cont">
+				<div class="left-menu">
+					<a href="{:url('make/index')}" >新的预约</a>
+					<a href="{:url('make/search')}" class="on">我的预约</a>
+				</div>
+				<div class="right-cont yy-search">
+					<div class="tit"></div>
+					<div class="con">
+						<form action="{:url('make/searchshow')}" method="get">
+							<div class="input-row clearfix">
+								<p>请点击下方输入您预约时预留的手机号码</p>
+								<label for="">请输入手机号</label>
+								<div class="phone-row">
+									<input type="text" name="phone">
+									<em id="code">获取验证码</em>
+								</div>
+							</div>
+							<div class="input-row clearfix">
+								<p>请点击下方输入短信中的验证码</p>
+								<label for="">请输入验证码</label>
+								<div class="phone-row">
+									<input type="text" name="code" style="width: 595px;">
+								</div>
+							</div>
+							<button></button>
+						</form>
+					</div> 	
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+
+		$(document).ready(function(){
+			$("form button").click(function(){
+				$(".error").removeClass("error");
+				var code =  $("input[name='code']");
+				var phone =  $("input[name='phone']");				
+				if(phone.val() == "" || !myreg.test(phone.val())){
+					phone.focus();
+					phone.parent().addClass('error');
+					return false;
+				}
+				if(code.val() == ""){
+					code.focus();
+					code.parent().addClass('error');
+					return false;
+				}
+			})
+			
+			$("#code").click(function(){
+				GetCode();
+			})
+		})
+		// 获取验证码
+		var index = 60;
+		function GetCode(){
+			$(".error").removeClass("error");
+			var phone =  $("input[name='phone']");				
+			if(phone.val() == "" || !myreg.test(phone.val())){
+				phone.focus();
+				phone.parent().addClass('error');
+				return false;
+			}
+			var cear =  setInterval(function(){
+				index--;
+				if(index <= 0){
+					index = 60;
+					clearInterval(cear);
+					$("#code").text("重新获取");
+					$("#code").bind('click',GetCode);
+					return false;					
+				}
+				$("#code").unbind();
+				$("#code").text(index+"秒后获取")
+			}, 	1000)
+		}
+	</script>
+</body>
+</html>

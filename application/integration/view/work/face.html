@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+	<!-- 拍摄插件 -->
+	<!-- <script type="text/javascript" src="../video/icapturevideo.js"></script> -->
+	<script src="__PUBLIC__integration/video/SpryAssets/SpryTabbedPanels.js" type="text/javascript"></script>
+	<script src="__PUBLIC__integration/video/SpryAssets/SpryValidationRadio.js" type="text/javascript"></script>
+	<script src="__PUBLIC__integration/video/SpryAssets/SpryCollapsiblePanel.js" type="text/javascript"></script>
+	<!-- 拍摄插件 -->
+</head>
+<body class="box" onLoad="InitOCX()" onBeforeUnload="onbeforeunload()">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要办事</a><span> > </span>
+			<a href="">选择事项</a><span> > </span>
+			<a href="">事项详情</a><span> > </span>
+			<a href="">身份验证</a>
+		</div>
+		<div class="cont_container upfile">
+			<div class="left-zd">
+				<img src="__PUBLIC__integration/img/face-left.png" width="168" height="450" style="position: absolute; left: 40px; top: 50%;margin-top: -225px">
+			</div>
+			<div class="center-vido">
+				<div class="center-vido-img">
+					<object id="Capture" type="application/ZCaptureVideo" style ="width: 99%;height: 100%;" align="middle" style="z-index: 1;">
+					<!-- <object id="Capture" style ="width: 99%;height: 550px;border: 5 gray solid;" align="middle" classid="clsid:9A73DB73-2CA3-478D-9A3F-7E9D6A8D327C"> -->
+					<!-- 如果要指定cab包和/或版本号参照以下示例 -->
+					<!-- object id="Capture" style ="width: 99%;height: 550px;border: 5 gray solid;" align="middle" classid="clsid:9A73DB73-2CA3-478D-9A3F-7E9D6A8D327C" codebase="CaptureVideo.cab#version=1,7,8,0" -->
+				    </object>
+				</div>
+				<div class="center-vido-vtn">
+					<div class="face-loding">
+						<img src="__PUBLIC__integration/img/face-loading.gif">
+						<p id="s">20秒</p>
+					</div>
+				</div>
+			</div>
+			<div class="right-img">
+				<div class="face-right">
+					<div class="face-right-cont">
+						<img src="__PUBLIC__integration/img/face-newly.png">
+						
+					</div>
+					<div class="face-right-cont" style="display: none;">
+						<img src="__PUBLIC__integration/img/face-zy.png">
+						<p>识别失败次数达到三次，已交由后台工作人员审核，请点击“<span>进入下一步</span>”按钮继续办理</p>
+						<a href="javascript:;">进入下一步<span></span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script type="text/javascript">
+		var index = 20;//倒计时20秒拍摄
+		//初始化，打开高拍仪
+		function InitOCX(){
+			try{
+				// Content = document.getElementById("content");//获取文本框对象
+				Capture = document.getElementById("Capture");//根据js的脚本内容，必须先获取object对象		
+				// ResSelect = document.getElementById("Resolution_Select");//获取分辨率select标签的object对象
+				// GetBase64Ex();//base64
+				var a = Capture.InitDevice();
+				if(a == 0){
+					Capture.StartDevice(0);
+					Capture.SetResolution(0, "1240", "1754");
+				}else {
+					console.log('初始化设备失败');
+				}
+				
+			}catch(err){
+				alert("未找到ICaptureVideo.ocx控件，请重新安装");
+			}
+		}
+		function onbeforeunload()   
+		{   
+			Capture.ReleaseDevice();
+			window.event.returnValue="确定要退出本页吗？"; 
+		}
+		$(document).ready(function(){
+			
+			var Iner =  setInterval(function(){
+				index --;
+				var Index = index<10?('0'+index):index;
+				$("#s").text(Index+"秒");
+				if(Index == "00" || Index == 0){
+					clearInterval(Iner);
+					// 在20秒内完成拍照
+					CaptureToFile();
+					// 拍照后调用接口对比照片
+					
+				}
+			},1000)
+		})
+		// 拍照
+		var szDeviceIndex = "0";//设备的编号；   0：文档摄像头;1：人像摄像头
+		var strFilePath = "D:\\DocImage\\";
+		var szPostfix = ".jpg";
+		var imgeId=0;
+		var strFileNames=new Array();
+		var imgtype = 1;//判断是否能拍照防止连续点击拍照
+		function CaptureToFile() {
+			
+			var strFileName;
+			strFileName = strFilePath + imgeId.toString() + szPostfix;
+			Capture.CaptureImage(szDeviceIndex,strFileName);
+			// alert("文件保存为当前目录下的"+strFileName);
+			if(szPostfix != ".pdf" && szPostfix != ".tif")
+			{
+				//strFileNames.push(strFileName);
+				//Preview(0);
+				strFileNames.push(Capture.EncodeBase64(strFileName));
+				// alert(strFileNames);
+				
+				
+			}
+			imgtype = 1;//拍照完成可以再次拍照
+		}
+		
+		
+	</script>
+</body>
+</html>

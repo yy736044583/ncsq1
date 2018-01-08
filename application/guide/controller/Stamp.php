@@ -34,7 +34,7 @@ class Stamp {
 		//办理流程
 		//$flowlimit = Db::name('gra_flowlimit')->where('matterid',$id)->value('content');
 		$list = ['matter'=>$matter,'warrntset'=>$warrntset,'datum'=>$datum];
-		echo json_encode(['data'=>$list,'code'=>200,'message'=>'成功']);
+		echo json_encode(['data'=>$list,'code'=>'200','message'=>'成功']);
 		return;
 		// dump($list);
 

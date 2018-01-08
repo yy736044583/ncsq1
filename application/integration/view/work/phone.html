@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要办事</a><span> > </span>
+			<a href="">选择事项</a><span> > </span>
+			<a href="">事项详情</a><span> > </span>
+			<a href="">身份验证</a>
+		</div>
+		<div class="cont_container phone">
+			<div class="list-nav">
+				<img src="__PUBLIC__integration/img/nav2.png">
+			</div>
+			<div class="phone_cont">
+				<h2>您好，请填写您的完整信息</h2>
+				<form class="clearfix">
+					<div class="post-row">
+						<label for="name">姓名</label>
+						<input type="text" name="" disabled="disabled" id="name">
+					</div>
+					<div class="post-row left check">
+						<input type="checkbox" name="" id="q" value="1">
+						<label for="q">
+							如果您同时是公司、其他机构组织的具体联系人，请慎填如下资料							
+						</label>
+						
+					</div>
+					<div class="post-row">
+						<label for="xb">性别</label>
+						<input type="text" name="" disabled="disabled" id="xb">
+					</div>
+					<div class="post-row left">
+						<label for="jg">机构名称</label>
+						<input type="text" name="" id="jg">
+					</div>
+					<div class="post-row">
+						<label for="card">身份证号</label>
+						<input type="text" name="" disabled="disabled" id="card">
+					</div>
+					<div class="post-row left">
+						<label for="fd">法定代表</label>
+						<input type="text" name="" id="fd">
+					</div>
+					<div class="post-row">
+						<label for="phone">联系电话</label>
+						<input type="text" name="" id="phone" placeholder="请输入有效手机号(必填)">
+					</div>
+					<div class="post-row left">
+						<label for="jgdz">机构地址</label>
+						<input type="text" name="" id="jgdz">
+					</div>
+					<div class="post-row">
+						<label for="dz">联系地址</label>
+						<input type="text" name="" id="dz" placeholder="请输入联系地址(必填)">
+					</div>
+					<div class="post-row left">
+						<label for="dm">机构代码</label>
+						<input type="text" name="" id="dm">
+					</div>
+					<div class="post-row">
+						<label for="email">电子邮箱</label>
+						<input type="text" name="" id="email" placeholder="请输入电子邮箱">
+					</div>
+					<div style="clear: both;"></div>
+					<div class="post-btn">
+						<a href="" class="succ"></a>
+						<a href="" class="erro"></a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- 手机号验证 -->
+	<div class="form-aletr phone-code" style="">
+		<div class="form-aletr_cont">
+			<div class="tit">
+				<h2>请验证手机号码</h2>
+				<a href="javascript:;" class="off"></a>
+			</div>
+			<div class="con">
+				<div class="cont-box_cont">
+					<p class="tit_phone">
+						系统将在<span id="s">60秒</span>内向手机号<span id="phone-num">18000000000</span>的手机发送一条短信，请在下方输入短信中的验证码
+					</p>
+					<form>
+						<input type="text" id="code" name="" placeholder="请输入验证码">
+					</form>
+				</div>
+				<a href="" class="ok">完成验证</a><em class="cxcode">从新获取</em>
+			</div>
+		</div>
+	</div>
+	<!-- 手机号验证结束 -->
+	<script type="text/javascript">
+		var Name = $("#name");
+		var xb = $("#xb");
+		var jg = $("#jg");
+		var card = $("#card");
+		var fd = $("#fd");
+		var phone = $("#phone");
+		var jgdz = $("#jgdz");
+		var dz = $("#dz");
+		var dm = $("#dm");
+		var email = $("#email");
+		$(document).ready(function(){
+			$(".succ").click(function(e){
+				e.preventDefault();
+				personal();
+				// 选中才验证企业
+				if($("#q:checked").val() == 1){
+					enterprise();
+				}
+			})
+			$(".erro").click(function(e){
+				e.preventDefault();
+				$("input[type='text']").val("");
+			})
+			// 提交验证码
+			
+			$(".ok").click(function(e){
+				e.preventDefault();
+				if($("#code").val() == ""){
+					return false;
+				}
+
+			})
+			// 从新获取验证码
+			$(".cxcode").click(function(event) {
+				event.stopPropagation();
+				$(this).hide();
+				code();
+			});
+			// 关闭验证码弹窗
+			$(".off").click(function(){
+				$(".form-aletr").fadeOut(100);
+			})
+		})
+		// 验证个人
+		function personal(){
+			var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+			$(".error").removeClass('error');
+			$(".post-row em").remove();
+			// if(Name.val() == ""){
+			// 	Name.addClass('error');
+			// 	Name.parent().append("<em>您还没刷身份证</em>")
+			// 	return false;
+			// }
+			if(phone.val() == "" || !myreg.test(phone.val())){
+				phone.focus();
+				phone.addClass('error');
+				phone.parent().append("<em>手机号不符合规范</em>")
+				return false;
+			}
+			if(dz.val() == ""){
+				dz.focus();
+				dz.addClass('error');
+				dz.parent().append("<em>请输入联系地址</em>")
+				return false;
+			}
+		}
+		//验证企业
+		function enterprise(){
+			if(jg.val() == ""){
+				jg.focus();
+				jg.addClass('error');
+				jg.parent().append("<em>请输入机构名称</em>")
+				return false;
+			}
+			if(fd.val() == ""){
+				fd.focus();
+				fd.addClass('error');
+				fd.parent().append("<em>请输入法定代表</em>")
+				return false;
+			}
+			if(jgdz.val() == ""){
+				jgdz.focus();
+				jgdz.addClass('error');
+				jgdz.parent().append("<em>请输入机构地址</em>")
+				return false;
+			}
+			if(dm.val() == ""){
+				dm.focus();
+				dm.addClass('error');
+				dm.parent().append("<em>请输入机构代码</em>")
+				return false;
+			}
+		}
+		// 获取验证码
+		code();
+		function code(){
+			var index = 15;
+			var set = setInterval(function(){
+				index --;
+				index = index<10? ('0'+index) : index;
+				console.log(index);
+				if(index == '00'){
+					clearInterval(set);
+					index == 15;
+					$(".cxcode").show();
+				}
+				$("#s").text(index+"秒");
+			},1000)			
+
+		}
+	</script>
+</body>
+</html>

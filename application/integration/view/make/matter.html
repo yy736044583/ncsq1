@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要预约</a><span> > </span>
+			<a href="">选择事项</a>
+		</div>
+		<div class="cont_container dw">
+			<div class="dw-cont">
+				<div class="left-menu">
+					<a href="{:url('make/index')}" class="on">新的预约</a>
+					<a href="{:url('make/search')}">我的预约</a>
+				</div>
+				<div class="right-cont">
+					<div class="tit">
+						<img src="__PUBLIC__integration/img/sx.png" class="lf">
+						<div class="lr searce_so">
+							<form action="" method="get">
+								<div class="searce_so_row">
+									<input type="text" name="" autocomplete="off" placeholder="请输入关键字查询">
+									<button>搜索</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="cot">
+						<table border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<th width="80%" align="left">办理单位</th>
+								<th width="20%">操作</th>
+							</tr>
+							<tr>
+								<td><a href="{:url('make/add')}">江油市公安局</a></td>
+								<td>
+									<a href="{:url('make/add')}" class="btn-yy" style="text-align: center;">		
+									</a>
+								</td>
+							</tr>
+							
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

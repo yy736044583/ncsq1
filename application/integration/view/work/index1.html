@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要办事</a><span> > </span>
+			<a href="">选择事项</a>
+		</div>
+		<div class="cont_container">
+			<div class="search clearfix">
+				<div class="lf screen">
+					<a href="{:url('work/index1',['nid'=>1])}" style="margin-right: 20px;" class="g {if empty($nid) neq true} on {/if}">个人</a>
+					<a href="{:url('work/index1',['legal'=>1])}" class="f {if empty($legal) neq true} on {/if}" >法人</a>
+				</div>
+				<div class="lf search_zt" id="zt">
+					<label>按主题选择：</label>
+					<input type="text" name="" disabled value="全部" >
+				</div>
+				<div class="lf search_zt" id="bm">
+					<label>按部门选择：</label>
+					<input type="text" name="" disabled value="全部" >
+				</div>
+				<div class="lf searce_so">
+					<form action="" method="get">
+						<div class="searce_so_row">
+							<input type="text" name="" autocomplete="off" placeholder="请输入关键字查询">
+							<button>搜索</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="table_info">
+				<table border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<th align="left" width="50%">热门事项</th>
+						<th align="left" width="30%">部门名称</th>
+						<th align="center" width="20%">操作</th>
+					</tr>
+					{volist name="list" id="v"}
+					<tr>
+						<td><a href="{:url('work/matter',['id'=>$v['id']])}" class="link">{$v.tname}</a></td>
+						<td><a href="{:url('work/matter',['id'=>$v['id']])}" class="link">{$v.department}</a></td>
+						<td>
+							<a href="{:url('work/matter',['id'=>$v['id']])}" class="btns btn_look"></a>
+							<a href="" class="btns btn_ban"></a>
+						</td>
+					</tr>
+				{/volist}	
+				</table>
+				<div class="page">
+					{$page}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 主题列表开始 -->
+	<div class="theme zt animate" style="display: none;">		
+		<div class="theme_cont">
+			<div style="margin-left: -20px;margin-top: -10px;">
+			{volist name="theme" id="v"}
+				<a href="{:url('work/index',['themename'=>$v['tname'],'nid'=>$nid,'legal'=>$legal])}">{$v.tname}</a>
+			{/volist}
+			
+			</div>
+		</div>
+	</div>
+	<!-- 主题列表结束 -->
+	<!-- 部门列表开始 -->
+	<div class="theme bm animate" style="display: none;">		
+		<div class="theme_cont">
+			<div style="margin-left: -20px;margin-top: -10px;">
+			{volist name="section" id="v"}
+				<a href="{:url('work/index',['deptid'=>$v['tid'],'nid'=>$nid,'legal'=>$legal])}">{$v.tname}</a>
+			{/volist}
+				
+			</div>
+		</div>
+	</div>
+	<!-- 部门列表结束 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".search_zt").click(function(){
+				$(this).find('.search_zt_item').fadeIn();
+			})
+
+			// 点击主题
+			$("#zt").click(function(){
+				$(".zt").fadeIn();
+			})
+			// 点击部门
+			$("#bm").click(function(){
+				$(".bm").fadeIn();
+			})
+			// 关闭弹出
+			$(".theme").click(function(){
+				$(this).fadeOut();
+			})
+		})
+		
+	</script>
+</body>
+</html>

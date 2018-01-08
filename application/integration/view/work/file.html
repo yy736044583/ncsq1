@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要办事</a><span> > </span>
+			<a href="">选择事项</a><span> > </span>
+			<a href="">事项详情</a><span> > </span>
+			<a href="">身份验证</a><span> > </span>
+			<a href="">个人承诺</a><span> > </span>
+			<a href="">上传材料</a>
+		</div>
+		<div class="cont_container file">
+			<div class="file-cont">
+				<h1>您正在办理<span>房屋租贷登记备案</span></h1>
+				<div class="file-itme">
+					<div class="ic">1</div>
+					<div class="file-itme_c">
+						<div class="tit">
+							<i></i>
+							<p>土地权属单位申请</p>
+							<span>未上传</span>
+							<em></em>
+							<button style="display: none;">开始上传</button>
+						</div>
+						<ul class="clearfix">
+							<li>
+								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
+							</li>
+							<li>
+								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
+							</li>
+							<li class="addfile">
+								<a href="{:url('work/fileup')}"></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="file-itme">
+					<div class="ic">2</div>
+					<div class="file-itme_c">
+						<div class="tit">
+							<i></i>
+							<p>土地权属单位申请</p>
+							<span class="succ">未上传</span>
+							<em></em>
+							<button class="new">继续上传</button>
+						</div>
+						<ul class="clearfix" style="display: none;">
+							<li>
+								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
+							</li>
+							<li>
+								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
+							</li>
+							<li class="addfile">
+								
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- 确认提交 -->
+			<div class="file-cont_success">
+				<a href="javascript:;"></a>
+				<p>正在处理第<span id="f">1</span>/5个资料...</p>
+			</div>
+		</div>
+	</div>
+	<!-- 预览资料 -->
+	<div class="preview-file" style="display: none;">
+		<div class="preview-cont">
+			<div class="preview-cont-img">
+				<img src="">
+			</div>
+			<div class="preview-cont-btn">
+				<a href="javascript:;" style="background: #fe5155">删除图片</a>
+				<a href="javascript:;" id="off" style="background: #0089fe">关闭窗口</a>
+			</div>
+		</div>
+	</div>
+	<!-- 预览资料 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			// 点击收起
+			$(".file-itme_c .tit em").click(function(e){
+				e.stopPropagation();
+				$(this).siblings("button").show();
+				$(this).parent().siblings("ul").slideUp();
+			})
+			// 点击上传
+			$(".file-itme_c .tit button").click(function(e){
+				e.stopPropagation();
+				$(this).hide();
+				$(this).parent().siblings("ul").slideDown();
+
+				$(this).parents(".file-itme").siblings().find('ul').slideUp();
+				$(this).parents(".file-itme").siblings().find('button').show();
+				// 正在处理资料
+				var index = $(this).parents(".file-itme").index();
+				$("#f").text(index);
+			})
+			// 关闭其他下拉
+			// $(".file-itme_c .tit").click(function(e){
+			// 	e.stopPropagation();
+			// 	$(this).find("button").hide();
+			// 	$(this).siblings("ul").slideDown();
+			// 	$(this).parents(".file-itme").siblings().find('ul').slideUp();
+			// 	$(this).parents(".file-itme").siblings().find('button').show();
+			// })
+			// 预览图片
+			$(".file-itme_c li img").click(function(e){
+				e.stopPropagation();
+				var src = $(this).attr('src');
+				$(".preview-file").fadeIn(100);
+				$(".preview-file").find('img').attr("src",src);
+			})
+			// 关闭预览
+			$("#off").click(function(e){
+				e.stopPropagation();
+				$(".preview-file").fadeOut(100);
+			})
+		})
+	</script>
+</body>
+</html>

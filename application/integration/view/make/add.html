@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要预约</a><span> > </span>
+			<a href="">选择单位</a>
+		</div>
+		<div class="cont_container dw">
+			<div class="dw-cont">
+				<div class="left-menu">
+					<a href="{:url('make/index')}" class="on">新的预约</a>
+					<a href="{:url('make/search')}">我的预约</a>
+				</div>
+				<div class="right-cont add">
+					<h1>您好，请填写您的完整信息</h1>
+					<form>
+						<table border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td class="t">选择日期</td>
+								<td>
+									<select>
+										<option>2018-1-01</option>
+									</select>
+								</td>
+								<td class="t">选择时间</td>
+								<td>
+									<select>
+										<option>2018-1-01</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="t">剩余名额</td>
+								<td>
+									<span>20</span>个名额
+								</td>
+								<td class="t">办理单位</td>
+								<td>
+									住房城乡建设厅
+								</td>
+							</tr>
+							<tr>
+								<td class="t">预约事项</td>
+								<td colspan="3">
+									事项事项事项事项
+								</td>
+							</tr>
+							<tr>
+								<td class="t">身份证号</td>
+								<td>
+									<input type="text" name="idcord">
+								</td>
+								<td class="t">手机号码</td>
+								<td>
+									<input type="text" name="phone">
+								</td>
+							</tr>
+						</table>
+						<div class="btn">
+							<a href="javascript:;" class="succ"></a>
+							<a href="javascript:;" class="err"></a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+		var Cord = /^(\d{18}|\d{17}x)$/;
+		$(document).ready(function(){
+			$(".succ").click(function(){
+				$(".error").removeClass("error");
+				var idcord =  $("input[name='idcord']");
+				var phone =  $("input[name='phone']");
+				if(idcord.val() == "" || !Cord.test(idcord.val())){
+					idcord.addClass("error");
+					idcord.focus();
+					return false;
+				}
+				if(phone.val() == "" || !myreg.test(phone.val())){
+					phone.addClass("error");
+					phone.focus();
+					return false;
+				}
+			})
+			$(".err").click(function(){
+				$("input[type='text']").val("");
+			})
+		})
+	</script>
+</body>
+</html>

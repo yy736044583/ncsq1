@@ -5,9 +5,11 @@ use think\View;
 use think\Db;
 use think\Session;
 
-class Index extends \think\Controller{
-
+class Progress extends \think\Controller{
+	// 办件进度查询
     public function index(){
+        
         return  $this->fetch();
     }
+    
 }

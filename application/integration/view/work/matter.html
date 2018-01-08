@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="{:url('work/index1')}">我要办事</a><span> > </span>
+			<a href="{:url('work/index1')}">选择事项</a><span> > </span>
+			<a href="#">事项详情</a>
+		</div>
+		<img src="__PUBLIC__integration/img/top-title.png" style="position: absolute;top: 26px;right: 80px;">
+		<div class="cont_container">
+			<div class="form-show">
+				<h1>{$list.tname}</h1>
+				<!-- 表格 -->
+				<div class="form-table">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	                        <tr>
+	                            <td bgcolor="#f0f7ff" align="center">基本编码</td>
+	                            <td>{$list.oldCodeId}</td>
+	                            <td bgcolor="#f0f7ff" align="center">实施编码</td>
+	                            <td colspan="3">{$list.tid}</td>
+	                        </tr>
+	                        <tr>
+	                            <td bgcolor="#f0f7ff" align="center">事项类型</td>
+	                            <td>{$list.matter_type}</td>
+	                            <td bgcolor="#f0f7ff" align="center">行使层级 </td>
+	                            <td colspan="3">{$list.hierarchy}
+	                            </td>
+	                            
+	                        </tr>
+	                        
+	                        <tr>
+	                            <td style="width: 15%;" bgcolor="#f0f7ff" align="center">实施机构</td>
+	                            <td style="width: 17%;">{$list.enforcement}</td>
+	                            <td style="width: 15%;" bgcolor="#f0f7ff" align="center">实施主体性质</td>
+	                            <td style="width: 17%;">法定</td>
+	                            <td style="width: 15%;" bgcolor="#f0f7ff" align="center">法定办结时限</td>
+	                            <td>{$list.limitday}</td>
+	                        </tr>
+                    </table>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" class="showMore">
+                        <tr>
+                            <td style="border-top: 0px;" bgcolor="#f0f7ff" align="center">办事者到办事现场次数 </td>
+                            <td style="border-top: 0px;">{$list.number}</td>
+                          
+                           
+                            <td style="border-top: 0px;" bgcolor="#f0f7ff" align="center">联办机构</td>
+                            <td style="border-top: 0px;" >{$list.other_section}</td>
+                             <td bgcolor="#f0f7ff" align="center">否进驻中心</td>
+                            <td>{$list.intake}</td>
+                            
+                        </tr>
+                        <tr>
+                            <td style="width: 15%;" bgcolor="#f0f7ff" align="center">是否收费/收费标准</td>
+                            <td style="width: 17%;">{$list.charge}</td>
+                            <td style="width: 15%;" bgcolor="#f0f7ff" align="center">服务对象</td>
+                            <td style="width: 17%;">
+                                {$list.service_object}</td>
+                            <td style="width: 15%;" bgcolor="#f0f7ff" align="center">办件类型</td>
+                            <td>{$list.handle_type}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f0f7ff" align="center">认证等级需求</td>
+                            <td colspan="2">
+                                {$list.levels}
+                            </td>
+                           <td bgcolor="#f0f7ff" >服务内容</td>
+                            <td colspan="2">{$list.content}</td>
+                        </tr>
+                        <tr>                           
+                         	<td bgcolor="#f0f7ff" align="center">服务主题分类</td>
+                            <td>{$list.theme}</td>
+                            <td bgcolor="#f0f7ff" align="center">网上支付</td>
+                            <td>{$list.online_pay}</td>
+                            <td bgcolor="#f0f7ff" align="center">物流快递</td>
+                            <td>{$list.express}</td>
+                        </tr>
+                        <tr>
+                            
+                           <!--  <td bgcolor="#f0f7ff" align="center">公示时限</td>
+                            <td>{$list.charge}</td> -->
+                           <!--  <td bgcolor="#f0f7ff" align="center">办理形式</td>
+                            <td colspan="3">{$list.handle_type}
+                            </td> -->
+                        </tr>
+                        <tr>
+                           <!--  <td bgcolor="#f0f7ff" align="center">预约办理</td>
+                            <td>{$list.charge}</td> -->
+                            
+                        </tr>
+
+                        <tr>
+                            <td bgcolor="#f0f7ff" align="center">办理时间</td>
+                            <td>{$list.time}</td>
+                            <td bgcolor="#f0f7ff" align="center">咨询电话</td>
+                            <td>{$list.telephone}</td>
+                            <td bgcolor="#f0f7ff" align="center">监督电话</td>
+                            <td>{$list.sphone}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td bgcolor="#f0f7ff" align="center">运行系统</td>
+                            <td>{$list.operation}</td>
+                            <td bgcolor="#f0f7ff" align="center">办理地点</td>
+                            <td colspan="3">{$list.address}</td>
+                        </tr>
+                    </table>
+                    <div class="moretabel">
+                    	<a href="javascript:;"><i></i><span>展开更多</span></a>
+                    </div>
+				</div>
+				<!-- tab选项开始 -->
+				<div class="form-tab">
+					<div class="tab">
+						<a href="javascript:;" class="on">受理标准</a>
+						<a href="javascript:;">申请材料</a>
+						<a href="javascript:;">办理流程</a>
+						<a href="javascript:;">中介服务</a>
+						<a href="javascript:;">设定依据</a>
+						<a href="javascript:;">常见问题</a>
+					</div>
+					<div class="tab-cont">
+						<!-- 受理标准 -->
+						<div class="tab-cont-itme">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">              
+									<tr align="center" bgcolor="#e8e8e8">
+                                        <td style="width: 66px;">序号</td>
+                                        <td>标准内容</td>
+                                    </tr>                               
+                                    <tr>
+                                        <td align="center">1</td>
+                                        <td> 
+											取得企业法人资格；
+										</td>
+                                    </tr>                           
+                        	</table>
+						</div>
+						<!-- 申请材料 -->
+						<div class="tab-cont-itme" style="display: none;">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr valign="middle" align="center" bgcolor="#e8e8e8">
+                                    <td width="66px" rowspan="2">序号
+                                    </td>
+                                    <td rowspan="2">应交材料
+                                    </td>
+                                    <td colspan="2" width="200px">材料类型</td>
+                                    <td rowspan="2" width="12%">示范文本材料样本
+                                    </td>
+                                    <td rowspan="2" width="17%">材料说明
+                                    </td>
+                                </tr>
+                                <tr bgcolor="#e8e8e8">
+                                    <td align="center" width="100px">纸质</td>
+                                    <td align="center" width="100px">电子</td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        1
+                                    </td>
+                                    <td align="left">
+                                        <span title="企业申请经营水路运输业务的申请">
+                                            <img src="__PUBLIC__integration/img/bi.png" title="必填项" style="margin-left:5px;">
+                                            企业申请经营水路运输业务的申请</span>
+                                    </td>
+                                    <td align="center">4</td>
+                                    <td align="center">1</td>
+                                    
+                                    <td align="center" class="flan">
+                                        ——
+                                    </td>
+                                    <td align="left">
+                                        <span title="企业（自然人）申请需准备4份纸质材料（企业留存一份、县级申报一份、市级审报一份、省级存档一份）。相关复印件应由市级航务管理部门审核后，加盖“此复印件与原件相符”章，并由审核人员签名。" style="word-break: break-all;">
+                                            企业（自然人）申请需准备4份纸质材料（企业留存一份、县级申报一份、市级审报一份、省级存档一份）。相关复印件应由市级航务管理部门审核后，加盖“此复印件与原件相符”章，并由审核人员签名。</span>
+                                    </td>
+                                </tr>
+							</table>
+						</div>
+						<!-- 办理流程 -->
+						<div class="tab-cont-itme" style="display: none;">
+							<div class="lc_ct">
+                                <div class="ev_lc">
+                                    <em class="nbg"></em>
+                                    <ol>
+                                        <h3 style="background: none;">申请/受理</h3>
+                                        <li>
+                                            <span>流程时限：0个工作日 </span>
+                                            <span>转外时间：0个工作日</span>
+                                            <span style="width:100%">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span></li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="lc_ct">
+                                <div class="ev_lc">
+                                    <em class="nbg"></em>
+                                    <ol>
+                                        <h3 style="background: none;">申请/受理</h3>
+                                        <li>
+                                            <span>流程时限：0个工作日 </span>
+                                            <span>转外时间：0个工作日</span>
+                                            <span style="width:100%">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：</span></li>
+                                    </ol>
+                                </div>
+                            </div>
+						</div>
+						<!-- 中介服务 -->
+						<div class="tab-cont-itme" style="display: none;">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">                           
+	                            <tr><td colspan="8" style="text-align: center;">该事项无中介服务</td></tr>
+	                        </table>
+						</div>
+						<!-- 设定依据 -->
+						<div class="tab-cont-itme" style="display: none;">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">
+								<tr align="center" bgcolor="#e8e8e8">
+                                    <td style="width: 66px;" rowspan="2">序号</td>
+                                    <td style="width: 260px" rowspan="2">名称</td>
+                                    <td style="width: 90px" rowspan="2">种类</td>
+                                    <td style="width: 160px" rowspan="2">文号</td>
+                                    <td colspan="2">条款内容</td>
+                                </tr>
+                                <tr align="center" bgcolor="#e8e8e8">
+                                    <td style="width: 200px">条款</td>
+                                    <td>内容</td>
+                                </tr>
+                                <tr>
+                                    <td align="center">1</td>
+                                    <td>《国内水路运输管理条例》</td>
+                                    <td align="center">国务院法规</td>
+                                    <td align="center">国务院令第625号</td>
+                                    <td colspan="2" style="padding: 0px !important;">
+                                        <table width="100%" class="tk-tab" border="0" cellspacing="0" cellpadding="0" style="border-left: 0px; border-bottom: 0px;">
+                                            
+                                                    <tbody><tr align="center">
+                                                        <td style="width: 200px; border-top: 0px;">第八条</td>
+                                                        <td style="border-right: 0px; border-top: 0px;">经营水路运输业务，应当按照国务院交通运输主管部门的规定，经国务院交通运输主管部门或者设区的市级以上地方人民政府负责水路运输管理的部门批准。</td>
+                                                    </tr>
+                                                
+                                        </tbody></table>
+                                    </td>
+                                </tr>
+							</table>
+						</div>
+						<!-- 常见问题 -->
+						<div class="tab-cont-itme" style="display: none;">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0">                           
+	                            <tr><td colspan="8" style="text-align: center;">无常见问题</td></tr>
+	                        </table>
+						</div>
+						<!-- 常见问题结束 -->
+						
+					</div>
+				</div>
+				<!-- tab选项结束 -->
+				<!-- 立即办理开始 -->
+				<div class="form-cont-btn">
+					<a href="javascript:;"></a>
+				</div>
+				<!-- 立即办理结束 -->
+			</div>
+		</div>
+	</div>
+	<!-- 弹出框开始 -->
+	<div class="form-aletr" style="display: none;">
+		<div class="form-aletr_cont">
+			<div class="tit">
+				<h2>请确认办理材料是否齐全</h2>
+				<a href="javascript:;" class="off"></a>
+			</div>
+			<div class="con">
+				<div class="cont-box_cont">
+					<p class="t">办理<span>房屋租贷登记备案</span>所需材料：<i>6个</i></p>
+					<ul>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+						<li>
+							<span>(一)土地权属单位申请</span>						
+							<a href="javascript:;"><img src="__PUBLIC__integration/img/button-dayin.gif"></a>
+						</li>
+					</ul>
+				</div>
+				<a href="{:url('work/idcard')}" class="ok">资料齐全，开始办理</a>
+			</div>
+		</div>
+	</div>
+	<!-- 弹出框结束 -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".moretabel a").click(function(event) {
+				/* Act on the event */
+				event.stopPropagation();
+				$(".showMore").slideToggle(100);
+				$(this).toggleClass('on');
+				if($(this).find('span').text() == "展开更多"){
+					$(this).find('span').text("点击收起");
+				}else {
+					$(this).find('span').text("展开更多");
+				}
+								
+			});
+			// 切换材料
+			$(".form-tab .tab a").click(function(event) {
+				/* Act on the event */
+				$(this).addClass('on').siblings().removeClass("on");
+				$(".tab-cont .tab-cont-itme").eq($(this).index()).show().siblings().hide();
+			});
+			// 关闭弹出
+			$(".off").click(function(e){
+				e.stopPropagation();
+				$(".form-aletr").fadeOut(200);
+			})
+			// 打开弹出框
+			$(".form-cont-btn a").click(function(e){
+				e.stopPropagation();
+				$(".form-aletr").fadeIn(200);
+			})
+		})
+		
+	</script>
+</body>
+</html>
