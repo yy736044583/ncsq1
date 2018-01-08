@@ -80,13 +80,8 @@ class Work extends \think\Controller{
         $mattername = Db::name('gra_matter')->where('id',$matterid)->value('tname');
         $list = Db::name('gra_datum')->where("matterid",$matterid)->select();
         foreach ($list as $k => $v) {
-            if($v['paper']==2){
-                $list[$k]['paper'] = '电子';
-            }elseif($v['paper']==1){
-                $list[$k]['paper'] = '纸质';
-            }else{
-                $list[$k]['paper'] = '';
-            }
+            $list[$k]['paper'] = empty($v['paper'])?'':'纸质';
+            $list[$k]['electron'] = empty($v['electron'])?'':'电子';
             
         }
         $this->assign('list',$list);

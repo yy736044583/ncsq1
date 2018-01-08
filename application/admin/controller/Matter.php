@@ -163,6 +163,13 @@ class Matter extends Common{
 		$id = intval(input('id'));
 		if(request()->isPost()){
 			$data = input('post.');
+			if(!empty($data['shape'])){
+				foreach ($data['shape'] as $k => $v) {
+					if($v==1)$data['paper'] = 1;//纸质
+					if($v==2)$data['electron'] = 1;	//电子
+				}
+			}
+			unset($data['shape']);
 	        if(Db::name('gra_datum')->insert($data)){
 	        	$this->redirect('show/datum',['matterid'=>$data['matterid']]);
 			}else{
@@ -200,24 +207,15 @@ class Matter extends Common{
 		$id = intval(input('id'));
 		if(request()->isPost()){
 			$data = input('post.');
-
 			$matterid = intval($data['matterid']);
-			$cid = Db::name('sys_warrntset')->where('matterid',$matterid)->value('id');
-			if(empty($cid)){
-				if(Db::name('sys_warrntset')->insert($data)){
-					$this->success('添加成功','matter/index');
-				}else{
-					$this->error('添加失败');
-				}
+
+			if(Db::name('gra_warrntset')->insert($data)){
+				$this->redirect('show/warrntset',['matterid'=>$data['matterid']]);
 			}else{
-				if(Db::name('sys_warrntset')->where('matterid',$matterid)->update($data)){
-					$this->success('修改成功','matter/index');
-				}else{
-					$this->error('修改失败');
-				}
+				$this->error('添加失败');
 			}
 		}
-		$list = Db::name('sys_warrntset')->where('matterid',$id)->find();
+		$list = Db::name('gra_warrntset')->where('matterid',$id)->find();
 		$this->assign('list',$list);
 		$this->assign('id',$id);
 		return $this->fetch();

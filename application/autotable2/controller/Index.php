@@ -59,7 +59,7 @@ class Index extends \think\Controller{
             $name = strtoupper($name);
             $matterid = Db::name('ph_queue')->where('flownum',$name)->where('today',$today)->value('matterid');
             if($matterid){
-                $list = Db::name('gra_matter')->where('id',$matterid)->field('name,id')->select();
+                $list = Db::name('gra_matter')->where('id',$matterid)->field('tname,id')->select();
             }
         }
         

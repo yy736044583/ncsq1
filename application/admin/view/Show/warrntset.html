@@ -16,11 +16,17 @@
 	<div class="admin-main">
 		<blockquote class="layui-elem-quote">
 			<div class="layui-inline">
-			<form class="layui-form" action="{:url('show/conditionset')}" method="post">
+			<form class="layui-form" action="{:url('show/warrntset')}" method="post">
 				<div class="layui-inline">
 			    	<label class="layui-form-label">事项名称</label>
 			    	<div class="layui-input-inline">
 			        	<input type="text" name="matter" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($matter) neq true"} value="{$matter}"{/if}>
+			      	</div>
+			    </div>
+			    <div class="layui-inline">
+			    	<label class="layui-form-label">事项id</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="matterid" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($matterid) neq true"} value="{$matterid}"{/if}>
 			      	</div>
 			    </div>
 			    <div class="layui-inline">
@@ -35,8 +41,12 @@
 				<table class="site-table table-hover">
 					<thead>
 						<tr>
-							<th>序号</th>
-							<th>法定依据</th>
+							<th>ID</th>
+							<th>标题</th>
+							<th>种类</th>
+							<th>条款</th>
+							<th>文号</th>
+							<th>内容</th>
 							<th>所属事项</th>
 							<th style="width:15%">操作</th>
 						</tr>
@@ -44,8 +54,12 @@
 					<tbody>
 						{volist name="list" key="k" id="v"}
 						<tr>
-							<td>{$k}</td>
-							<td><a href="{:url('show/showwarrntset')}?id={$v.id}" class="layui-btn layui-btn-mini">查看详情</a></td>
+							<td>{$v.id}</td>
+							<td>{$v.title}</td>
+							<td>{$v.type}</td>
+							<td>{$v.terms}</td>
+							<td>{$v.proof}</td>
+							<td>{$v.content|textlength=30}</td>
 							<td>{$v.matter}</td>
 							<td>
 								<a href="{:url('show/upwarrntset')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>

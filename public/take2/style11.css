@@ -77,12 +77,11 @@ ul li{list-style: none;}
 	width: 33.333333%;
 	float: left;
 	height: 120px;
-	font-size: 28px;
+	font-size: 36px;
 	text-align: center;
 	box-sizing: border-box;
 	padding:0 26px;
 	margin-top: 40px;
-	line-height: 30px;
 }
 .item-yw-cont>a:active .link-yw{
 	background-color: #277ce7;
@@ -241,7 +240,7 @@ ul li{list-style: none;}
 	position: relative;
 	clear: both;
 }
-.itme-list .btns .btn{
+.itme-list .btns button{
 	display: inline-block;
 	width: 225px;
 	height: 60px;
@@ -267,44 +266,4 @@ ul li{list-style: none;}
 .btns i{
 	color: #f49500;
 	font-style: normal;
-}
-.make{
-    	width: 800px;
-    	margin: 30px auto 0;
-    }
-    .make em{
-    	display: block;
-    	font-style: normal;
-    	margin-top: 20px;
-    	margin-bottom: 10px;
-    	font-size: 20px;
-    	color:#fff;
-    }
-    .make input{vertical-align: middle; width: 520px;height: 76px;background-color: #fff;border: none;border-radius: 5px;display: inline-block;font-size: 32px;padding: 0 10px;}
-	.make a{
-		display:inline-block;border: none;background-color: #02c9ea;text-align: center;
-		color: #fff;font-size: 32px;width: 200px;height: 76px;line-height: 76px;letter-spacing: 5px;vertical-align: top;
-		margin-left: 24px;border-radius: 5px;
-		vertical-align: middle;
-	}
-	.make button{display:inline-block;border: none;background-color: #ff552e;text-align: center;
-		color: #fff;font-size: 32px;width: 200px;height: 76px;line-height: 76px;letter-spacing: 5px;vertical-align: top;
-		margin-left: 24px;border-radius: 5px;font-family: "寰蒋闆呴粦"
-	}
-.datainfo h2{
-	font-size: 42px;
-    text-align: center;
-    font-weight: normal;
-    margin-top: 100px;
-}
-.white-datainfo a{
-	margin: 9px;
-}
-.link-delct{
-	background-color: #00d69a !important;
-	transition:all 0.2s ease !important;
-}
-.link-delct:active{
-	background-color: #ff552e !important;
-	color: #fff !important;
 }

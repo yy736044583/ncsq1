@@ -55,12 +55,12 @@
 									<ul>
 										<li>
 											<table class="table table-striped"  border="0" cellspacing="0" cellpadding="0">
-												<tr><th style="width: 10%;">序号</th><th>材料形式</th><th style="width:10%">应交材料</th><th>说明</th></tr>
+												<tr><th style="width: 10%;">序号</th><th>应交材料</th><th style="width:10%">材料形式</th><th>说明</th></tr>
 												{volist name="datlist" key="k" id="v"}
 												<tr>
 												<td>{$k}</td>
 												<td>{$v.title}</td>
-												<td>{$v.paper}</td>
+												<td>{$v.paper} {$v.electron}</td>
 												<td>{$v.summary}</td>
 												</tr>
 												{/volist}

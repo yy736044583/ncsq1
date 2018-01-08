@@ -52,14 +52,15 @@ class Test extends \think\Controller{
 	//取号
 		//定义一个要发送的目标URL；
 		// $url = "http://192.168.0.10:8076/sbxt/index.php/inter/call";
-		$url = "http://192.168.0.10:8076/ncsq/index.php/inter/take";
+		$url = "http://127.0.0.1:8076/ncsq/index.php/inter/take";
 		//定义传递的参数数组；
 		$data['action']='takebusiness';
 		// $data['action']='call';
 		// $data['devicenum']='awifi20:ae:42:b3:fe:4e';//call
 		$data['devicenum']='1093235231';//take
 		$data['businessid']= $businessid;//take
-		// $data['ordernumber']= 'RGMQMC1';//take
+		$data['matterid']= '1';//take
+		$data['phone']= '15928552357';//take
 		// $data['userid'] = 4;//call
 		// $data['id'] = 92;//call
 		//$data['windowid'] = 1;//call

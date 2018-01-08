@@ -170,7 +170,7 @@ class Evaluate extends Common{
 			//满意率
 			$many = $list[$k]['evaluatelevel6']+$list[$k]['evaluatelevel5'];
 			if($many!=0){
-				$list[$k]['many'] = round(($many/$list[$k]['sum']),2);
+				$list[$k]['many'] = round(($many/$list[$k]['sum'])*100,2);
 			}else{
 				$list[$k]['many'] = '0.00';
 			}
@@ -340,7 +340,7 @@ class Evaluate extends Common{
 			//满意率
 			$many = $list[$k]['evaluatelevel6']+$list[$k]['evaluatelevel5'];
 			if($many!=0){
-				$list[$k]['many'] = round(($many/$list[$k]['sum']),2);
+				$list[$k]['many'] = round(($many/$list[$k]['sum'])*100,2);
 			}else{
 				$list[$k]['many'] = '0.00';
 			}

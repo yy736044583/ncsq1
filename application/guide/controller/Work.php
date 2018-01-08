@@ -50,13 +50,8 @@ class Work extends \think\Controller{
         //应交材料
         $datlist = Db::name('gra_datum')->where("matterid",$list['id'])->select();
         foreach ($datlist as $k => $v) {
-            if($v['paper']==2){
-                $datlist[$k]['paper'] = '电子';
-            }elseif($v['paper']==1){
-                $datlist[$k]['paper'] = '纸质';
-            }else{
-                $datlist[$k]['paper'] = '';
-            }
+            $datlist[$k]['paper'] = empty($v['paper'])?'':'纸质';
+            $datlist[$k]['electron'] = empty($v['electron'])?'':'电子';
         }
          
         //审批条件 

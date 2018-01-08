@@ -129,6 +129,8 @@ class Show extends Common{
 		$list = $data->all();
 		foreach ($list as $k => $v) {
 			$list[$k]['matter'] = Db::name('gra_matter')->where('id',$v['matterid'])->value('tname');
+			$list[$k]['paper'] = empty($v['paper'])?'':'纸质';
+			$list[$k]['electron'] = empty($v['electron'])?'':'电子';
 		}
 		$page = $data->render();
 		$this->assign('list',$list);
@@ -142,6 +144,13 @@ class Show extends Common{
 	public function updatum(Request $request){
 		if(request()->isPost()){
 			$data = input('post.');
+			if(!empty($data['shape'])){
+				foreach ($data['shape'] as $k => $v) {
+					if($v==1)$data['paper'] = 1;//纸质
+					if($v==2)$data['electron'] = 1;	//电子
+				}
+			}
+			unset($data['shape']);
 			if(!empty($_FILES['files']['tmp_name'])){
 				// 创建banner文件夹 返回文件夹路径
 				$path = $this->createfile('datum');
@@ -277,7 +286,7 @@ class Show extends Common{
 	public function warrntset(){
 		$matter = input('matter');
 		$id = input('matterid');
-		if($matter!=''){
+		if($matter!=''||$id!=''){
 			$matterid = Db::name('gra_matter')->whereLike('tname',"%$matter%")->value('id');
 			$map = array();
 			if($matterid){
@@ -286,13 +295,14 @@ class Show extends Common{
 			if($id){
 				$map['matterid'] = $id;
 			}
+			
 			$data = Db::name('gra_warrntset')->where($map)->paginate(12,false,['query'=>array('matter'=>$matter)]);
 		}else{
 			$data = Db::name('gra_warrntset')->paginate(12);
 		}
 		$list = $data->all();
 		foreach ($list as $k => $v) {
-			$list[$k]['matter'] = Db::name('gra_matter')->where('id',$v['matterid'])->value('name');
+			$list[$k]['matter'] = Db::name('gra_matter')->where('id',$v['matterid'])->value('tname');
 		}
 		$page = $data->render();
 		$this->assign('list',$list);

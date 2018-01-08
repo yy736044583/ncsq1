@@ -12,44 +12,46 @@
 		<div class="mattershow">
 			<h1>{$list.tname}</h1>
 			<div class="mattershow-cont">
-				<table border="0" cellspacing="0">
-					<tr>
-						<td class="t">事项编码</td>
-						<td class="c">{$list.tid}</td>
-						<td class="t">服务对象</td>
-						<td>{$list.service_object}</td>
-					</tr>
-					<tr>
-						<td class="t">实施机构</td>
-						<td class="c">{$list.enforcement}</td>
-						<td class="t">事项类型</td>
-						<td class="c">{$list.matter_type}</td>
-					</tr>
-					<tr>
-						<td class="t">办事者到场次数</td>
-						<td class="c">{$list.number}</td>
-						<td class="t">服务内容</td>
-						<td class="c">{$list.content}</td>
-					</tr>
-					<tr>
-						<td class="t">服务主题分类</td>
-						<td class="c">{$list.handle_type}</td>
-						<td class="t">认证等级需求</td>
-						<td class="c">{$list.intake}</td>
-					</tr>
-					<tr>
-						<td class="t">收费情况</td>
-						<td class="c">{$list.charge}</td>
-						<td class="t">办理时间</td>
-						<td class="c">{$list.time}</td>
-					</tr>
-					<tr>
-						<td class="t">咨询电话</td>
-						<td class="c">{$list.sphone}</td>
-						<td class="t">办理地点</td>
-						<td colspan="3" style="text-align: left;padding-left: 50px;">{$list.address}</td>
-					</tr>
-				</table>
+				<div style="height: 380px;overflow-y: auto;">
+					<table border="0" cellspacing="0">
+						<!-- <tr>
+							<td class="t">事项编码</td>
+							<td class="c">{$list.tid}</td>
+							<td class="t">服务对象</td>
+							<td>{$list.service_object}</td>
+						</tr> -->
+						<tr>
+							<td class="t">实施机构</td>
+							<td class="c">{$list.enforcement}</td>
+							<td class="t">事项类型</td>
+							<td class="c">{$list.matter_type}</td>
+						</tr>
+						<tr>
+							<td class="t">办事者到场次数</td>
+							<td class="c">{$list.number}</td>
+							<td class="t">服务内容</td>
+							<td class="c">{$list.content}</td>
+						</tr>
+						<tr>
+							<td class="t">服务主题分类</td>
+							<td class="c">{$list.handle_type}</td>
+							<td class="t">认证等级需求</td>
+							<td class="c">{$list.intake}</td>
+						</tr>
+						<tr>
+							<td class="t">收费情况</td>
+							<td class="c">{$list.charge}</td>
+							<td class="t">办理时间</td>
+							<td class="c">{$list.time}</td>
+						</tr>
+						<tr>
+							<td class="t">咨询电话</td>
+							<td class="c">{$list.sphone}</td>
+							<td class="t">办理地点</td>
+							<td colspan="3" style="text-align: left;padding-left: 50px;">{$list.address}</td>
+						</tr>
+					</table>
+				</div>
 				<div class="btn">
 					<a href="{:url('work/materialtable')}?matterid={$list.id}" class="b1"></a>
 					<a href="{:url('work/material')}?type=conditionset&matterid={$list.id}" class="b2"></a>

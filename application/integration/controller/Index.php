@@ -552,6 +552,7 @@ class Index{
 			$data = json_decode($data,true);
 			$data = $data['data'];
 			if(!empty($data)){
+				// dump($data);die;
 				//可能存在多条数据
 				foreach ($data as $kk => $vv) {
 					if(!empty($vv['8']['content'])){
@@ -577,10 +578,10 @@ class Index{
 								$data1['files'] = empty($val['files']['download'])?'0':$val['files']['download'];
 							}
 							if($key==3){//纸质
-								$data1['paper'] = empty($val['content'])?'0':1;
+								$data1['paper'] = empty($val['content'])?'0':$val['content'];
 							}
 							if($key==4){//电子
-								$data1['paper'] = empty($val['content'])?'0':2;
+								$data1['electron'] = empty($val['content'])?'0':$val['content'];
 							}
 							if($key==5){//详情介绍
 								$data1['summary'] =empty($val['content'])?'0':$val['content'];

@@ -23,7 +23,7 @@
 		<fieldset class="layui-elem-field">
 			<legend>办理材料编辑</legend>
 			<div class="layui-field-box">
-				<form action="{:url('show/updatum')}" method="post" enctype="multipart/form-data">
+				<form action="{:url('show/updatum')}" class="layui-form"  method="post" enctype="multipart/form-data">
 			<input type="hidden" name="id" value="{$list.id}">
 				<div class="layui-form-item">
 					<label class="layui-form-label">材料标题</label>
@@ -48,7 +48,8 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">材料形式</label>
 					<div class="layui-input-block">
-						<input type="text" name="paper" lay-verify="" autocomplete="off" placeholder="材料形式(纸质/电子)" class="layui-input" value="{$list.paper}">
+						<input type="checkbox" name="shape[]" value="1" title="纸质" {if $list['paper'] eq '1'} checked="true" {/if}>
+						<input type="checkbox" name="shape[]" value="2" title="电子" {if $list['electron'] eq '1'} checked="true" {/if}>
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -77,16 +78,19 @@
 		</fieldset>
 	</div>
 </html>
-<!-- <script type="text/javascript">
-	$(function(){
-		$('.add').click(function(e){
-			e.stopPropagation();
-			var input = '<tr class="rediv"><td><input type="text" name="title[]" value=""></td><td><input type="text" name="file[]"></td><td><input type="text" name="material_form[]" value=""></td><td><input type="text" name="material_request[]" value=""></td><td><input type="text" name="describe[]" value=""></td><td><input type="text" name="summary[]" value=""></td><td><div class="layui-inline"><a href="javascript:;" class="layui-btn layui-btn-mini remove">移除</a></div></td></tr>';
-			$('.apped').append(input);
-		})
-		//移除添加的input	
-		$('.remove').live('click',function(){
-			$(this).parents('.rediv').remove();
-		})
-	})
-</script> -->
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+		//自定义验证规则
+		  form.verify({
+		    title: function(value){
+		      if(value.length < 1){
+		        return '内容不能为空';
+		      }
+		    }
+		  });
+	});
+</script>

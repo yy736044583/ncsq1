@@ -3,13 +3,14 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>事项列表</title>
-		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
 		<link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
-		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
 		<link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
 		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
 		<script type="text/javascript" src="__PUBLIC__static/js/jquery-1.7.2.min.js"></script>
+		<!-- <script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script> -->
 	</head>
 <style>
 	input{width: 100%;border:none;}
@@ -21,7 +22,7 @@
 		<fieldset class="layui-elem-field">
 			<legend>办理材料添加</legend>
 			<div class="layui-field-box">
-				<form action="{:url('matter/datum')}" method="post" enctype="multipart/form-data">
+				<form action="{:url('matter/datum')}" class="layui-form" method="post" enctype="multipart/form-data">
 				<input type="hidden" name="matterid" value="{$id}">
 				<div class="layui-form-item">
 					<label class="layui-form-label">材料内容</label>
@@ -43,10 +44,12 @@
 						<input type="hidden" name="nullurl" value="">
 					</div>
 				</div>
+				
 				<div class="layui-form-item">
 					<label class="layui-form-label">材料形式</label>
 					<div class="layui-input-block">
-						<input type="text" name="paper" lay-verify="title" autocomplete="off" placeholder="材料形式(纸质/电子)" class="layui-input">
+						<input type="checkbox" name="shape[]" value="1" title="纸质">
+						<input type="checkbox" name="shape[]" value="2" title="电子">
 					</div>
 				</div>
 				<div class="layui-form-item">
@@ -77,7 +80,14 @@
 		
 	</div>
 </html>
+
 <script type="text/javascript">
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+	});		
 	$(function(){
 		/***文件上传***/
 		$(".upfile").live('click', function(event){
