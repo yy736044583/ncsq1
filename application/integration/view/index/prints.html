@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+	<!-- 拍摄插件 -->
+	<!-- <script type="text/javascript" src="../video/icapturevideo.js"></script> -->
+	<script src="__PUBLIC__integration/video/SpryAssets/SpryTabbedPanels.js" type="text/javascript"></script>
+	<script src="__PUBLIC__integration/video/SpryAssets/SpryValidationRadio.js" type="text/javascript"></script>
+	<script src="__PUBLIC__integration/video/SpryAssets/SpryCollapsiblePanel.js" type="text/javascript"></script>
+	<!-- 拍摄插件 -->
+</head>
+<body class="box" onLoad="InitOCX()" onBeforeUnload="onbeforeunload()">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">打印复印</a>
+		</div>
+		<div class="cont_container upfile">
+			<div class="left-zd">
+				<img src="__PUBLIC__integration/img/zd.jpg">
+			</div>
+			<div class="center-vido">
+				<div class="center-vido-img">
+					<object id="Capture" type="application/ZCaptureVideo" style ="width: 99%;height: 100%;" align="middle" style="z-index: 1;">
+					<!-- <object id="Capture" style ="width: 99%;height: 550px;border: 5 gray solid;" align="middle" classid="clsid:9A73DB73-2CA3-478D-9A3F-7E9D6A8D327C"> -->
+					<!-- 如果要指定cab包和/或版本号参照以下示例 -->
+					<!-- object id="Capture" style ="width: 99%;height: 550px;border: 5 gray solid;" align="middle" classid="clsid:9A73DB73-2CA3-478D-9A3F-7E9D6A8D327C" codebase="CaptureVideo.cab#version=1,7,8,0" -->
+				    </object>
+
+				    <!-- 打印 -->
+				    <OBJECT  ID="jatoolsPrinter" CLASSID="CLSID:B43D3361-D075-4BE2-87FE-057188254255" codebase="__PUBLIC__integration/print/jatoolsPrinter.cab#version=8,6,0,0"></OBJECT> 
+				</div>
+				<div class="center-vido-vtn p-print">
+					<a href="javascript:;" class="photo"></a>
+					<a href="javascript:;" class="succ"></a>
+				</div>
+			</div>
+			<div class="right-img">
+				<div class="right-img-cont">
+					<ul class="clearfix">
+						<!-- <li>
+							<img src="http://www.w3school.com.cn/i/eg_tulip.jpg" data-id="1">
+						</li> -->
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 预览资料 -->
+	<div class="preview-file" style="display: none;z-index: 999;">
+		 <iframe id='iframebar' src="about:blank" frameBorder=0  marginHeight=0 marginWidth=0 style="position:absolute;visibility:inherit; top:0px;left:0px;height:100%;width:100%;z-index:-1;background:transparent;filter='progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0)'"></iframe> 
+		<div class="preview-cont">
+			<div class="preview-cont-img">
+				<img src="" data-id="">
+			</div>
+			<div class="preview-cont-btn">
+				<a href="javascript:;" id="delet" style="background: #fe5155">删除图片</a>
+				<a href="javascript:;" id="off" style="background: #0089fe">关闭窗口</a>
+			</div>
+		</div>
+	</div>
+	<!-- 预览资料 -->
+	<!-- 打印 -->
+	<div style="position: absolute;z-index: -2;" id="print-cont">
+       
+    </div>
+    <!-- 打印 -->
+	<script type="text/javascript">
+		//初始化，打开高拍仪
+		function InitOCX(){
+			try{
+				// Content = document.getElementById("content");//获取文本框对象
+				Capture = document.getElementById("Capture");//根据js的脚本内容，必须先获取object对象		
+				// ResSelect = document.getElementById("Resolution_Select");//获取分辨率select标签的object对象
+				// GetBase64Ex();//base64
+				var a = Capture.InitDevice();
+				if(a == 0){
+					Capture.StartDevice(0);
+					Capture.SetResolution(0, "1240", "1754");
+				}else {
+					console.log('初始化设备失败');
+				}
+				
+			}catch(err){
+				alert("未找到ICaptureVideo.ocx控件，请重新安装");
+			}
+		}
+		function onbeforeunload()   
+		{   
+			Capture.ReleaseDevice();
+			// window.event.returnValue="确定要退出本页吗？"; 
+		}
+		$(document).ready(function(){
+			$(".right-img").on('click',"img",function(){
+				var url = $(this).attr("src");
+				var id = $(this).attr("data-id");
+				$(".preview-file .preview-cont-img img").attr('src', url);
+				$(".preview-file .preview-cont-img img").attr('data-id', id);
+				$(".preview-file").fadeIn(100);
+			})
+			// 关闭预览
+			$("#off").click(function(e){
+				e.stopPropagation();
+				$(".preview-file").fadeOut(100);
+			})
+			//删除照片
+			$("#delet").click(function(e){
+				e.stopPropagation();
+				var id = $(".preview-file img").attr('data-id');
+				$(".key"+id+"").remove();
+				strFileNames.splice(id,1);
+				$(".preview-file").fadeOut(100);
+				addImg();
+			})
+			// 拍照
+			$(".photo").click(function(e){
+				e.stopPropagation();
+				if(imgtype == 1){
+					imgtype = 0;//正在拍照不能点击
+					CaptureToFile();
+				}
+				return false;
+			})
+			// 打印
+			$(".succ").click(function(e){
+				e.stopPropagation();
+
+				if(strFileNames.length == 0){
+					return false; //没有照片不打印
+				}
+				// 打印所有图片
+				for(var i=0; i<=strFileNames.length-1;i++){
+					var pHtml = "<div id='page1' style='width:100%;'><img src='data:image/gif;base64,"+strFileNames[i]+"'></div>";
+					$("#print-cont").append(pHtml);
+				}
+				myDoc = {
+	         		settings:{topMargin:0,
+	                  leftMargin:5,
+	                  bottomMargin:5,
+	                  rightMargin:5},
+	         		documents: document,
+	         		copyrights: '杰创软件拥有版权  www.jatools.com'    
+	         	};
+	         	
+	          	document.getElementById("jatoolsPrinter").print(myDoc ,false);// 不弹出对话框打印
+			})
+		})
+		// 拍照
+		var szDeviceIndex = "0";//设备的编号；   0：文档摄像头;1：人像摄像头
+		var strFilePath = "D:\\DocImage\\";
+		var szPostfix = ".jpg";
+		var imgeId=0;
+		var strFileNames=new Array();
+		var imgtype = 1;//判断是否能拍照防止连续点击拍照
+		function CaptureToFile() {
+			
+			var strFileName;
+			strFileName = strFilePath + imgeId.toString() + szPostfix;
+			Capture.CaptureImage(szDeviceIndex,strFileName);
+			// alert("文件保存为当前目录下的"+strFileName);
+			if(szPostfix != ".pdf" && szPostfix != ".tif")
+			{
+				//strFileNames.push(strFileName);
+				//Preview(0);
+				strFileNames.push(Capture.EncodeBase64(strFileName));
+				// alert(strFileNames);
+				
+				addImg();
+			}
+			imgtype = 1;//拍照完成可以再次拍照
+		}
+		// 添加预览
+		function addImg(){
+			if(strFileNames.length>0){
+				$(".right-img-cont ul li").remove();
+				for(var i=0;i<strFileNames.length;i++){
+					var src = 'data:image/gif;base64,' + strFileNames[i];
+					var Html = "<li class='key"+i+"'><img src='"+src+"' data-id='"+i+"'></li>";
+					$(".right-img-cont ul").append(Html);
+				}
+			}
+		}
+	</script>
+</body>
+</html>

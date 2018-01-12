@@ -306,4 +306,41 @@ class Cled extends Common{
 	    	echo '0';
 	    }
 	}
+
+	// 设置使用视频还是轮播
+	public function setbanner(){
+		$this->auth();
+		if(request()->isPost()){
+			$type = input('type');
+			//如果状态为视频 则判断视频资源是否存在
+			if($type=='2'){
+				//查询是否有正在使用的视频  如果没有则返回
+				$url = Db::name('ph_banner')->where("top=1 and type=2")->value('url');
+									
+			}else{
+				//查询是否有正在使用的图片  如果没有则返回
+				$url = Db::name('ph_banner')->where("top=1 and type=1")->value('url');
+			}
+			// dump($url);die;
+			if($url){
+				//在有使用的视频情况下判断视频文件是否存在
+				$file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$url;
+				
+				if(!file_exists($file)){
+				   return	$this->error('无资源,请先上传');
+				}
+			}else{
+				return $this->error('无资源,请先上传');
+			}
+
+			if(Db::name('ph_setup')->where('id',1)->update(['cledtype'=>$type])){
+				$this->success('提交成功','cled/setbanner');
+			}else{
+				$this->error('提交失败');
+			}
+		}
+		$list = Db::name('ph_setup')->where('id',1)->find();
+		$this->assign('list',$list);
+		return $this->fetch();
+	}
 }

@@ -99,7 +99,10 @@ class Note extends Common{
 					break;
 				case '4':
 					$list[$k]['type'] = '叫号短信通知';
-					break;	
+					break;
+				case '5':
+					$list[$k]['type'] = '验证码短信';
+					break;		
 				default:
 					$list[$k]['type'] = '未同步';
 					break;

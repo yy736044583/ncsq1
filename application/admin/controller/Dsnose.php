@@ -164,6 +164,28 @@ class Dsnose extends Common{
 	    	echo '0';
 	    }  
 	}
-
+	//导视设置 坐标 标题
+	public function dsset(){
+		$data = input('post.');
+		if(request()->isPost()){
+			//如果有数据就直接修改
+			if(Db::name('ds_set')->find()){
+				if(Db::name('ds_set')->where('id',1)->update($data)){
+					$this->success('修改成功','dsnose/dsset');
+				}else{
+					$this->error('修改失败');	
+				}					
+			}else{
+				if(Db::name('ds_set')->insert($data)){
+					$this->success('添加成功','dsnose/dsset');
+				}else{
+					$this->error('添加失败');
+				}
+			}			
+		}
+		$list = Db::name('ds_set')->find();
+		$this->assign('list',$list);
+		return $this->fetch();
+	}
 
 }

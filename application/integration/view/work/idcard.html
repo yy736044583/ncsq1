@@ -18,9 +18,9 @@
 	<div class="cont cont_box">
 		<div class="Navigation">
 			<span class="label">当前位置：</span>
-			<a href="">我要办事</a><span> > </span>
-			<a href="">选择事项</a><span> > </span>
-			<a href="">事项详情</a><span> > </span>
+			<a href="{:url('work/index1')}">我要办事</a><span> > </span>
+			<a href="{:url('work/index1')}">选择事项</a><span> > </span>
+			<a href="{:url('work/matter',['id'=>$id])}">事项详情</a><span> > </span>
 			<a href="">身份验证</a>
 		</div>
 		<div class="cont_container idcard">
@@ -28,11 +28,85 @@
 				<img src="__PUBLIC__integration/img/Blue-Timeline.png">
 			</div>
 			<div class="idcard_cont">
-				<h2>扫描身份证</h2>
+				<h2>扫描身份证 <span id="num"></span></h2>
 				<p>请在屏幕下方身份证扫描区进行身份验证</p>
 				<img src="__PUBLIC__integration/img/card.png">
 			</div>
 		</div>
 	</div>
+	<div style="position: absolute;z-index: -1">
+		<object classid="clsid:46E4B248-8A41-45C5-B896-738ED44C1587" id="SynCardOcx1" codeBase="__PUBLIC__integration/cardocx/SynCardOcx.CAB#version=1,0,0,1" width="0" height="0" >
+		</object>
+	</div>
+	<script type="text/javascript">
+		var set;
+		var index = 20;
+		// 获取读卡器
+		FindReader_onclick();
+		function FindReader_onclick()
+		  {
+		  	var str;
+		  	str = SynCardOcx1.FindReader();
+		  	if (str > 0)
+		  	{
+		  		if(str>1000)
+		  		{
+		  			
+		  			set = setInterval(function(){
+						ReadCard_onclick()
+					}, 1000)
+		  		}
+		  	}
+		 	
+		  }
+		  // 扫描身份证
+		function ReadCard_onclick()
+		  {
+			var nRet;			
+		  	nRet = SynCardOcx1.ReadCardMsg();
+		  	if(nRet==0)
+		  	{	
+		  		var card = SynCardOcx1.CardNo;//身份证号
+		  		var name = SynCardOcx1.NameA.replace(/(^\s*)|(\s*$)/g, "");//姓名
+		  		var sex = SynCardOcx1.Sex==1?"男":"女";//性别
+		  		var idcard_Nation = SynCardOcx1.Nation;//名族
+		  		var idcard_Born = SynCardOcx1.Born;//出生日期
+		  		var idcard_Address = SynCardOcx1.Address;//地址
+		  		var idcard_GrantDept = SynCardOcx1.Police;//发证机关
+		  		var idcard_UserLifeBegin = SynCardOcx1.UserLifeB;//有效期开始
+		  		var idcard_UserLifeEnd = SynCardOcx1.UserLifeE//有效期结束
+		  		var str= 'data:image/jpg;base64,'+SynCardOcx1.Base64Photo;// 照片传base64
+		  		clearInterval(set);
+		  		// 提交身份证图片、身份证号
+		  		$.ajax({
+		  			url: '{:url("work/upidcard_picture")}',
+		  			type: 'POST',
+		  			dataType: 'json',
+		  			data: {idcard: card,file:str,idcard_Name:name,idcard_Sex:sex,idcard_Nation:idcard_Nation,idcard_Born:idcard_Born,idcard_Address:idcard_Address,idcard_GrantDept:idcard_GrantDept,idcard_UserLifeBegin:idcard_UserLifeBegin,idcard_UserLifeEnd:idcard_UserLifeEnd},
+		  			success:function(data){
+		  				
+		  				if(data.code==200){
+		  					//成功进入下一步
+		  					window.location.href = "{:url('work/phone')}?userid="+data.data.id+"&card="+card+"&name="+name+"&sex="+sex;
+		  				}
+		  				
+		  			},
+		  			error:function(){
+		  				alert("服务器错误");
+		  			}
+		  		})
+		  		
+		  		
+		  		
+		  	}
+		  	index--;
+		  	$("#num").text(index+"秒");
+		  	if(index == 0){
+		  		clearInterval(set);
+		  		window.history.back();
+		  	}
+		}
+		
+	</script>
 </body>
 </html>

@@ -57,7 +57,7 @@
 						<td><a href="{:url('work/matter',['id'=>$v['id']])}" class="link">{$v.department}</a></td>
 						<td>
 							<a href="{:url('work/matter',['id'=>$v['id']])}" class="btns btn_look"></a>
-							<a href="" class="btns btn_ban"></a>
+							<a href="{:url('work/idcard')}?id={$v['id']}" class="btns btn_ban"></a>
 						</td>
 					</tr>
 				{/volist}	

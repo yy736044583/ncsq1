@@ -63,7 +63,7 @@
 			</div>
 		</div>
 	</div>
-	
+	<img src="{$photo}" id="c" style="display: none;">
 	<script type="text/javascript">
 		var index = 20;//倒计时20秒拍摄
 		//初始化，打开高拍仪
@@ -75,10 +75,10 @@
 				// GetBase64Ex();//base64
 				var a = Capture.InitDevice();
 				if(a == 0){
-					Capture.StartDevice(0);
-					Capture.SetResolution(0, "1240", "1754");
+					var a = Capture.StartDevice(1);
+					// Capture.SetResolution(1);
 				}else {
-					console.log('初始化设备失败');
+					alert('初始化设备失败');
 				}
 				
 			}catch(err){
@@ -90,44 +90,52 @@
 			Capture.ReleaseDevice();
 			window.event.returnValue="确定要退出本页吗？"; 
 		}
+		var Iner;//定时器
 		$(document).ready(function(){
 			
-			var Iner =  setInterval(function(){
+			Iner =  setInterval(function(){
 				index --;
 				var Index = index<10?('0'+index):index;
 				$("#s").text(Index+"秒");
 				if(Index == "00" || Index == 0){
-					clearInterval(Iner);
-					// 在20秒内完成拍照
-					CaptureToFile();
-					// 拍照后调用接口对比照片
-					
+					clearInterval(Iner);				
+				}
+				// 在20秒内完成3次拍照					
+				if(index == 5 || index == 10 || index == 15){
+					CaptureToFile();//拍照
 				}
 			},1000)
 		})
 		// 拍照
-		var szDeviceIndex = "0";//设备的编号；   0：文档摄像头;1：人像摄像头
+		var szDeviceIndex = "1";//设备的编号；   0：文档摄像头;1：人像摄像头
 		var strFilePath = "D:\\DocImage\\";
 		var szPostfix = ".jpg";
 		var imgeId=0;
 		var strFileNames=new Array();
-		var imgtype = 1;//判断是否能拍照防止连续点击拍照
+		var imgindex = 0;
+		var photo = $("#c").attr('src');
 		function CaptureToFile() {
-			
 			var strFileName;
 			strFileName = strFilePath + imgeId.toString() + szPostfix;
 			Capture.CaptureImage(szDeviceIndex,strFileName);
 			// alert("文件保存为当前目录下的"+strFileName);
 			if(szPostfix != ".pdf" && szPostfix != ".tif")
 			{
-				//strFileNames.push(strFileName);
-				//Preview(0);
-				strFileNames.push(Capture.EncodeBase64(strFileName));
-				// alert(strFileNames);
-				
-				
+				// strFileNames.push(Capture.EncodeBase64(strFileName));
+				var url2 = Capture.EncodeBase64(strFileName);
+				$.ajax({
+					url: '{:url("work/facedata")}',
+					type: 'POST',
+					// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+					data: {type: 0,url2:'data:image/jpg;base64,'+url2,userid:3},
+					success:function(data){
+						alert(data);
+					},
+					error:function(){
+						alert("服务器错误");
+					}
+				})		
 			}
-			imgtype = 1;//拍照完成可以再次拍照
 		}
 		
 		

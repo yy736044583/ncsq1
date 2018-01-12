@@ -11,7 +11,7 @@
 	<div class="heater">
 		<h1 class="lf">自助服务系统</h1>
 		<div class="lr">
-			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="return">返回</a>
 			<a href="{:url('index/index')}" class="home">首页</a>
 		</div>
 	</div>
@@ -61,7 +61,7 @@
 						<td><a href="{:url('work/matter',['id'=>$v['id']])}" class="link">{$v.department}</a></td>
 						<td>
 							<a href="{:url('work/matter',['id'=>$v['id']])}" class="btns btn_look"></a>
-							<a href="" class="btns btn_ban"></a>
+							<a href="{:url('work/idcard')}?id={$v['id']}" class="btns btn_ban"></a>
 						</td>
 					</tr>
 				{/volist}	

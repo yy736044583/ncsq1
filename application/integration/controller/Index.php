@@ -10,4 +10,8 @@ class Index extends \think\Controller{
     public function index(){
         return  $this->fetch();
     }
+    // 打印复印
+    public function prints(){
+        return  $this->fetch();
+    }
 }

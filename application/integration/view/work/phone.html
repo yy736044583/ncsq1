@@ -32,7 +32,7 @@
 				<form class="clearfix">
 					<div class="post-row">
 						<label for="name">姓名</label>
-						<input type="text" name="" disabled="disabled" id="name">
+						<input type="text" name="" disabled="disabled" id="name" value="{$name.name}">
 					</div>
 					<div class="post-row left check">
 						<input type="checkbox" name="" id="q" value="1">
@@ -43,39 +43,39 @@
 					</div>
 					<div class="post-row">
 						<label for="xb">性别</label>
-						<input type="text" name="" disabled="disabled" id="xb">
+						<input type="text" name="" disabled="disabled" id="xb" value="{$name.sex}">
 					</div>
 					<div class="post-row left">
 						<label for="jg">机构名称</label>
-						<input type="text" name="" id="jg">
+						<input type="text" name="bi" id="jg">
 					</div>
 					<div class="post-row">
 						<label for="card">身份证号</label>
-						<input type="text" name="" disabled="disabled" id="card">
+						<input type="text" name="" disabled="disabled" id="card" value="{$name.card}" >
 					</div>
 					<div class="post-row left">
 						<label for="fd">法定代表</label>
-						<input type="text" name="" id="fd">
+						<input type="text" name="bi" id="fd">
 					</div>
 					<div class="post-row">
 						<label for="phone">联系电话</label>
-						<input type="text" name="" id="phone" placeholder="请输入有效手机号(必填)">
+						<input type="text" name="bi" id="phone" placeholder="请输入有效手机号(必填)">
 					</div>
 					<div class="post-row left">
 						<label for="jgdz">机构地址</label>
-						<input type="text" name="" id="jgdz">
+						<input type="text" name="bi" id="jgdz">
 					</div>
 					<div class="post-row">
 						<label for="dz">联系地址</label>
-						<input type="text" name="" id="dz" placeholder="请输入联系地址(必填)">
+						<input type="text" name="bi" id="dz" placeholder="请输入联系地址(必填)">
 					</div>
 					<div class="post-row left">
 						<label for="dm">机构代码</label>
-						<input type="text" name="" id="dm">
+						<input type="text" name="bi" id="dm">
 					</div>
 					<div class="post-row">
 						<label for="email">电子邮箱</label>
-						<input type="text" name="" id="email" placeholder="请输入电子邮箱">
+						<input type="text" name="bi" id="email" placeholder="请输入电子邮箱">
 					</div>
 					<div style="clear: both;"></div>
 					<div class="post-btn">
@@ -87,7 +87,7 @@
 		</div>
 	</div>
 	<!-- 手机号验证 -->
-	<div class="form-aletr phone-code" style="">
+	<div class="form-aletr phone-code" style="display: none;">
 		<div class="form-aletr_cont">
 			<div class="tit">
 				<h2>请验证手机号码</h2>
@@ -100,6 +100,7 @@
 					</p>
 					<form>
 						<input type="text" id="code" name="" placeholder="请输入验证码">
+						<p class="code-error" style="display: none; position: absolute;bottom:94px;z-index: 1;left: 0;right: 0;color: red">验证码过期或错误</p>
 					</form>
 				</div>
 				<a href="" class="ok">完成验证</a><em class="cxcode">从新获取</em>
@@ -118,18 +119,30 @@
 		var dz = $("#dz");
 		var dm = $("#dm");
 		var email = $("#email");
+		var set;//定时器
+		var index = 60;//倒计时60秒
 		$(document).ready(function(){
 			$(".succ").click(function(e){
-				e.preventDefault();
-				personal();
+				e.preventDefault();				
+				var Type;//验证是否通过
+				Type = personal();
 				// 选中才验证企业
 				if($("#q:checked").val() == 1){
-					enterprise();
+					Type = enterprise();
 				}
+				// 提交获取验证码
+				if(Type != false){
+					$(".form-aletr").fadeIn(100);
+					// 如果正在60秒倒计时不执行
+					if(index == 60){
+						code();
+					}									
+				}
+				
 			})
 			$(".erro").click(function(e){
 				e.preventDefault();
-				$("input[type='text']").val("");
+				$("input[name='bi']").val("");
 			})
 			// 提交验证码
 			
@@ -138,13 +151,16 @@
 				if($("#code").val() == ""){
 					return false;
 				}
-
+				PostInfo();
 			})
 			// 从新获取验证码
 			$(".cxcode").click(function(event) {
 				event.stopPropagation();
-				$(this).hide();
-				code();
+				if(index == 60){
+					$(this).hide();
+					code();
+				}
+				
 			});
 			// 关闭验证码弹窗
 			$(".off").click(function(){
@@ -201,22 +217,56 @@
 				return false;
 			}
 		}
-		// 获取验证码
-		code();
+		// 获取验证码		
 		function code(){
-			var index = 15;
-			var set = setInterval(function(){
-				index --;
-				index = index<10? ('0'+index) : index;
-				console.log(index);
-				if(index == '00'){
-					clearInterval(set);
-					index == 15;
-					$(".cxcode").show();
+			$("#phone-num").text(phone.val());			
+			$.ajax({
+				url: '{:url("work/msgnumin")}',
+				type: 'GET',
+				data: {phone: phone.val()},
+				success:function(data){
+					// 验证码发送成功
+					if(data == 1){
+						set = setInterval(function(){
+							index --;
+							index = index<10? ('0'+index) : index;
+							if(index == '00'){
+								clearInterval(set);
+								index = 60;
+								$(".cxcode").show();
+							}
+							$("#s").text(index+"秒");
+						},1000)
+					}
 				}
-				$("#s").text(index+"秒");
-			},1000)			
-
+			})								
+		}
+		// 提交信息
+		function PostInfo(){
+			if($("#code").val() == "") return false;//验证码不能为空
+			var legal = ($("#q:checked").val() == 1)?'2':"1";//个人1 公司2
+			$.ajax({
+				url: '{:url("work/codecheck")}',
+				type: 'POST',
+				// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+				data: {id: '{$name.userid}',phone:phone.val(),address:dz.val(),email:email.val(),company:jg.val(),behalf:fd.val(),company_address:jgdz.val(),company_code:dm.val(),legal:legal,code:$("#code").val()},
+				success:function(data){
+					console.log(data)
+					if(data){
+						window.location.href="{:url('work/face')}?userid={$name.userid}";
+					}else {
+						$(".code-error").fadeIn(200);
+						setTimeout(function(){
+							$(".code-error").fadeOut(200);
+						},2000)
+					}
+				},
+				error:function(){
+					alert("服务器错误");
+				}
+			})
+			
+			
 		}
 	</script>
 </body>
