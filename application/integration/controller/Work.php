@@ -185,7 +185,7 @@ class Work extends \think\Controller{
         $info= Db::name('sys_peopleinfo')->where('idcard_IDCardNo',$card)->field('id,idcardData_PhotoFileName')->find();
         
         if(!empty($data['file'])){
-            $url = $this->base64up($path,$data['file'],$card);
+            $url = '/uploads/idcard/'.$info['idcard_IDCardNo'].'/'.$this->base64up($path,$data['file'],$card);
         }
         //用户信息表中有该用户数据则更新
         if(!empty($info)){
@@ -272,6 +272,7 @@ class Work extends \think\Controller{
         //将证件照转换成base64输出
         $photo1 = $this->base64EncodeImage($url);
         $this->assign('photo',$photo1);
+        $this->assign('userid',$userid);
         return  $this->fetch();
     }
 
@@ -283,7 +284,7 @@ class Work extends \think\Controller{
         //拼接要存储的图片位置
         $path = ROOT_PATH.'public/uploads/idcard/'.$photo['idcard_IDCardNo'].'/';
         //将base64转成图片
-        $url = $this->base64up($path,$file,$photo['idcard_IDCardNo']);
+        $url = '/uploads/idcard/'.$photo['idcard_IDCardNo'].'/'.$this->base64up($path,$file,$photo['idcard_IDCardNo']);
         //将比对照片上传数据库
         Db::name('sys_peopleinfo')->where('id',$userid)->update(['picture'=>$url]);
         // 如果之前有照片 进行删除
@@ -299,6 +300,7 @@ class Work extends \think\Controller{
         echo $url;
     }
 
+    //人脸识别接口
     public function facedata(Request $request){
         $type = input('type');
         $userid = input('userid');
@@ -306,22 +308,22 @@ class Work extends \think\Controller{
         $data['type'] = $type;
         $path = ROOT_PATH.'public/uploads/tempfile/';  
         // echo $url2;die;  
-        $path1 = $request->domain().DS.dirname($_SERVER['SCRIPT_NAME']);
-        $url1 =  $path1.DS.Db::name('sys_peopleinfo')->where('id',$userid)->value('idcardData_PhotoFileName');
-        // echo $url1;return;
-        $url2 = $path1.DS.$this->base64up($path,$url2,'');
+        $path1 = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public';
+         
+        $url1 = Db::name('sys_peopleinfo')->where('id',$userid)->value('idcardData_PhotoFileName');
+        $url1 = $path1.$url1;
+        $url = '/uploads/tempfile/'.$this->base64up($path,$url2,'');
+        $url2 = $path1.$url;
         
-        // if($type=='0'){
-        //     $data['image_url_1'] = input('url1');
-        //     $data['image_url_2'] = input('url2');
-        // }else{
-        //     $data['content_1'] = input('url1');
-        //     $data['content_2'] = input('url2');
-        // }
         $data['image_url_1'] = $url1;
         $data['image_url_2'] = $url2;
         $data = json_encode($data);
         $file = $this->faceapp($data);
+        //删除临时文件
+        $dlurl = ROOT_PATH.'/public'.$url;
+        if(file_exists($dlurl)){
+            unlink($dlurl);
+        }
         echo $file;
     }
     //人脸识别接口
@@ -387,7 +389,40 @@ class Work extends \think\Controller{
     }
     // 选择资料 
     public function file(){
+        $userid = input('userid');
+        $datumid = input('datumid');
         return  $this->fetch();
+    }
+    //资料拍照上传
+    public function fileload(){
+        $time = time();
+        $start = strtotime(date('Y-m-d',$time)); //开始时间 当天零点
+        $end = $time-30*60; //结束时间 30分钟前
+        //查询所有在这个时间范围内需要删除的数据
+        $fileurl = Db::name('gra_datumfile')->where('createtime','>',$start)->where('createtime','<',$end)->where('type',1)->column('file');
+        foreach ($fileurl as $k => $v) {
+            if($v)
+                $dlurl = ROOT_PATH.'public'.$v;
+            if(file_exists($dlurl)){
+                unlink($dlurl);
+            }
+        }
+        // echo Db::name('gra_datumfile')->getlastsql();die;
+        dump($fileurl);die;
+        $userid = input('userid');
+        $datumid = input('datumid');
+        $file = input('file');
+        $card = Db::name('sys_peopleinfo')->where('id',$userid)->value('idcard_IDCardNo');
+        $path = $this->createfile('datumfile',$card);//创建资料上传文件夹
+        //拼接需要返回的url
+        $url = '/uploads/datumfile/'.$card.'/'.$this->base64up($path,$file);
+        $data['userid'] = $userid;
+        $data['datumid'] = $datumid;
+        $data['file'] = $url;
+        $data['createtime'] = $time;
+        $data['type'] = 1; //1资料提交  2确认提交
+        Db::name('gra_datumfile')->insert($data);
+        return $url;
     }
     // 上传资料  
     public function fileup(){
@@ -408,7 +443,7 @@ class Work extends \think\Controller{
      * @param  [array] $data [base64文件 数组]
      * @return [array]       [身份证照片 url ]
      */
-    public function base64up($path,$data,$card=''){
+    public function base64up($path,$data){
 
         // 创建文件名
         preg_match('/^(data:\s*image\/(\w+);base64,)/', $data, $result);
@@ -421,7 +456,7 @@ class Work extends \think\Controller{
         $url = $new_file.time().".jpg";
 
         // 拼接存入数据库的路径
-        $url1 = '/uploads/idcard/'.$card.'/'.time().".jpg";
+        $url1 = '/'.time().".jpg";
      
         // 解码base64 存放文件
         file_put_contents($url, base64_decode(str_replace($result[1], '', $data)));
@@ -442,7 +477,7 @@ class Work extends \think\Controller{
      * @param  [string] $file [要创建的文件夹]
      * @return [string]       [文件夹路径地址]
      */
-    function createfile($file,$card){
+    function createfile($file,$card=''){
         //文件夹是否存在   不存在创建
         $path1 =  ROOT_PATH . 'public' . DS . 'uploads'; // 接收文件目录
         if (!file_exists($path1)) {
@@ -456,13 +491,18 @@ class Work extends \think\Controller{
                 echo '提交失败,自动创建文件夹失败';
             }
         }
-        $path2 =  $path.DS.$card; // 接收文件目录
-        if (!file_exists($path2)) {
-            if(!mkdir($path2)){
-                echo '提交失败,自动创建文件夹失败';
+        if($card){
+            $path2 =  $path.DS.$card; // 接收文件目录
+            if (!file_exists($path2)) {
+                if(!mkdir($path2)){
+                    echo '提交失败,自动创建文件夹失败';
+                }
             }
+            return $path2;   
+        }else{
+            return $path;
         }
-        return $path2;
+ 
     }  
 
       // 短信验证码

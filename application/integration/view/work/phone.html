@@ -251,7 +251,6 @@
 				// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
 				data: {id: '{$name.userid}',phone:phone.val(),address:dz.val(),email:email.val(),company:jg.val(),behalf:fd.val(),company_address:jgdz.val(),company_code:dm.val(),legal:legal,code:$("#code").val()},
 				success:function(data){
-					console.log(data)
 					if(data){
 						window.location.href="{:url('work/face')}?userid={$name.userid}";
 					}else {

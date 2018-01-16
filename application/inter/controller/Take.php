@@ -430,6 +430,7 @@ class Take{
 			// 如果短信开关开启才发送短信
 			$send = '';
 			if($set['messageoff']==1&&$set['takeoff']==1){
+				
 				// 取号成功发送短信
 				$send = $this->takemessage($num,$businessname,$data1['count'],$mobile,$set['sign'],$set['username']);
 				dump($send);
@@ -512,9 +513,10 @@ class Take{
 			'action'	=> 'sendSms',
 			'username'	=> $username,
 		];
-
+		// dump($data1);die;
+		$url = 'http://127.0.0.1:8076/smileSMS/index.php/inter/index';
 		// $url = 'http://sms.scsmile.cn/inter/index';
-		$url = 'http://192.168.0.10:8076/smileSMS/index.php/inter/index';
+		// $url = 'http://192.168.0.10:8076/smileSMS/index.php/inter/index';
 		// url方式提交
 		$httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
 		return $httpstr;	

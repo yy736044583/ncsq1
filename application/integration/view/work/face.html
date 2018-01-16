@@ -42,22 +42,27 @@
 				    </object>
 				</div>
 				<div class="center-vido-vtn">
-					<div class="face-loding">
+					<div class="face-loding face-do">
 						<img src="__PUBLIC__integration/img/face-loading.gif">
 						<p id="s">20秒</p>
+					</div>
+					<div class="face-loding face-success" style="display: none;">
+						<em class="">识别成功，正在跳转</em>
+					</div>
+					<div class="face-loding face-error" style="display: none;">
+						<em class="">识别失败，请重新识别</em>
 					</div>
 				</div>
 			</div>
 			<div class="right-img">
 				<div class="face-right">
-					<div class="face-right-cont">
-						<img src="__PUBLIC__integration/img/face-newly.png">
-						
+					<div class="face-right-cont new-face" style="display: none;">
+						<img src="__PUBLIC__integration/img/face-newly.png">						
 					</div>
-					<div class="face-right-cont" style="display: none;">
+					<div class="face-right-cont new-next" style="display: none;">
 						<img src="__PUBLIC__integration/img/face-zy.png">
 						<p>识别失败次数达到三次，已交由后台工作人员审核，请点击“<span>进入下一步</span>”按钮继续办理</p>
-						<a href="javascript:;">进入下一步<span></span></a>
+						<a href="{:url('work/file')}">进入下一步<span></span></a>
 					</div>
 				</div>
 			</div>
@@ -66,6 +71,8 @@
 	<img src="{$photo}" id="c" style="display: none;">
 	<script type="text/javascript">
 		var index = 20;//倒计时20秒拍摄
+		var newindex = 1;//从新识别次数
+		var ok = false;//验证是否通过
 		//初始化，打开高拍仪
 		function InitOCX(){
 			try{
@@ -88,24 +95,51 @@
 		function onbeforeunload()   
 		{   
 			Capture.ReleaseDevice();
-			window.event.returnValue="确定要退出本页吗？"; 
+			// window.event.returnValue="确定要退出本页吗？"; 
 		}
 		var Iner;//定时器
 		$(document).ready(function(){
 			
+			FaceContrast();//执行对比
+			//从新识别
+			$(".new-face").click(function(event) {
+				$(this).hide();
+				$(".face-do").show().siblings().hide();
+				FaceContrast();
+				newindex++;//识别次数加1
+			});
+		})
+		// 倒计时对比
+		function FaceContrast(){
 			Iner =  setInterval(function(){
 				index --;
 				var Index = index<10?('0'+index):index;
 				$("#s").text(Index+"秒");
 				if(Index == "00" || Index == 0){
-					clearInterval(Iner);				
+					clearInterval(Iner);
+					//从新识别开始\识别次数不能超过三次
+					if(newindex<3){
+						$(".new-face").show();
+						index = 20;						
+						if(ok){
+							//通过验证
+							$(".face-success").show().siblings().hide();
+							clearInterval(Iner);
+						}else {
+							$(".face-error").show().siblings().hide();
+						}
+						
+					}else{
+						$(".new-next").show().siblings().hide();
+					}
+									
 				}
 				// 在20秒内完成3次拍照					
 				if(index == 5 || index == 10 || index == 15){
 					CaptureToFile();//拍照
 				}
-			},1000)
-		})
+			},1000);
+		}
 		// 拍照
 		var szDeviceIndex = "1";//设备的编号；   0：文档摄像头;1：人像摄像头
 		var strFilePath = "D:\\DocImage\\";
@@ -127,9 +161,23 @@
 					url: '{:url("work/facedata")}',
 					type: 'POST',
 					// dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
-					data: {type: 0,url2:'data:image/jpg;base64,'+url2,userid:3},
-					success:function(data){
-						alert(data);
+					data: {type: 0,url2:'data:image/jpg;base64,'+url2,userid:'{$userid}'},
+					success:function(data){	
+						// alert(data);					
+						var info = JSON.parse(data);
+						if(info.errno == 0){
+							if(info.confidence>40){
+								ok = true;//通过验证
+								$(".face-success").show().siblings().hide();
+								clearInterval(Iner);
+								setTimeout(function(){
+									window.location.href="{:url('work/file')}";
+								}, 1000)
+										
+							}else {
+								ok = false;//验证识别								
+							}
+						}
 					},
 					error:function(){
 						alert("服务器错误");

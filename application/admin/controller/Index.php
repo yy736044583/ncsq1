@@ -45,13 +45,40 @@ class Index extends Common{
     	return $this->fetch();
     }
 
+    
     public function clear(){
         if(Cache::clear()){
+            //置顶删除临时文件路径
+            $path = ROOT_PATH.DS.'public/uploads/tempfile';
+            //删除指定路径下的所有文件
+            $this->delFileUnderDir($path);
             $this->redirect('index/index');
         }
     }
 
-    // public function upload(){
-    //     return  $this->fetch();
-    // }
+    //循环目录下的所有文件进行删除
+    public function delFileUnderDir($dirName){ 
+        //打开文件夹
+        if ( $handle = opendir( "$dirName" ) ) {
+            while ( false !== ( $item = readdir( $handle ) ) ) {
+                if ( $item != "." && $item != ".." ) {
+                    //如果是文件夹 递归该方法
+                    if ( is_dir( "$dirName/$item" ) ) {
+                        delFileUnderDir( "$dirName/$item" );
+                    } else {
+                        $time = time();
+                        $filetime = fileatime($dirName.'/'.$item)+60*60;//文件上次打开时间
+                        // 删除文件上次打开时间超过半小时的
+                        if($time>$filetime){
+                            //删除文件
+                            unlink( "$dirName/$item" );  
+                        }
+                    }
+                }
+            }
+         
+        //关闭文件夹
+        closedir( $handle );
+        }
+    }
 }
