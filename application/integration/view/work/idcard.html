@@ -84,10 +84,9 @@
 		  			dataType: 'json',
 		  			data: {idcard: card,file:str,idcard_Name:name,idcard_Sex:sex,idcard_Nation:idcard_Nation,idcard_Born:idcard_Born,idcard_Address:idcard_Address,idcard_GrantDept:idcard_GrantDept,idcard_UserLifeBegin:idcard_UserLifeBegin,idcard_UserLifeEnd:idcard_UserLifeEnd},
 		  			success:function(data){
-		  				
 		  				if(data.code==200){
 		  					//成功进入下一步
-		  					window.location.href = "{:url('work/phone')}?userid="+data.data.id+"&card="+card+"&name="+name+"&sex="+sex;
+		  					window.location.href = "{:url('work/phone')}?matterid={$id}&userid="+data.data.id+"&card="+card+"&name="+name+"&sex="+sex;
 		  				}
 		  				
 		  			},

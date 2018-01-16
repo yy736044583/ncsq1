@@ -27,13 +27,15 @@
 		</div>
 		<div class="cont_container file">
 			<div class="file-cont">
-				<h1>您正在办理<span>房屋租贷登记备案</span></h1>
+				<h1>您正在办理<span>{$list.tname}</span></h1>
+				{volist name="datlist" id="v"}
+				{notempty name="$v['nullurl']"}
 				<div class="file-itme">
 					<div class="ic">1</div>
 					<div class="file-itme_c">
 						<div class="tit">
 							<i></i>
-							<p>土地权属单位申请</p>
+							<p>{$v.title}</p>
 							<span>未上传</span>
 							<em></em>
 							<button style="display: none;">开始上传</button>
@@ -46,12 +48,14 @@
 								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
 							</li>
 							<li class="addfile">
-								<a href="{:url('work/fileup')}"></a>
+								<a href="{:url('work/fileup')}?fdatumid={$fdatumid}&datumid={$v.id}"></a>
 							</li>
 						</ul>
 					</div>
 				</div>
-				<div class="file-itme">
+				{/notempty}
+				{/volist}
+			<!-- 	<div class="file-itme">
 					<div class="ic">2</div>
 					<div class="file-itme_c">
 						<div class="tit">
@@ -73,12 +77,12 @@
 							</li>
 						</ul>
 					</div>
-				</div>
+				</div> -->
 			</div>
 			<!-- 确认提交 -->
 			<div class="file-cont_success">
 				<a href="javascript:;"></a>
-				<p>正在处理第<span id="f">1</span>/5个资料...</p>
+				<p>正在处理第<span id="f">1</span>/{$count}个资料...</p>
 			</div>
 		</div>
 	</div>

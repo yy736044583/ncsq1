@@ -108,7 +108,6 @@ class Work extends \think\Controller{
             if($v['nullurl']){
                  $datlist[$k]['nullurl'] = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public'.$v['nullurl'];
             }
-           
         }
         $count =   Db::name('gra_datum')->where("matterid",$list['id'])->count();
         //审批条件 
@@ -178,14 +177,15 @@ class Work extends \think\Controller{
     public function upidcard_picture(){
         $data = input('post.');
         $card = $data['idcard'];
-        // $card = '513721199309055055';
+        // $card = '513721199309055040';
         //创建存储路径
         $path = $this->createfile('idcard',$card);
         //根据身份证号查询用户信息id和证件照地址
-        $info= Db::name('sys_peopleinfo')->where('idcard_IDCardNo',$card)->field('id,idcardData_PhotoFileName')->find();
+        $info = Db::name('sys_peopleinfo')->where('idcard_IDCardNo',$card)->field('id,idcardData_PhotoFileName')->find();
         
         if(!empty($data['file'])){
-            $url = '/uploads/idcard/'.$info['idcard_IDCardNo'].'/'.$this->base64up($path,$data['file'],$card);
+            $url = $this->base64up($path,$data['file']);
+            $url = '/uploads/idcard/'.$card.'/'.$url;
         }
         //用户信息表中有该用户数据则更新
         if(!empty($info)){
@@ -226,8 +226,10 @@ class Work extends \think\Controller{
         $name = input('name');//姓名
         $sex = input('sex');//性别
         $userid = input('userid');//用户id
+        $matterid =  input('matterid');//事项id
         $arrayName = array('card' => $card, 'name' => $name, 'sex' => $sex,'userid'=>$userid);
         $this->assign('name',$arrayName);
+        $this->assign('matterid',$matterid);
         return  $this->fetch();
     }
 
@@ -267,12 +269,14 @@ class Work extends \think\Controller{
     // 人脸识别页面 
     public function face(){
         $userid = input('userid');
+        $matterid = input('matterid');
         $photo = Db::name('sys_peopleinfo')->where('id',$userid)->value('idcardData_PhotoFileName');
         $url = ROOT_PATH.'public'.$photo;
         //将证件照转换成base64输出
         $photo1 = $this->base64EncodeImage($url);
         $this->assign('photo',$photo1);
         $this->assign('userid',$userid);
+        $this->assign('matterid',$matterid);
         return  $this->fetch();
     }
 
@@ -280,11 +284,14 @@ class Work extends \think\Controller{
     public function upfacepicture(){
         $userid = input('userid');
         $file = input('file');
-        $photo = Db::name('sys_peopleinfo')->where('id',$userid)->field('id,idcard_IDCardNo,picture')->find();
+        $photo = Db::name('sys_peopleinfo')->where('id',$userid)->field('id,idcard_IDCardNo,picture,idcard_IDCardNo')->find();
         //拼接要存储的图片位置
         $path = ROOT_PATH.'public/uploads/idcard/'.$photo['idcard_IDCardNo'].'/';
         //将base64转成图片
-        $url = '/uploads/idcard/'.$photo['idcard_IDCardNo'].'/'.$this->base64up($path,$file,$photo['idcard_IDCardNo']);
+        $url = $this->base64up($path,$file,$photo['idcard_IDCardNo']);
+        if(isset($url)){
+            $url = '/uploads/idcard/'.$photo['idcard_IDCardNo'].'/'.$url;
+        }
         //将比对照片上传数据库
         Db::name('sys_peopleinfo')->where('id',$userid)->update(['picture'=>$url]);
         // 如果之前有照片 进行删除
@@ -385,47 +392,112 @@ class Work extends \think\Controller{
     }
     // 承诺书  
     public function letter(){
+        $userid = input('userid');
+        $matterid = input('matterid');
+        $this->assign('userid',$userid);
+        $this->assign('matterid',$matterid);
         return  $this->fetch();
     }
     // 选择资料 
-    public function file(){
+    public function file(Request $request){
         $userid = input('userid');
-        $datumid = input('datumid');
+        $matterid = input('matterid');
+        $time = time();
+        $data['userid'] = $userid;
+        $data['matterid'] = $matterid;
+        $data['createtime'] = $time;
+
+        //删除1小时前未提交的数据
+        $this->dlmatterdatum($time);
+        //添加数据
+        $id = Db::name('gra_matterdatum')->insertGetId($data);
+        //事项信息
+        $list = Db::name('gra_matter')->where('id',$matterid)->field('id,tname')->find();
+        //应交材料
+        $datlist = Db::name('gra_datum')->where("matterid",$matterid)->order('sort')->select();
+        $count = 0;//统计应提交的资料数
+        foreach ($datlist as $k => $v) {
+            if($v['nullurl']){
+                $datlist[$k]['nullurl'] = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public'.$v['nullurl'];
+                $count +=1;
+            }
+        }
+        $this->assign('userid',$userid);
+        $this->assign('list',$list);
+        $this->assign('count',$count);
+        $this->assign('datlist',$datlist);
+        $this->assign('fdatumid',$id);
         return  $this->fetch();
+    }
+    /**
+     * [dlmatterdatum 删除1小时前未提交的资料]
+     * @param  [time] $start [时间]
+     * @return [type]        [description]
+     */
+    public function dlmatterdatum($time){
+        $start = strtotime(date('Y-m-d',$time)); //开始时间 当天零点
+        $end = $time-60*60; //结束时间 60分钟前
+        $path1 = ROOT_PATH.'public';
+        //删除1小时前未提交的数据
+        $dlid = Db::name('gra_matterdatum')->where('createtime','>',$start)->where('createtime','<',$end)->where('type',1)->column('id');
+        //删除用户事项表下所有上传的资料
+        foreach ($dlid as $k => $v) {
+            //查询全部上传信息 并删除
+            $dlfile = Db::name('gra_datumfile')->where('fdatumid',$v)->field('file,id')->find();
+            //删除数据
+            Db::name('gra_datumfile')->where('id',$dlfile['id'])->delete();
+            //删除文件
+            if($dlfile['file']){
+                $dlurl = $path1.$dlfile['file'];
+                if(file_exists($dlurl)){
+                    unlink($dlurl);
+                }
+            } 
+        }
     }
     //资料拍照上传
     public function fileload(){
         $time = time();
         $start = strtotime(date('Y-m-d',$time)); //开始时间 当天零点
-        $end = $time-30*60; //结束时间 30分钟前
+        $end = $time-60*60; //结束时间 60分钟前
+        $path1 = ROOT_PATH.'public';
         //查询所有在这个时间范围内需要删除的数据
-        $fileurl = Db::name('gra_datumfile')->where('createtime','>',$start)->where('createtime','<',$end)->where('type',1)->column('file');
+        $fileurl = Db::name('gra_datumfile')->where('createtime','>',$start)->where('createtime','<',$end)->where("type",1)->column('file');
         foreach ($fileurl as $k => $v) {
             if($v)
-                $dlurl = ROOT_PATH.'public'.$v;
+                $dlurl = $path1.$v;
             if(file_exists($dlurl)){
                 unlink($dlurl);
             }
         }
         // echo Db::name('gra_datumfile')->getlastsql();die;
-        dump($fileurl);die;
+        // dump($fileurl);die;
         $userid = input('userid');
         $datumid = input('datumid');
+        $fdatumid = input('fdatumid');//用户事项材料表id
         $file = input('file');
         $card = Db::name('sys_peopleinfo')->where('id',$userid)->value('idcard_IDCardNo');
         $path = $this->createfile('datumfile',$card);//创建资料上传文件夹
         //拼接需要返回的url
-        $url = '/uploads/datumfile/'.$card.'/'.$this->base64up($path,$file);
-        $data['userid'] = $userid;
+        $url = $this->base64up($path,$file);
+        if($url){
+           $url = '/uploads/datumfile/'.$card.'/'.$url; 
+        }
+        
+        $data['fdatumid'] = $fdatumid;
         $data['datumid'] = $datumid;
         $data['file'] = $url;
         $data['createtime'] = $time;
         $data['type'] = 1; //1资料提交  2确认提交
-        Db::name('gra_datumfile')->insert($data);
-        return $url;
+        $id = Db::name('gra_datumfile')->insertGetId($data);
+
+        echo json_encode(['data'=>['id'=>$id,'url'=>$url]]);
+        return;
     }
     // 上传资料  
     public function fileup(){
+        // $userid = input('userid');
+        // $matterid = input('matterid');
         return  $this->fetch();
     }
     // 取件方式  
@@ -491,7 +563,7 @@ class Work extends \think\Controller{
                 echo '提交失败,自动创建文件夹失败';
             }
         }
-        if($card){
+        if(!empty($card)){
             $path2 =  $path.DS.$card; // 接收文件目录
             if (!file_exists($path2)) {
                 if(!mkdir($path2)){
@@ -566,8 +638,37 @@ class Work extends \think\Controller{
 
 
     public function test(){
-        $path = 'D:\phpStudy\WWW\ncsq\public\uploads\idcard\513721199309055055';
+        $url = 'http://127.0.0.1:8076/ncsq/integration/work/upidcard_picture';
+        $data['idcard'] = '513721199309055040';
+        $data['file'] = '513721199309055055';
+        $ret = $this->postData($url,$data);
+        dump($ret);
+        // $this->base64up($path,$data);
+    } 
 
-        $this->base64up($path,$data);
-    }  
+    public function postData($url, $data){        
+        $ch = curl_init();        
+        $timeout = 300;
+        $data = http_build_query($data);
+        curl_setopt ($ch, CURLOPT_HEADER, 0 );  
+        $header = array ();  
+        $header [] = 'Host:www.XXXX.co';  
+        $header [] = 'Connection: keep-alive';  
+        $header [] = 'User-Agent: ozilla/5.0 (X11; Linux i686) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/14.0.835.186 Safari/535.1';  
+        $header [] = 'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8';  
+        $header [] = 'Accept-Language: zh-CN,zh;q=0.8';  
+        $header [] = 'Accept-Charset: GBK,utf-8;q=0.7,*;q=0.3';  
+        $header [] = 'Cache-Control:max-age=0';  
+        $header [] = 'Cookie:t_skey=p5gdu1nrke856futitemkld661; t__CkCkey_=29f7d98';  
+        $header [] = 'Content-Type:application/x-www-form-urlencoded';  
+        curl_setopt ($ch, CURLOPT_HTTPHEADER, $header );           
+        curl_setopt($ch, CURLOPT_URL, $url);   //请求地址      
+        curl_setopt($ch, CURLOPT_POST, true);  //post请求     
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);      //数据  
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);  //当CURLOPT_RETURNTRANSFER设置为1时 $head 有请求的返回值      
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);    //设置请求超时时间    
+        $handles = curl_exec($ch);        
+        curl_close($ch);          
+        return $handles;  
+    }     
 }

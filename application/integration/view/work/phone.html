@@ -252,7 +252,7 @@
 				data: {id: '{$name.userid}',phone:phone.val(),address:dz.val(),email:email.val(),company:jg.val(),behalf:fd.val(),company_address:jgdz.val(),company_code:dm.val(),legal:legal,code:$("#code").val()},
 				success:function(data){
 					if(data){
-						window.location.href="{:url('work/face')}?userid={$name.userid}";
+						window.location.href="{:url('work/face')}?userid={$name.userid}&matterid={$matterid}";
 					}else {
 						$(".code-error").fadeIn(200);
 						setTimeout(function(){

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">我要办事</a><span> > </span>
+			<a href="">选择事项</a><span> > </span>
+			<a href="">事项详情</a><span> > </span>
+			<a href="">身份验证</a><span> > </span>
+			<a href="">个人承诺</a>
+		</div>
+		<div class="cont_container letter">
+			<p style="font-size: 30px;text-align: center;padding-top: 200px;">正在开发中...</p>
+
+			<a href="{:url('work/file')}?matterid={$matterid}&userid={$userid}">进入下一步<span></span></a>
+		</div>
+	</div>
+</body>
+</html>

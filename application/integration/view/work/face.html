@@ -62,7 +62,7 @@
 					<div class="face-right-cont new-next" style="display: none;">
 						<img src="__PUBLIC__integration/img/face-zy.png">
 						<p>识别失败次数达到三次，已交由后台工作人员审核，请点击“<span>进入下一步</span>”按钮继续办理</p>
-						<a href="{:url('work/file')}">进入下一步<span></span></a>
+						<a href="{:url('work/letter')}?matterid={$matterid}&userid={$userid}">进入下一步<span></span></a>
 					</div>
 				</div>
 			</div>
@@ -170,9 +170,24 @@
 								ok = true;//通过验证
 								$(".face-success").show().siblings().hide();
 								clearInterval(Iner);
-								setTimeout(function(){
-									window.location.href="{:url('work/file')}";
-								}, 1000)
+								// 上传验证通过照片
+								$.ajax({
+									url: '{:url("work/upfacepicture")}',
+									type: 'POST',
+									data: {userid: '{$userid}',file:'data:image/jpg;base64,'+url2},
+									success:function(data){
+										if(data == 1){
+											setTimeout(function(){
+												window.location.href="{:url('work/letter')}?matterid={$matterid}&userid={$userid}";
+											}, 1000)
+										}										
+									},
+									error:function(){
+										alert("服务器错误");
+									}
+								})
+								
+								
 										
 							}else {
 								ok = false;//验证识别								
