@@ -16,8 +16,8 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		// $url = 'http://sms.scsmile.cn/inter/showunitinfo';
-		$url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+		$url = 'http://sms.scsmile.cn/inter/showunitinfo';
+		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
 		// 接口所需数据
 		$data1['action'] = 'showsign';
 		
@@ -102,7 +102,10 @@ class Note extends Common{
 					break;
 				case '5':
 					$list[$k]['type'] = '验证码短信';
-					break;		
+					break;	
+				case '6':
+					$list[$k]['type'] = '取件码通知短信';
+					break;	
 				default:
 					$list[$k]['type'] = '未同步';
 					break;
@@ -117,8 +120,8 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		// $url = 'http://sms.scsmile.cn/inter/Showunitinfo';
-		$url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+		$url = 'http://sms.scsmile.cn/inter/Showunitinfo';
+		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
 		// 接口所需数据
 		$data1['action'] = 'showtemplet';
 		
@@ -269,8 +272,8 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		$url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
-		// $url = 'http://sms.scsmile.cn/inter/showunitinfo';
+		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+		$url = 'http://sms.scsmile.cn/inter/showunitinfo';
 		
 		// 接口所需数据
 		$data1['action'] = 'mstrecordnum';

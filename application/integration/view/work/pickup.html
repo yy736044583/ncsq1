@@ -6,6 +6,8 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
 	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
 	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/area.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/layer/layer.js"></script>
 </head>
 <body class="box">
 	<div class="heater">
@@ -35,8 +37,8 @@
 						<label for="x1">方式一：现场取件</label>
 					</div>
 					<div class="con">
-						<p class="t1">取件说明：系统<span>60秒</span>后会把取件号码通过短信发送至<span>15200005123</span>的手机。审核通过后，凭取件号码到服务台领取办事结果，请注意查收</p>
-						<a href="javascript:;">到时间未收到短信？请点击此处。</a>
+						<p class="t1">取件说明：系统<span id="ms">60秒</span>后会把取件号码通过短信发送至<span id="">{$phone}</span>的手机。审核通过后，凭取件号码到服务台领取办事结果，请注意查收</p>
+						<a href="javascript:;" class="newCode">点击此处获得取件码</a>
 					</div>
 				</div>
 				<!-- 取件方式一 -->
@@ -52,13 +54,13 @@
 							<select id="s_province" name="s_province"></select>
 							<select id="s_city" name="s_city" ></select>
 						 	<select id="s_county" name="s_county"></select>
-						 	<input type="text" name="address" placeholder="请填写具体地址">
+						 	<input type="text" name="address" id="address" placeholder="请填写具体地址" autocomplete="off">
 						 </div>
 						 <div class="t1">
 							<span> 联 系 人 ：</span>
-						 	<input type="text" name="name" placeholder="请填写联系人姓名" style="width: 384px">
+						 	<input type="text" name="name" id="linkman" placeholder="请填写联系人姓名" autocomplete="off" style="width: 384px">
 						 	<span style="margin-left: 20px">联系电话：</span>
-						 	<input type="text" name="phone" placeholder="请填写联系人姓名">
+						 	<input type="text" name="phone" id="phone" autocomplete="off" placeholder="请填写联系电话">
 
 						 </div>
 						 <p class="t1">取件说明：系统默认<span>顺丰快递</span>，需要2-4天左右送达。过程中你可以通过系统发送的快递单号到顺丰官网查询，收取包裹时请付邮费。资费标准：按顺丰快递快递包裹资费标准执行。</p>
@@ -76,14 +78,15 @@
 		_init_area();//初始化联动城市
 		$(document).ready(function(){
 			
-			$(".succ").click(function(){
+			$(".succ").click(function(){				
 				//Type 1、现场取件；2、邮寄取件
+				var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
 				var Type = $("input[type='radio']:checked").val();
 				if(Type == 2){
 					$("input.error").removeClass('error');
 					var city = document.getElementsByTagName('select');
 					if(city[0].value == "省份" || city[1].value == "地级市" || city[2].value == "市、县级市"){
-						alert("请选择城市");
+						layer.msg('请选择城市');
 						return false;
 					}
 					if($('input[name="address"]').val() == ""){
@@ -96,15 +99,72 @@
 						$('input[name="name"]').focus();
 						return false;
 					}
-					if($('input[name="phone"]').val() == ""){
+					if($('input[name="phone"]').val() == "" || !myreg.test($('input[name="phone"]').val())){
 						$('input[name="phone"]').addClass('error');
 						$('input[name="phone"]').focus();
 						return false;
 					}
+
+					$.ajax({
+						url: '{:url("work/upaddress")}',
+						type: 'POST',
+						data: {address: $("#address").val(),phone: $("#phone").val(),linkman: $("#linkman").val(),fdatumid: '{$fdatumid}',},
+						success:function(data){
+							if (data == 1) {
+								layer.alert('提交成功',{
+									icon:1,
+									yes:function(){
+										window.location.href="{:url('index/index')}";							
+									}
+								})
+							}
+						},
+						error:function(){
+							alert("500");
+						}
+					})
+					
+				}else {
+					layer.alert('提交成功',{
+						icon:1,
+						yes:function(){
+							window.location.href="{:url('index/index')}";							
+						}
+					})
 				}
 			})
+			// 重新获取验证码
+			$(".newCode").click(function(event) {
+				event.stopPropagation();
+				$(this).text();
+				code();
+			});
 		})
-		
+		// 获取验证码				
+		function code(){
+			var set;
+			var index = 60;		
+			$.ajax({
+				url: '{:url("work/msggetnum")}',
+				type: 'GET',
+				data: {phone: '{$phone}',fdatumid:'{$fdatumid}'},
+				success:function(data){
+					// 验证码发送成功
+					if(data == 1){
+						set = setInterval(function(){
+							index --;
+							index = index<10? ('0'+index) : index;
+							if(index == '00'){
+								$(".newCode").text("到时间未收到短信？请点击此处。").show();
+								clearInterval(set);
+								index = 60;
+							}
+							$("#ms").text(index+"秒");
+						},1000)
+					}
+				}
+			})								
+		}
 	</script>
 </body>
 </html>

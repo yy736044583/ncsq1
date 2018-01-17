@@ -551,7 +551,24 @@ class Work extends \think\Controller{
     }
     // 取件方式  
     public function pickup(){
+        $userid = input('userid');
+        $fdatumid = input('fdatumid');
+        $phone = Db::name('sys_peopleinfo')->where('id',$userid)->value('phone');
+        $this->assign('phone',$phone);
+        $this->assign('fdatumid',$fdatumid);
         return  $this->fetch();
+    }
+    //提交邮寄地址 联系电话 联系人
+    public function upaddress(){
+        $data = input('post.');
+        $fdatumid = $data['fdatumid'];
+        unset($data['fdatumid']);
+        if(Db::name('gra_matterdatum')->where('id',$fdatumid)->update($data)){
+            echo 1;return;
+        }else{
+            echo 2;return;
+        }
+        
     }
     // 打印小票  
     public function prin(){
@@ -625,8 +642,8 @@ class Work extends \think\Controller{
         }
  
     }  
-
-      // 短信验证码
+    //身份验证
+    // 短信验证码
      public function msgnumin(){
         $phone = input('phone');//电话号码
         $num=rand(100000,999999);//六位随机数
@@ -654,14 +671,36 @@ class Work extends \think\Controller{
         } 
      }
 
- 
+    //取件码
+    // 短信验证码
+     public function msggetnum(){
+        $phone = input('phone');//电话号码
+        $fdatumid = input('fdatumid');//用户事项材料表id
+        $num=$this->sofn_generate_num(4);//10+4位随机数
+
+        // 启动事务
+        Db::startTrans();
+        try{
+            //将新的验证码插入数据库
+            Db::name('gra_matterdatum')->where('id',$fdatumid)->update(['manner'=>1,'getnum'=>$num]);
+            $set = Db::name('dx_set')->where('id',1)->find();
+            $send = $this->getmessage($num,$phone,$set['sign'],$set['username']);
+            // 提交事务
+            Db::commit();
+            echo 1;return;    
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            echo 2;return;  
+        } 
+     }
 
 
     /**
-     * [takemessage 取号成功短信提醒]
+     * [takemessage 身份验证短信验证码]
      * @param  [type] $code  [验证码]
-     * @param  [type] $business [description]
-     * @param  [type] $count    [description]
+     * @param  [type] $sign [签名]
+     * @param  [type] $username    [用户名]
      * @param  [type] $phone    [description]
      * @return [type]           [description]
      */
@@ -682,17 +721,65 @@ class Work extends \think\Controller{
         // url方式提交
         $httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
         return $httpstr;    
-    }   
+    }  
+
+    /**
+     * [getmessage 取件短信验证码]
+     * @param  [type] $code  [验证码]
+     * @param  [type] $sign [签名]
+     * @param  [type] $username    [用户名]
+     * @param  [type] $phone    [description]
+     * @return [type]           [description]
+     */
+    public function getmessage($code,$phone,$sign,$username){
+        // 模板所需数据
+        $json = ['code'=>$code];
+        // 短信模板编号
+        $code = Db::name('dx_template')->where('type',6)->value('code');
+        $data1 = [
+            'data'      => $json,
+            'template'  => $code,
+            'phone'     => $phone,
+            'sign'      => $sign,
+            'action'    => 'sendSms',
+            'username'  => $username,
+        ];
+        $url = 'http://sms.scsmile.cn/inter/index';
+        // url方式提交
+        $httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
+        return $httpstr;    
+    }
+
+    public function sofn_generate_num($len='') {
+        $chars='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+        $num = rand('10000','99999');//生成一个5位数的随机数
+        $string=time()-$num;//时间戳减去随机数 增加一层变量
+        for($len=$len;$len>=1;$len--){
+            $position=rand()%strlen($chars);
+            $position2=rand()%strlen($string);
+            //随机添加一个chars里面的字符到时间戳随机位置上
+            $string=substr_replace($string,substr($chars,$position,1),$position2,0);
+        }
+        return $string;
+    }
 
 
 
     public function test(){
-        $url = 'http://127.0.0.1:8076/ncsq/integration/work/upidcard_picture';
-        $data['idcard'] = '513721199309055040';
-        $data['file'] = '513721199309055055';
-        $ret = $this->postData($url,$data);
-        dump($ret);
-        // $this->base64up($path,$data);
+        $phone = '15928552357';
+        $fdatumid = 5;
+        $this->msggetnum($phone,$fdatumid);
+
+        // set_time_limit(1500);
+        // for ($i=0; $i < 20; $i++) {
+        //     for ($j=0; $j <=1000 ; $j++) { 
+        //         $num = $this->sofn_generate_num(4);
+        //         $data[$j]['devicenum'] = $num;
+        //     } 
+        //    Db::name('test')->insertAll($data);
+        //    $data = array(); 
+        // }
+       
     } 
 
     public function postData($url, $data){        

@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
 	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
 	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/layer/layer.js"></script>
 </head>
 <body class="box">
 	<div class="heater">
@@ -44,7 +45,7 @@
 							
 							<em></em>
 							{if  empty($v['picture']) == true}
-							<button >开始上传</button>
+							<button {if $k==1} style="display: none;" {/if}>开始上传</button>
 							{else/}
 							<button {if $k==1} style="display: none;" {/if}class="new">继续上传</button>
 							{/if}
@@ -66,29 +67,6 @@
 				</div>
 				{/notempty}
 				{/volist}
-				<!-- <div class="file-itme">
-					<div class="ic">2</div>
-					<div class="file-itme_c">
-						<div class="tit">
-							<i></i>
-							<p>土地权属单位申请</p>
-							<span class="succ">未上传</span>
-							<em></em>
-							<button class="new">继续上传</button>
-						</div>
-						<ul class="clearfix" style="display: none;">
-							<li>
-								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
-							</li>
-							<li>
-								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
-							</li>
-							<li class="addfile">
-								
-							</li>
-						</ul>
-					</div>
-				</div> -->
 			</div>
 			<!-- 确认提交 -->
 			<div class="file-cont_success">
@@ -178,12 +156,22 @@
 			})
 			// 确认提交
 			$(".file-cont_success a").click(function(e){
+				var typetext = document.getElementsByTagName('button');
+				for (var i = 0; i <= typetext.length-1; i++) {
+					if(typetext[i].innerText == "开始上传"){
+						layer.msg('资料不完整');
+						return false;
+					}
+				}
+				
 				$.ajax({
 					url: '{:url("work/submitfile")}',
 					type: 'GET',
 					data: {fdatumid: '{$fdatumid}'},
-					succsee:function(data){
-						alert(data)
+					success:function(data){
+						if(data == 1){
+							window.location.href="{:url('work/pickup')}?userid={$userid}&fdatumid={$fdatumid}";
+						}
 					},
 					error:function(){
 						alert("500");

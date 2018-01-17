@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>邮寄信息</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+		<link rel="stylesheet" href="__PUBLIC__static/css/style.css"/>
+	</head>
+		<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+
+
+	<body>
+		<div style="margin: 15px;">
+			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+				<legend>邮寄信息</legend>
+			</fieldset>
+				<div class="layui-form-item">
+					<label class="layui-form-label">状态</label>
+					<div class="layui-input-block">
+						<input type="text" name="" lay-verify="title" autocomplete="off" class="layui-input" value="{$list.mannername}" readonly="readonly">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">联系人</label>
+					<div class="layui-input-block">
+						<input type="text" name="" lay-verify="title" autocomplete="off" class="layui-input" value="{$list.linkman}" readonly="readonly">
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">联系电话</label>
+					<div class="layui-input-block">
+						<input type="text" name="" lay-verify="title" autocomplete="off"  class="layui-input" value="{$list.phone}" readonly="readonly">
+					</div>
+				</div>
+
+				<div class="layui-form-item">
+					<label class="layui-form-label">联系地址</label>
+					<div class="layui-input-block">
+						<input type="text" name="" lay-verify="title" autocomplete="off"  class="layui-input" value="{$list.address}" readonly="readonly">
+					</div>
+				</div>
+				
+			<form class="layui-form" action="{:url('procedures/showaddress')}" method="post">			    	
+				<input type="hidden" name="id" value="{$list.id}">
+				<input type="hidden" name="manner" value="2">
+				<div class="layui-form-item">
+					<label class="layui-form-label">快递单号</label>
+					<div class="layui-input-block">
+						<input type="text" name="number" lay-verify="Numbers" autocomplete="off"  class="layui-input" value="{$list.number}" >
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit="" lay-filter="demo1">确认邮寄</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</body>
+	
+<script>
+	layui.use(['form', 'layedit', 'laydate'], function() {
+		var form = layui.form(),
+			layer = layui.layer,
+			layedit = layui.layedit,
+			laydate = layui.laydate;
+		//自定义验证规则
+			  form.verify({
+			    Numbers: function(value){
+			      if(value.length < 1){
+			        return '快递单号不能为空';
+			      }
+			    }
+			    
+			  });
+	});
+</script>
+
+</html>
