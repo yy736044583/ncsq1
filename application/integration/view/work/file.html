@@ -28,34 +28,45 @@
 		<div class="cont_container file">
 			<div class="file-cont">
 				<h1>您正在办理<span>{$list.tname}</span></h1>
-				{volist name="datlist" id="v"}
+				{volist name="datlist" id="v" key="k"}
 				{notempty name="$v['nullurl']"}
 				<div class="file-itme">
-					<div class="ic">1</div>
+					<div class="ic">{$k}</div>
 					<div class="file-itme_c">
 						<div class="tit">
 							<i></i>
 							<p>{$v.title}</p>
-							<span>未上传</span>
+							{if empty($v['picture']) == false}
+								<span class="succ">已上传</span>
+							{else/}
+								<span>未上传</span>
+							{/if}
+							
 							<em></em>
-							<button style="display: none;">开始上传</button>
+							{if  empty($v['picture']) == true}
+							<button >开始上传</button>
+							{else/}
+							<button {if $k==1} style="display: none;" {/if}class="new">继续上传</button>
+							{/if}
 						</div>
-						<ul class="clearfix">
+						<ul class="clearfix" {if $k>1}style="display: none;"{/if}>
+							{volist name="$v['picture']" id="vv"}
 							<li>
-								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
+								<img src="__PUBLIC__{$vv.file}" data-id="{$vv.id}" class="delect{$vv.id}">
 							</li>
-							<li>
+							{/volist}
+							<!-- <li>
 								<img src="http://www.w3school.com.cn/i/eg_tulip.jpg">
-							</li>
+							</li> -->
 							<li class="addfile">
-								<a href="{:url('work/fileup')}?fdatumid={$fdatumid}&datumid={$v.id}"></a>
+								<a href="{:url('work/fileup')}?fdatumid={$fdatumid}&datumid={$v.id}&userid={$userid}&matterid={$matterid}"></a>
 							</li>
 						</ul>
 					</div>
 				</div>
 				{/notempty}
 				{/volist}
-			<!-- 	<div class="file-itme">
+				<!-- <div class="file-itme">
 					<div class="ic">2</div>
 					<div class="file-itme_c">
 						<div class="tit">
@@ -93,13 +104,14 @@
 				<img src="">
 			</div>
 			<div class="preview-cont-btn">
-				<a href="javascript:;" style="background: #fe5155">删除图片</a>
+				<a href="javascript:;" id="delimg" style="background: #fe5155">删除图片</a>
 				<a href="javascript:;" id="off" style="background: #0089fe">关闭窗口</a>
 			</div>
 		</div>
 	</div>
 	<!-- 预览资料 -->
 	<script type="text/javascript">
+		var ImgId = null;//删除图片id
 		$(document).ready(function(){
 			// 点击收起
 			$(".file-itme_c .tit em").click(function(e){
@@ -119,6 +131,27 @@
 				var index = $(this).parents(".file-itme").index();
 				$("#f").text(index);
 			})
+			// 删除图片
+			$("#delimg").click(function(e) {
+				e.stopPropagation();
+				$.ajax({
+					url: '{:url("work/dlfile")}',
+					type: 'GET',
+					data: {id: ImgId},
+					success:function(data){
+						if(data == 1){
+							$(".delect"+ImgId+"").parent('li').remove();
+							$(".preview-file").hide();
+							ImgId = null;
+						}
+					},
+					error:function(){
+						alert("500");
+					}
+				})
+				
+				
+			});
 			// 关闭其他下拉
 			// $(".file-itme_c .tit").click(function(e){
 			// 	e.stopPropagation();
@@ -127,17 +160,36 @@
 			// 	$(this).parents(".file-itme").siblings().find('ul').slideUp();
 			// 	$(this).parents(".file-itme").siblings().find('button').show();
 			// })
+
 			// 预览图片
+			
 			$(".file-itme_c li img").click(function(e){
 				e.stopPropagation();
 				var src = $(this).attr('src');
-				$(".preview-file").fadeIn(100);
+				ImgId = $(this).attr('data-id');
+				$(".preview-file").show();
 				$(".preview-file").find('img').attr("src",src);
 			})
 			// 关闭预览
 			$("#off").click(function(e){
 				e.stopPropagation();
-				$(".preview-file").fadeOut(100);
+				$(".preview-file").hide();
+				ImgId = null;
+			})
+			// 确认提交
+			$(".file-cont_success a").click(function(e){
+				$.ajax({
+					url: '{:url("work/submitfile")}',
+					type: 'GET',
+					data: {fdatumid: '{$fdatumid}'},
+					succsee:function(data){
+						alert(data)
+					},
+					error:function(){
+						alert("500");
+					}
+				})
+				
 			})
 		})
 	</script>

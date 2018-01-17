@@ -293,18 +293,18 @@ class Work extends \think\Controller{
             $url = '/uploads/idcard/'.$photo['idcard_IDCardNo'].'/'.$url;
         }
         //将比对照片上传数据库
-        Db::name('sys_peopleinfo')->where('id',$userid)->update(['picture'=>$url]);
-        // 如果之前有照片 进行删除
-        if(!empty($photo['picture'])){
-            //拼接要删除的图片地址
-            $dlurl = ROOT_PATH.DS.'/public'.$photo['picture'];
-            //删除图片地址
-            if(file_exists($dlurl)){
-                unlink($dlurl);
-            }            
-        }
-
-        echo $url;
+        if(Db::name('sys_peopleinfo')->where('id',$userid)->update(['picture'=>$url])){
+            // 如果之前有照片 进行删除
+            if(!empty($photo['picture'])){
+                //拼接要删除的图片地址
+                $dlurl = ROOT_PATH.DS.'/public'.$photo['picture'];
+                //删除图片地址
+                if(file_exists($dlurl)){
+                    unlink($dlurl);
+                }            
+            } 
+            echo 1;           
+        }       
     }
 
     //人脸识别接口
@@ -394,23 +394,24 @@ class Work extends \think\Controller{
     public function letter(){
         $userid = input('userid');
         $matterid = input('matterid');
+        $time = time();
+        $data['userid'] = $userid;
+        $data['matterid'] = $matterid;
+        $data['createtime'] = $time;
+        //删除1小时前未提交的数据
+        $this->dlmatterdatum($time);
+        //添加数据
+        $id = Db::name('gra_matterdatum')->insertGetId($data);
         $this->assign('userid',$userid);
         $this->assign('matterid',$matterid);
+        $this->assign('fdatumid',$id);
         return  $this->fetch();
     }
     // 选择资料 
     public function file(Request $request){
         $userid = input('userid');
         $matterid = input('matterid');
-        $time = time();
-        $data['userid'] = $userid;
-        $data['matterid'] = $matterid;
-        $data['createtime'] = $time;
-
-        //删除1小时前未提交的数据
-        $this->dlmatterdatum($time);
-        //添加数据
-        $id = Db::name('gra_matterdatum')->insertGetId($data);
+        $fdatumid = input('fdatumid');
         //事项信息
         $list = Db::name('gra_matter')->where('id',$matterid)->field('id,tname')->find();
         //应交材料
@@ -421,12 +422,15 @@ class Work extends \think\Controller{
                 $datlist[$k]['nullurl'] = $request->domain().dirname($_SERVER['SCRIPT_NAME']).'/public'.$v['nullurl'];
                 $count +=1;
             }
+            $datlist[$k]['picture'] = Db::name('gra_datumfile')->where('datumid',$v['id'])->where('fdatumid',$fdatumid)->field('file,id')->select();
         }
+        // dump($datlist);die;
         $this->assign('userid',$userid);
         $this->assign('list',$list);
         $this->assign('count',$count);
         $this->assign('datlist',$datlist);
-        $this->assign('fdatumid',$id);
+        $this->assign('fdatumid',$fdatumid);
+        $this->assign('matterid',$matterid);
         return  $this->fetch();
     }
     /**
@@ -457,47 +461,92 @@ class Work extends \think\Controller{
     }
     //资料拍照上传
     public function fileload(){
+
         $time = time();
         $start = strtotime(date('Y-m-d',$time)); //开始时间 当天零点
         $end = $time-60*60; //结束时间 60分钟前
         $path1 = ROOT_PATH.'public';
         //查询所有在这个时间范围内需要删除的数据
         $fileurl = Db::name('gra_datumfile')->where('createtime','>',$start)->where('createtime','<',$end)->where("type",1)->column('file');
+        //删除这个时间范围内没有提交的文件
         foreach ($fileurl as $k => $v) {
-            if($v)
+            if($v){
                 $dlurl = $path1.$v;
-            if(file_exists($dlurl)){
-                unlink($dlurl);
+                if(file_exists($dlurl)){
+                    unlink($dlurl);
+                }
             }
-        }
-        // echo Db::name('gra_datumfile')->getlastsql();die;
-        // dump($fileurl);die;
-        $userid = input('userid');
-        $datumid = input('datumid');
-        $fdatumid = input('fdatumid');//用户事项材料表id
-        $file = input('file');
+                    }
+        $data1 = input('post.');
+        $userid = $data1['userid'];
+        $datumid = $data1['datumid'];
+        $fdatumid = $data1['fdatumid'];//用户事项材料表id
+        $file = $data1['file'];
+
         $card = Db::name('sys_peopleinfo')->where('id',$userid)->value('idcard_IDCardNo');
         $path = $this->createfile('datumfile',$card);//创建资料上传文件夹
-        //拼接需要返回的url
-        $url = $this->base64up($path,$file);
-        if($url){
-           $url = '/uploads/datumfile/'.$card.'/'.$url; 
+        foreach ($file as $k => $v) {
+            $url = '';
+            //拼接需要返回的url
+            $url = $this->base64up($path,$v);
+            if($url){
+               $url = '/uploads/datumfile/'.$card.'/'.$url; 
+            }
+            $data[$k]['fdatumid'] = $fdatumid;
+            $data[$k]['datumid'] = $datumid;
+            $data[$k]['file'] = $url;
+            $data[$k]['createtime'] = $time;
+            $data[$k]['type'] = 1; //1资料提交  2确认提交       
         }
+      
+        Db::name('gra_datumfile')->insertAll($data);
+        echo 1;return;
         
-        $data['fdatumid'] = $fdatumid;
-        $data['datumid'] = $datumid;
-        $data['file'] = $url;
-        $data['createtime'] = $time;
-        $data['type'] = 1; //1资料提交  2确认提交
-        $id = Db::name('gra_datumfile')->insertGetId($data);
-
-        echo json_encode(['data'=>['id'=>$id,'url'=>$url]]);
-        return;
     }
+    //资料确认提交
+    public function submitfile(){
+        $fdatumid = input('fdatumid');
+        Db::startTrans();
+        try{
+            Db::name('gra_matterdatum')->where('id',$fdatumid)->update(['type'=>2]);
+            Db::name('gra_datumfile')->where('fdatumid',$fdatumid)->update(['type'=>2]);
+            // 提交事务
+            Db::commit();
+            echo 1;    
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+            echo 2;
+        }
+    }
+    //删除图片
+    public function dlfile(){
+        $id = input('id');
+        $path1 = ROOT_PATH.'public';
+        $url =  Db::name('gra_datumfile')->where('id',$id)->value('file');
+        // echo $id.'-'.$url;die;
+        //删除数据库后删除文件
+        if(Db::name('gra_datumfile')->where('id',$id)->delete()){
+            if($url){
+                $dlurl = $path1.$url;
+                if(file_exists($dlurl)){
+                    unlink($dlurl);
+                } 
+            }
+            echo 1;            
+        }     
+    }
+
     // 上传资料  
     public function fileup(){
-        // $userid = input('userid');
-        // $matterid = input('matterid');
+        $userid = input('userid');
+        $fdatumid = input('fdatumid');
+        $datumid = input('datumid');
+        $matterid = input('matterid');
+        $this->assign('userid',$userid);
+        $this->assign('fdatumid',$fdatumid);
+        $this->assign('datumid',$datumid);
+        $this->assign('matterid',$matterid);
         return  $this->fetch();
     }
     // 取件方式  
@@ -516,7 +565,7 @@ class Work extends \think\Controller{
      * @return [array]       [身份证照片 url ]
      */
     public function base64up($path,$data){
-
+        $num = rand('1','99');
         // 创建文件名
         preg_match('/^(data:\s*image\/(\w+);base64,)/', $data, $result);
 
@@ -525,10 +574,10 @@ class Work extends \think\Controller{
         $type = $result[2];
         // 存放路径
         $new_file = $path."/";
-        $url = $new_file.time().".jpg";
+        $url = $new_file.time().$num.".jpg";
 
         // 拼接存入数据库的路径
-        $url1 = '/'.time().".jpg";
+        $url1 = '/'.time().$num.".jpg";
      
         // 解码base64 存放文件
         file_put_contents($url, base64_decode(str_replace($result[1], '', $data)));

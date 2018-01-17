@@ -55,7 +55,7 @@ class Index extends \think\Controller{
         $cond['level'] = 0;
         // $cond['valid'] = 1;
         // echo date('d');
-        $info = Db::table('sys_business')->field('name,id,waitcount,day,maxnumber,startnumber,maxnumberam')->where($cond)->order('sort')->paginate(9,true,['query'=>array('devicenum'=>$number)]);
+        $info = Db::table('sys_business')->field('name,id,waitcount,day,maxnumber,startnumber,maxnumberam')->where($cond)->order('sort')->paginate(6,true,['query'=>array('devicenum'=>$number)]);
         $list = $info->all();
         // 获取默认排队人数
         $setup = Db::name('ph_setup')->where('id',1)->find();
@@ -139,7 +139,7 @@ class Index extends \think\Controller{
         $cond['valid'] = 1;
         $cond['parent'] = $id;
 
-        $info = Db::table('sys_business')->field('name,id,waitcount,day,maxnumber,startnumber,maxnumberam')->where($cond)->paginate(12,true,['query'=>array('devicenum'=>$number)]);
+        $info = Db::table('sys_business')->field('name,id,waitcount,day,maxnumber,startnumber,maxnumberam')->where($cond)->paginate(12,true,['query'=>array('devicenum'=>$number,'id'=>$id)]);
         $list = $info->all();
         // dump($list);die;
         foreach ($list as $key => $value) {

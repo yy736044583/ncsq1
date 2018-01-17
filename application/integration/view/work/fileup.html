@@ -85,7 +85,6 @@
 				var a = Capture.InitDevice();
 				if(a == 0){
 					Capture.StartDevice(0);
-					Capture.SetResolution(0, "1240", "1754");
 				}else {
 					console.log('初始化设备失败');
 				}
@@ -97,7 +96,6 @@
 		function onbeforeunload()   
 		{   
 			Capture.ReleaseDevice();
-			window.event.returnValue="确定要退出本页吗？"; 
 		}
 		$(document).ready(function(){
 			$(".right-img").on('click',"img",function(){
@@ -130,6 +128,24 @@
 				}
 				return false;
 			})
+			// 提交上传
+			$(".succ").click(function(){
+				if(strFileNames.length <=0) return false;//如果没有参数不执行操作
+				$.ajax({
+					url: '{:url("work/fileload")}',
+					type: 'POST',
+					// dataType: 'json',
+					data: {userid: '{$userid}',fdatumid:'{$fdatumid}',datumid:'{$datumid}',file:strFileNames},
+					success:function(data){
+						if(data == 1){
+							window.location.href="{:url('work/file')}?matterid={$matterid}&userid={$userid}&fdatumid={$fdatumid}&radom=1"
+						}
+					},
+					error:function(){
+						alert("服务器错误");
+					}
+				})				
+			})
 		})
 		// 拍照
 		var szDeviceIndex = "0";//设备的编号；   0：文档摄像头;1：人像摄像头
@@ -148,7 +164,7 @@
 			{
 				//strFileNames.push(strFileName);
 				//Preview(0);
-				strFileNames.push(Capture.EncodeBase64(strFileName));
+				strFileNames.push('data:image/gif;base64,'+Capture.EncodeBase64(strFileName));
 				// alert(strFileNames);
 				
 				addImg();
@@ -160,7 +176,7 @@
 			if(strFileNames.length>0){
 				$(".right-img-cont ul li").remove();
 				for(var i=0;i<strFileNames.length;i++){
-					var src = 'data:image/gif;base64,' + strFileNames[i];
+					var src = strFileNames[i];
 					var Html = "<li class='key"+i+"'><img src='"+src+"' data-id='"+i+"'></li>";
 					$(".right-img-cont ul").append(Html);
 				}
