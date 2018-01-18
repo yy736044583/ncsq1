@@ -84,7 +84,10 @@
 				// GetBase64Ex();//base64
 				var a = Capture.InitDevice();
 				if(a == 0){
+					Capture.SetResolution(0, "1600", "1200");
 					Capture.StartDevice(0);
+					SetDeviceRotation(90);
+
 				}else {
 					console.log('初始化设备失败');
 				}
@@ -181,6 +184,15 @@
 					$(".right-img-cont ul").append(Html);
 				}
 			}
+		}
+		//摄像旋转
+		function SetDeviceRotation(rotation){
+		    var nRotation = parseInt(rotation);
+			if(nRotation%90 != 0){
+				Capture.SetDeviceAngle(szDeviceIndex,"0");//不能被90整除的默认不旋转
+			}
+		    //alert(rotation);
+		    Capture.SetDeviceAngle(szDeviceIndex,nRotation.toString());
 		}
 	</script>
 </body>

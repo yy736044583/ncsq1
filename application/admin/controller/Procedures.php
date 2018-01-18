@@ -18,7 +18,7 @@ class Procedures extends Common{
 			$map['a.status'] = $status;
 		}
 		if($getnum){
-			$map['a.getnum'] = $getnum;
+			$map['a.getnum'] = ['like',"%$getnum%"];
 		}
 		if($tname){
 			$matterid = Db::name('gra_matter')->whereLike('tname',"%$tname%")->column('id');

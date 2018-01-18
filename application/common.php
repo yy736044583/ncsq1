@@ -348,3 +348,18 @@ function textlength($str,$lentht=50){
 	}
 	return $str;
 }
+
+/**
+ * [timereturn 将时间转换成 日 时分]
+ * @param  [type] $time [时间]
+ * @return [type]       [description]
+ */
+function timereturn($time){
+	$time1 = date('Y-m-d H:i',strtotime($time));
+	return $time1;
+}
+
+function timereturn1($time){
+	$time1 = date('H:i',strtotime($time));
+	return $time1;
+}

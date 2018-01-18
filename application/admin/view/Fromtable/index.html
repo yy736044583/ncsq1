@@ -22,7 +22,12 @@
 			</div>
 			<div class="layui-inline">
 			<form class="layui-form" action="">
-
+				<div class="layui-inline">
+			    	<label class="layui-form-label">事项名称</label>
+			    	<div class="layui-input-inline">
+			        	<input type="text" name="name" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($name) neq true"} value="{$name}"{/if}>
+			      	</div>
+			    </div>	
 			    <div class="layui-inline">			    		
 			    	<label class="layui-form-label">部门名称</label>
       				<div class="layui-input-inline">

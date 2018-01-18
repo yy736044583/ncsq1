@@ -17,13 +17,16 @@ class Fromtable extends Common{
 		$this->auth();
 		//判断是否有部门id查询
 		$sectionid = input('sectionid');
+		$name = input('name');
+		$map = array();
 		if(!empty($sectionid)){
-			$data = Db::name('gra_matter')->where('deptid',$sectionid)
-			->paginate(12,false,['query'=>array('sectionid'=>$sectionid)]);
-			
-		}else{
-			$data = Db::name('gra_matter')->paginate(12);
+			$map['deptid'] = $sectionid;
 		}
+		if($name){
+			$map['tname'] = ['like',"%$name%"];
+		}
+		$data = Db::name('gra_matter')->where($map)
+			->paginate(12,false,['query'=>array('sectionid'=>$sectionid)]);
 		//显示全部部门列表	
 		$sec = Db::name('gra_section')->field('id,tname,tid')->where('valid',1)->select();
 		$list = $data->all();
@@ -36,6 +39,7 @@ class Fromtable extends Common{
 		$this->assign('list',$list);
 		$this->assign('page',$page);
 		$this->assign('sectionid',$sectionid);
+		$this->assign('name',$name);
 		return $this->fetch();
 	}
 

@@ -18,7 +18,7 @@
 	<div class="cont cont_box">
 		<div class="Navigation">
 			<span class="label">当前位置：</span>
-			<a href="#">我要预约</a><span> > </span>
+			<a href="{:url('make/index')}">我要预约</a><span> > </span>
 			<a href="#">选择业务</a>
 		</div>
 		<div class="cont_container dw">
@@ -47,28 +47,14 @@
 							</tr>
 							{volist name="list" id="v"}
 							<tr>
-								<td>{if $v['levelor'] eq '0'}<a href="{:url('make/matter',['id'=>$v['id']])}">{else/} <a href="{:url('make/index1',['id'=>$v['id']])}">{/if}{$v.name}</a></td>
+								<td><a href="{:url('make/matter',['id'=>$v['id']])}">{$v.name}</a></td>
 								<td>
-									{if $v['levelor'] eq '0'}<a href="{:url('make/matter')}?id={$v.id}" class="btn-select" style="text-align: center;">{else/} <a href="{:url('make/index1')}?id={$v.id}" class="btn-select" style="text-align: center;">{/if}
-											
+									<a href="{:url('make/matter')}?id={$v.id}" class="btn-select" style="text-align: center;">		
 									</a>
 								</td>
 							</tr>
 							{/volist}
-							<!-- <tr>
-								<td><a href="">江油市公安局</a></td>
-								<td>
-									<a href="" class="btn-select" style="text-align: center;">		
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td><a href="">江油市公安局</a></td>
-								<td>
-									<a href="" class="btn-select" style="text-align: center;">		
-									</a>
-								</td>
-							</tr> -->
+				
 
 						</table>
 					</div>

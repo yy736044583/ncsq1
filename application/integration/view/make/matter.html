@@ -18,7 +18,7 @@
 	<div class="cont cont_box">
 		<div class="Navigation">
 			<span class="label">当前位置：</span>
-			<a href="">我要预约</a><span> > </span>
+			<a href="{:url('make/index')}">我要预约</a><span> > </span>
 			<a href="">选择事项</a>
 		</div>
 		<div class="cont_container dw">
@@ -31,9 +31,9 @@
 					<div class="tit">
 						<img src="__PUBLIC__integration/img/sx.png" class="lf">
 						<div class="lr searce_so">
-							<form action="" method="get">
+							<form action="{:url('make/matter',['id'=>$id])}" method="post">
 								<div class="searce_so_row">
-									<input type="text" name="" autocomplete="off" placeholder="请输入关键字查询">
+									<input type="text" name="name" autocomplete="off" placeholder="请输入关键字查询" {if empty($name) neq true} value="{$name}" {/if}>
 									<button>搜索</button>
 								</div>
 							</form>
@@ -42,18 +42,22 @@
 					<div class="cot">
 						<table border="0" cellpadding="0" cellspacing="0">
 							<tr>
-								<th width="80%" align="left">办理单位</th>
+								<th width="80%" align="left">办理事项</th>
 								<th width="20%">操作</th>
 							</tr>
+							{volist name="list" id="v"}
 							<tr>
-								<td><a href="{:url('make/add')}">江油市公安局</a></td>
+								<td><a href="{:url('make/add',['matterid'=>$v['id'],'businessid'=>$id])}">{$v.tname}</a></td>
 								<td>
-									<a href="{:url('make/add')}" class="btn-yy" style="text-align: center;">		
+									<a href="{:url('make/add',['matterid'=>$v['id'],'businessid'=>$id])}" class="btn-yy" style="text-align: center;">		
 									</a>
 								</td>
 							</tr>
-							
+							{/volist}
 						</table>
+					</div>
+					<div class="page">
+						{$page}
 					</div>
 				</div>
 			</div>

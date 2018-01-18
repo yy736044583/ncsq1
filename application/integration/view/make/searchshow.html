@@ -18,8 +18,8 @@
 	<div class="cont cont_box">
 		<div class="Navigation">
 			<span class="label">当前位置：</span>
-			<a href="">我要预约</a><span> > </span>
-			<a href="">选择单位</a>
+			<a href="{:url('make/search')}">我的预约</a><span> > </span>
+			<a href="#">预约详情</a>
 		</div>
 		<div class="cont_container dw">
 			<div class="dw-cont">
@@ -30,30 +30,29 @@
 				<div class="right-cont yy-search my-search">
 					<div class="tit"></div>
 					<div class="search-show">
+						{if empty($list['listnumber']) neq true}
 						<table border="0" cellspacing="0" cellpadding="0">
+					
 							<tr>
-								<td class="t">姓名</td>
-								<td class="c">测试</td>
-								<td class="t">预约部门</td>
-								<td class="c">住房城乡建设厅</td>
-							</tr>
-							<tr>
-								<td class="t">预约人</td>
-								<td class="c">测试</td>
+								<td class="t">预约业务</td>
+								<td class="c">{$list.business}</td>
 								<td class="t">预约时间</td>
-								<td class="c">住房城乡建设厅</td>
+								<td class="c">{if empty($v['starttime']) neq true} {$list.starttime|timereturn}--{$list.endtime|timereturn1}{/if}</td>
 							</tr>
 							<tr>
 								<td class="t">身份证号码</td>
-								<td class="c">测试</td>
+								<td class="c">{$people.idcard}</td>
 								<td class="t">手机号码</td>
-								<td class="c">住房城乡建设厅</td>
+								<td class="c">{$people.mobile}</td>
 							</tr>
 							<tr>
 								<td class="t">预约事项</td>
-								<td class="c" colspan="3">测试</td>
+								<td class="c" colspan="3">{$list.matter}</td>
 							</tr>
 						</table>
+						{else/}
+						<p style="font-size: 20px">暂无数据</p>
+						{/if}
 					</div> 	
 				</div>
 			</div>

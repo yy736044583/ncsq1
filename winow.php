@@ -40,10 +40,10 @@
 					if(data.code == 200){					
 						for(var i=0;i<=data.data.length-1;i++){
 							if (data.data[i].online == 0 || data.data[i].online == 2 || data.data[i].online == 3) {
-								$(".key"+i).text('暂停服务');
+								$(".key"+i).text('欢迎您的光临');
 							}else{
 								if(data.data[i].queue == null || data.data[i].queue == ""){
-									$(".key"+i).text('');
+									$(".key"+i).text('欢迎您的光临');
 								}else {
 									$(".key"+i).text('请'+data.data[i].queue+'办理业务');
 								}

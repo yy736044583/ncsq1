@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
 	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
 	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/layer/layer.js"></script>
 </head>
 <body class="box">
 	<div class="heater">
@@ -18,8 +19,8 @@
 	<div class="cont cont_box">
 		<div class="Navigation">
 			<span class="label">当前位置：</span>
-			<a href="">我要预约</a><span> > </span>
-			<a href="">选择单位</a>
+			<a href="{:url('make/index')}">我要预约</a><span> > </span>
+			<a href="">提交预约</a>
 		</div>
 		<div class="cont_container dw">
 			<div class="dw-cont">
@@ -34,41 +35,45 @@
 							<tr>
 								<td class="t">选择日期</td>
 								<td>
-									<select>
-										<option>2018-1-01</option>
+									<select class="times">
+										{volist name="week" id="v"}
+										<option value="{$v}">{$v}</option>
+										{/volist}			
 									</select>
 								</td>
 								<td class="t">选择时间</td>
 								<td>
-									<select>
-										<option>2018-1-01</option>
+									<select class="timeid">
+										{volist name="worktime" id="v"}
+										<option value="{$v.id}">{$v.starttime}-{$v.endtime}</option>
+										{/volist}
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<td class="t">剩余名额</td>
 								<td>
-									<span>20</span>个名额
+									<span id="people">0</span>个名额
 								</td>
-								<td class="t">办理单位</td>
+								<td class="t">办理业务</td>
 								<td>
-									住房城乡建设厅
+									{$name}
 								</td>
 							</tr>
 							<tr>
 								<td class="t">预约事项</td>
 								<td colspan="3">
-									事项事项事项事项
+									{$tname}
 								</td>
 							</tr>
 							<tr>
 								<td class="t">身份证号</td>
 								<td>
-									<input type="text" name="idcord">
+									<input type="text" name="idcord" autocomplete="off">
 								</td>
 								<td class="t">手机号码</td>
 								<td>
-									<input type="text" name="phone">
+									<input type="text" name="phone" autocomplete="off">
 								</td>
 							</tr>
 						</table>
@@ -84,8 +89,13 @@
 	<script type="text/javascript">
 		var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
 		var Cord = /^(\d{18}|\d{17}x)$/;
+		var pepole = "";
 		$(document).ready(function(){
 			$(".succ").click(function(){
+				if(pepole<=0){
+					layer.msg('时段已经满号');
+					return false;
+				}
 				$(".error").removeClass("error");
 				var idcord =  $("input[name='idcord']");
 				var phone =  $("input[name='phone']");
@@ -99,11 +109,65 @@
 					phone.focus();
 					return false;
 				}
+				$.ajax({
+					url: '{:url("make/upmake")}',
+					type: 'POST',
+					data: {businessid: '{$businessid}',matterid:'{$matterid}',timeid:$(".timeid").val(),times:$(".times").val(),idcard:idcord.val(),phone:phone.val()},
+					success:function(data){
+						if(data == 3){
+							layer.alert('预约失败,请勿重复预约',{
+								icon:2,
+								yes:function(){
+									window.location.href="{:url('index/index')}";							
+								},
+								cancel:function(){
+									window.location.reload();
+								}
+							})
+							return false;
+						}
+						if(data != 2){
+							layer.alert('预约成功,您的预约编码为'+data+'',{
+								icon:1,
+								yes:function(){
+									window.location.href="{:url('index/index')}";							
+								},
+								cancel:function(){
+									window.location.reload();
+								}
+							})
+						}
+						
+					},
+					error:function(){
+						alert("500")
+					}
+				})
+				
 			})
 			$(".err").click(function(){
 				$("input[type='text']").val("");
 			})
+			$(".times").change(function(){
+				endpeole();
+			})
+			$(".timeid").change(function(){
+				endpeole();
+			})
 		})
+		// 查询剩余多少人
+		endpeole();
+		function endpeole(){
+			$.ajax({
+				url: '{:url("make/endnum")}',
+				type: 'GET',
+				data: {businessid: '{$businessid}',timeid:$(".timeid").val(),times:$(".times").val()},
+				success:function(data){
+					$("#people").text(data);
+					pepole = data;
+				}
+			})
+		}
 	</script>
 </body>
 </html>
