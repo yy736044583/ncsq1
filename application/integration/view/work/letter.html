@@ -6,6 +6,7 @@
 	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
 	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
 	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/jSignature.min.noconflict.js"></script>
 </head>
 <body class="box">
 	<div class="heater">
@@ -24,11 +25,54 @@
 			<a href="">身份验证</a><span> > </span>
 			<a href="">个人承诺</a>
 		</div>
-		<div class="cont_container letter">
-			<p style="font-size: 30px;text-align: center;padding-top: 200px;">正在开发中...</p>
-
-			<a href="{:url('work/file')}?matterid={$matterid}&userid={$userid}&fdatumid={$fdatumid}">进入下一步<span></span></a>
+		<div class="cont_container letter" style="overflow-y: auto;">
+			<div class="left-text">
+				<div class="left-text-cont">
+					<div class="left-text-c">
+						chengluo
+					</div>
+				</div>
+			</div>
+			<div class="right-white">
+				<h1>请阅读承诺书，同意并在签名区签名</h1>
+				<img src="__PUBLIC__{$people.picture}">
+				<div id="signature"></div>
+				<div class="white-but">
+					<a href="javascript:;" class="succe"></a>
+					<a href="javascript:;" class="rest"></a>
+				</div>
+			</div>
 		</div>
 	</div>
+	<script>
+	    $(document).ready(function() {
+	       var $sigdiv = $("#signature")
+			$sigdiv.jSignature({height:300,width:869})			
+	       $(".rest").click(function(){
+	       	$("#signature").jSignature("reset")
+	       })
+	       $(".succe").click(function(){
+	       	var datapair = $sigdiv.jSignature("getData", "image");
+			var url = "data:"+datapair[0]+","+datapair[1];
+			if(url.length<=6986){
+				return false;//没有正确签字
+			}
+			$.ajax({
+				url: '{:url("work/upsign")}',
+				type: 'POST',
+				data: {userid: '{$userid}',fdatumid:'{$fdatumid}',file:url},
+				success:function(data){
+					if(data == 1){
+						window.location.href="{:url('work/file')}?matterid={$matterid}&userid={$userid}&fdatumid={$fdatumid}";
+					}
+				},
+				error:function(){
+					console.log('错误')
+				}
+			})
+			
+	       })
+	    })
+	</script>
 </body>
 </html>

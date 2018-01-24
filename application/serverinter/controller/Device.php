@@ -300,7 +300,7 @@ class Device{
 		//窗口名称
 		$windowname = Db::name('sys_window')->where('id',$list['windowid'])->value('fromnum');
 		//部门名称
-		$section = Db::name('sys_section')->where('id',$list['sectionid'])->value('name');
+		$section = Db::name('gra_section')->where('id',$list['sectionid'])->value('tname');
 
 		$list['sys'] = $sys;
 			$data = array(

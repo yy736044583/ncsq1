@@ -4,6 +4,7 @@ use think\Controller;
 use think\View;
 use think\Db;
 use think\Cache;
+use think\Exception;
 class Test extends \think\Controller{
 
 
@@ -232,23 +233,34 @@ class Test extends \think\Controller{
 		return $sum;			
 	}
 
-	public function filelock(){
-
-		$file = fopen("test.txt","w+");
-		if(!$file){
-			echo '文件被锁了';
-		}
-	    if(flock($file,LOCK_EX)){
-	        $a = $this->locktest();
-	        fwrite($file,$a);
-	        flock($file,LOCK_UN);
-	    }else{
-	        echo  "文件正在被其他程序占用" ;
-	    }
-	    fclose($file);
-	    clearstatcache();
+	//打开文件 插入数据
+	public function writefile(){
+		$str = "test for write1\n";
+		$path = ROOT_PATH.'test.txt';
+		$file = fopen($path,"a+") or die("Unable to open file!");
+		fwrite($file,$str);
+		fclose($file);
+		clearstatcache();
 	}
-	*/
+*/
+	
+	public function expl(){
+		try{
+			$a = 1;
+			if($a!=2){
+				throw new \think\Exception('异常错误',1002);
+				// throw new \think\exception\HttpException(404, '页面不存在');
+				// abort(404,'页面不存在');
+			}
+    		echo $a;
+		}catch(\Exception $e){
+		    $this->error('执行错误');
+		}
+		$this->success('执行成功!');
+
+	}
+
+
 
 
 }

@@ -433,7 +433,7 @@ class Take{
 				
 				// 取号成功发送短信
 				$send = $this->takemessage($num,$businessname,$data1['count'],$mobile,$set['sign'],$set['username']);
-				dump($send);
+//				dump($send);
 			}
 			
 
@@ -484,9 +484,10 @@ class Take{
 		// 如果不是当天 则数据清零 从当天重新计数
 		// 否则排队人数+1
 		if($day!=$day1){	
-			Db::name('sys_business')->where('id',$businessid)->update(['day'=>$day,'waitcount'=>1]);
+			Db::name('sys_business')->where('id',$businessid)->update(['day'=>$day,'waitcount'=>1,'createtime'=>date('Y-m-d H:i:s',time())]);
 		}else{
 			Db::name('sys_business')->where('id',$businessid)->setInc('waitcount');
+			Db::name('sys_business')->where('id',$businessid)->update(['createtime'=>date('Y-m-d H:i:s',time())]);
 		}
 	}
 

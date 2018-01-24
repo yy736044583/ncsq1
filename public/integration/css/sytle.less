@@ -1831,32 +1831,105 @@ body{
 	}
 }
 .letter{
-	a{
-		display: inline-block;
-		margin-top: 40px;
-		width: 260px;
-		height: 80px;
-		line-height: 80px;
-		color: #fff;
-		border-radius: 6px;
-		background: #1ac669;
-		font-size: 27px;
-		padding-left: 36px;
+	overflow: hidden;
+	&>div{
+		width: 50%;
+		height: 100%;
+		overflow: hidden;
+	}
+	.left-text{
+		float: left;
+	}
+	.right-white{
+		float: right;
+		padding: 40px 0;
 		box-sizing: border-box;
-		position: absolute;
-		bottom: 40px;
-		left: 50%;
-		margin-left:-130px;
-		&:hover{
-			background: #0fbb5e;
+		h1{
+			text-align: center;
+			font-size: 28px;
+			color:#ff8a00;
 		}
-		span{
-			background: url(../img/face-next.png) no-repeat;
-			vertical-align: middle;
-			display: inline-block;
-			width: 32px;
-			height: 25px;
-			margin-left: 20px;
+		img{
+			display: block;
+			margin:40px auto;
+			width: 400px;
+			height: 260px;
 		}
+		.white-but{
+			margin-top: 20px;
+			text-align: center;
+			a{
+				display: inline-block;
+				width: 180px;
+				height: 68px;
+				margin: 0 20px;
+			}
+			.succe{
+				background: url(../img/letter-s.png) no-repeat;
+				&:hover{
+					background: url(../img/letter-s-hover.png) no-repeat;
+				}
+			}
+			.rest{
+				background: url(../img/letter-e.png) no-repeat;
+				&:hover{
+					background: url(../img/letter-e-hover.png) no-repeat;
+				}
+			}
+		}
+	}
+	// a{
+	// 	display: inline-block;
+	// 	margin-top: 40px;
+	// 	width: 260px;
+	// 	height: 80px;
+	// 	line-height: 80px;
+	// 	color: #fff;
+	// 	border-radius: 6px;
+	// 	background: #1ac669;
+	// 	font-size: 27px;
+	// 	padding-left: 36px;
+	// 	box-sizing: border-box;
+	// 	position: absolute;
+	// 	bottom: 40px;
+	// 	left: 50%;
+	// 	margin-left:-130px;
+	// 	&:hover{
+	// 		background: #0fbb5e;
+	// 	}
+	// 	span{
+	// 		background: url(../img/face-next.png) no-repeat;
+	// 		vertical-align: middle;
+	// 		display: inline-block;
+	// 		width: 32px;
+	// 		height: 25px;
+	// 		margin-left: 20px;
+	// 	}
+	// }
+	.left-text-cont{
+		padding: 40px 0 40px 10%;
+		width: 100%;
+		box-sizing: border-box;
+		height: 100%;
+		float: right;
+		.left-text-c{
+			width: 100%;
+			height: 100%;
+			padding: 40px;
+			box-sizing: border-box;
+			overflow-y: auto;
+			box-sizing: border-box;
+			border:1px solid #dfdfdf;
+		}
+	}
+}
+#signature{
+	height: 300px;
+	width: 100%;
+	background: red;
+	background: #e3f7fb url(../img/whites.png) no-repeat center;
+	position: relative;
+	.jSignature{
+		background: transparent !important;
 	}
 }

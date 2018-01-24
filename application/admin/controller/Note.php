@@ -16,8 +16,8 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		$url = 'http://sms.scsmile.cn/inter/showunitinfo';
-		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+//		 $url = 'http://sms.scsmile.cn/inter/showunitinfo';
+		$url = 'http://127.0.0.1:8076/smilesms/index.php/inter/showunitinfo';
 		// 接口所需数据
 		$data1['action'] = 'showsign';
 		
@@ -120,8 +120,8 @@ class Note extends Common{
 		// 查询用户账号密码  如果为空则跳转存入
 		$data1 = $this->inuser();
 		// 接口url
-		$url = 'http://sms.scsmile.cn/inter/Showunitinfo';
-		// $url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
+		// $url = 'http://sms.scsmile.cn/inter/Showunitinfo';
+		$url = 'http://192.168.0.10:8076/smilesms/index.php/inter/showunitinfo';
 		// 接口所需数据
 		$data1['action'] = 'showtemplet';
 		
@@ -293,6 +293,7 @@ class Note extends Common{
 				$mg = $httpdata['message'];
 				echo $mg;return;
 			}
+			
 			$list = $httpdata['data'];
 			$data = array();
 			foreach ($list as $k => $v) {
@@ -304,9 +305,9 @@ class Note extends Common{
 				$data[$k]['year'] = empty($v['year'])?'0':$v['year'];
 				$data[$k]['historyid'] = $v['id'];
 			}
-		
-			Db::name('dx_history')->insertAll($data);
 		}
+		// dump($data);die;
+		Db::name('dx_history')->insertAll($data);
 	}
 
 /**

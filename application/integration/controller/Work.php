@@ -1,10 +1,10 @@
 <?php
 namespace app\integration\controller;
-use think\Controller;
+//use think\Controller;
 use think\View;
 use think\Db;
-use think\Session;
 use think\Request;
+
 
 class Work extends \think\Controller{
 	// 选择事项
@@ -398,6 +398,7 @@ class Work extends \think\Controller{
         $data['userid'] = $userid;
         $data['matterid'] = $matterid;
         $data['createtime'] = $time;
+        $people = Db::name('sys_peopleinfo')->where('id',$userid)->field('id,picture')->find();
         //删除1小时前未提交的数据
         $this->dlmatterdatum($time);
         //添加数据
@@ -405,7 +406,45 @@ class Work extends \think\Controller{
         $this->assign('userid',$userid);
         $this->assign('matterid',$matterid);
         $this->assign('fdatumid',$id);
+        $this->assign('people',$people);
         return  $this->fetch();
+    }
+
+    /**
+     * 上传签名照片
+     * @param userid 用户id
+     * @param id 事项材料表id
+     * @return array
+     */
+    public function upsign(){
+        $userid = input('userid');//用户id
+        $id = input('fdatumid');//事项材料表id
+        $file = input('file');
+        //用户信息
+        $people = Db::name('sys_peopleinfo')->where('id',$userid)->field('id,idcard_IDCardNo')->find();
+        //签名照片  如果有的话需要删除
+        $photo = Db::name('gra_matterdatum')->where('id',$id)->value('sign');
+        //拼接要存储的图片位置
+        $path = $this->createfile('datumfile',$people['idcard_IDCardNo']);
+        //将base64转成图片
+        $url = $this->base64up($path,$file);
+//        echo json_encode($url);die;
+        if(isset($url)){
+            $url = '/uploads/datumfile/'.$people['idcard_IDCardNo'].'/'.$url;
+        }
+        //将比对照片上传数据库
+        if(Db::name('gra_matterdatum')->where('id',$id)->update(['sign'=>$url])){
+            // 如果之前有照片 进行删除
+            if(!empty($photo)){
+                //拼接要删除的图片地址
+                $dlurl = ROOT_PATH.DS.'/public'.$photo;
+                //删除图片地址
+                if(file_exists($dlurl)){
+                    unlink($dlurl);
+                }
+            }
+            echo 1;
+        }
     }
     // 选择资料 
     public function file(Request $request){
@@ -586,9 +625,9 @@ class Work extends \think\Controller{
         // 创建文件名
         preg_match('/^(data:\s*image\/(\w+);base64,)/', $data, $result);
 
-        $img = base64_decode($data);
+//        $img = base64_decode($data);
 
-        $type = $result[2];
+//        $type = $result[2];
         // 存放路径
         $new_file = $path."/";
         $url = $new_file.time().$num.".jpg";
@@ -600,6 +639,7 @@ class Work extends \think\Controller{
         file_put_contents($url, base64_decode(str_replace($result[1], '', $data)));
         return $url1; 
     }
+
 
     //将图片装成base64
     public function base64EncodeImage ($image_file) {
@@ -766,19 +806,7 @@ class Work extends \think\Controller{
 
 
     public function test(){
-        $phone = '15928552357';
-        $fdatumid = 5;
-        $this->msggetnum($phone,$fdatumid);
 
-        // set_time_limit(1500);
-        // for ($i=0; $i < 20; $i++) {
-        //     for ($j=0; $j <=1000 ; $j++) { 
-        //         $num = $this->sofn_generate_num(4);
-        //         $data[$j]['devicenum'] = $num;
-        //     } 
-        //    Db::name('test')->insertAll($data);
-        //    $data = array(); 
-        // }
        
     } 
 

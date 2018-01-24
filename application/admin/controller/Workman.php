@@ -69,6 +69,7 @@ class Workman extends Common{
 	public function addworkman(){
 		if(request()->isPost()){
 			$data = input('post.');
+
 			if(input('loginpass')==''){
 				$data['loginpass'] = '123456';
 			}
@@ -125,6 +126,7 @@ class Workman extends Common{
 	public function upworkman(){
 		if(request()->isPost()){
 			$data = input('post.');
+
 			if(input('loginpass')==''){
 				unset($data['loginpass']);
 			}else{
@@ -147,6 +149,7 @@ class Workman extends Common{
 	        $url =  Db::name('sys_workman')->where('id',$id)->value('photo');
 	        $data['createtime'] = date('Y-m-d H:i:s',time());
 	        $validate = validate('Workman');
+
 			if($validate->scene('up')->check($data)){ 
 		        //更新最新的信息
 				if(Db::name('sys_workman')->where('id',$id)->update($data)){

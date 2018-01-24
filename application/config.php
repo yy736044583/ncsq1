@@ -157,7 +157,7 @@ return [
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
     // 显示错误信息
-    'show_error_msg'         => false,
+    'show_error_msg'         => true,
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
 
@@ -265,4 +265,5 @@ return [
         // 验证成功后是否重置        
         'reset'    => true
 ],
+
 ];

@@ -360,7 +360,7 @@ class Call{
 		//将员工信息赋值给data
 		$data['name'] = $list['name'];
 		$data['number'] = $list['number'];
-		$data['section'] = Db::name('sys_section')->where('id',$list['sectionid'])->value('name');
+		$data['section'] = Db::name('gra_section')->where('id',$list['sectionid'])->value('tname');
 		//根据设备编号查询窗口id  再查询窗口编号
 		$wid = Db::name('ph_call')->where('number',$devicenum)->value('windowid');
 		$windowname = Db::name('sys_window')->where('id',$wid)->value('fromnum');
@@ -450,7 +450,7 @@ class Call{
 		}
 		
 		//根据窗口id查询集中显示屏的设备id集
-		// $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
+		 $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
 		
 		//更新下一个叫号信息
 		if(Db::name('ph_queue')->where('id',$qid)
@@ -465,15 +465,15 @@ class Call{
 
 			//添加队列到排号队列表中
 			//窗口设备
-			// if($lid){
-			// 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$qid]);
-			// }
-			// if(!empty($clid)){
-			// 	//集中显示屏设备
-			// 	foreach ($clid as  $v) {
-			// 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$qid]);
-			// 	}				
-			// }
+//			 if($lid){
+//			 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$qid]);
+//			 }
+			 if(!empty($clid)){
+			 	//集中显示屏设备
+			 	foreach ($clid as  $v) {
+			 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$qid]);
+			 	}
+			 }
 
 			//等候人数-1
 			Db::name('sys_business')->where('id',$que['businessid'])->setDec('waitcount');
@@ -513,7 +513,7 @@ class Call{
 
 		$time = date('Y-m-d H:i:s',time());
 		//根据窗口id查询集中显示屏的设备id集
-		// $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
+		 $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
 		
 		if(Db::name('ph_queue')->where('id',$id)->update(['style'=>'1'])){
 			$flownum = Db::name('ph_queue')->where('id',$id)->value('flownum');
@@ -522,15 +522,15 @@ class Call{
 
 			//添加队列到排号队列表中
 			//窗口设备
-			// if($lid){
-			// 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$id]);
-			// }
-			// if(!empty($clid)){
-			// 	//集中显示屏设备
-			// 	foreach ($clid as  $v) {
-			// 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$id]);
-			// 	}				
-			// }
+//			 if($lid){
+//			 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$id]);
+//			 }
+			 if(!empty($clid)){
+			 	//集中显示屏设备
+			 	foreach ($clid as  $v) {
+			 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$id]);
+			 	}
+			 }
 			echo json_encode(['data'=>['id'=>$id,'status'=>'1'],'code'=>'200','message'=>'成功'],JSON_UNESCAPED_UNICODE);
 			return;
 		}else{
@@ -598,7 +598,7 @@ class Call{
 		}
 
 		//根据窗口id查询集中显示屏的设备id集
-		// $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
+		 $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
 
 		//呼叫下一个排号前 将后置的排号id叫号状态改为0
 		if(Db::name('ph_queue')->where('id',$id)->update(['style'=>'0','status'=>'0','windowid'=>'0','workmanid'=>'0'])){
@@ -625,15 +625,15 @@ class Call{
 			deleteoldid($id);
 			//添加队列到排号队列表中
 			//窗口设备
-			// if($lid){
-			// 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$qid]);
-			// }
-			// if(!empty($clid)){
-			// 	//集中显示屏设备
-			// 	foreach ($clid as  $v) {
-			// 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$qid]);
-			// 	}				
-			// }
+//			 if($lid){
+//			 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$qid]);
+//			 }
+			 if(!empty($clid)){
+			 	//集中显示屏设备
+			 	foreach ($clid as  $v) {
+			 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$qid]);
+			 	}
+			 }
 			echo json_encode(['data'=>['id'=>$qid],'code'=>'200','message'=>'成功'],JSON_UNESCAPED_UNICODE);
 			return;
 		}
@@ -712,7 +712,7 @@ class Call{
 		}
 		
 		//根据窗口id查询集中显示屏的设备id集
-		// $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
+		 $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
 
 		$que = Db::name('ph_queue')->where('id',$id)->field('businessid,flownum')->find();
 
@@ -734,15 +734,15 @@ class Call{
 
 			//添加队列到排号队列表中
 			//窗口设备
-			// if($lid){
-			// 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$id]);
-			// }
-			// if(!empty($clid)){
-			// 	//集中显示屏设备
-			// 	foreach ($clid as  $v) {
-			// 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$id]);
-			// 	}				
-			// }
+//			 if($lid){
+//			 	Db::name('ph_deviceqid')->insert(['ledid'=>$lid,'time'=>$time,'qid'=>$id]);
+//			 }
+			 if(!empty($clid)){
+			 	//集中显示屏设备
+			 	foreach ($clid as  $v) {
+			 		Db::name('ph_deviceqid')->insert(['cledid'=>$v,'time'=>$time,'qid'=>$id]);
+			 	}
+			 }
 			echo json_encode(['data'=>['id'=>$id,'status'=>'1'],'code'=>'200','message'=>'成功'],JSON_UNESCAPED_UNICODE);
 				return;
 		}else{

@@ -142,4 +142,28 @@ class Procedures extends Common{
 		return $this->fetch();
 	}
 
+
+	//承诺书
+    public  function  letter(){
+	    if(request()->isPost()){
+            $content = input('content');
+            $id = input('id');
+            if(!empty($id)){
+                if(DB::name('gra_letter')->where('id',$id)->update(['content'=>$content])){
+                    $this->success('更新成功','procedures/letter');
+                }else{
+                    $this->error('更新失败');
+                }
+            }else{
+                if(DB::name('gra_letter')->insert(['content'=>$content])){
+                    $this->success('添加成功','procedures/letter');
+                }else{
+                    $this->error('添加失败');
+                }
+            }
+        }
+	    $list = Db::name('gra_letter')->find();
+        $this->assign('list',$list);
+        return $this->fetch();
+    }
 }

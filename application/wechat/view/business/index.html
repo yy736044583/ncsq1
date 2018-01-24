@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title>选择事项</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+	</head>
+	<body>
+		<div class="main-box">
+			<div class="top">
+				<a href="" class="on">个人办事</a>
+				<a href="">法人办事</a>
+			</div>
+			<div class="baner">
+				<img src="__PUBLIC__weixin/images/bus-banner.jpg">
+			</div>
+			<div class="b-searce">
+				<div class="b-searce-box">
+					<input type="text" name="" placeholder="请输入关键词搜索">
+					<button>搜索</button>
+				</div>
+			</div>
+			<div class="classify">
+				<div class="classify-box">
+					<div class="classify-bab">
+						<a href="javascript:;" class="on">主题分类</a>
+						<a href="javascript:;">部门分类</a>
+					</div>
+					<div class="classify-bd border">
+						<!-- 主题分类开始 -->
+						<ul class="clearfix">
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
+									<p>户籍办理</p>
+								</a>
+							</li>
+						</ul>
+						<!-- 主题分类结束 -->
+						<!-- 部门分类开始 -->
+						<ul class="clearfix bm" style="display: none;">
+							<li>
+								<a href="">
+									<p>部门分类</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<p>部门分类部门分类部门分类</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<p>部门分类</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<p>部门分类部门分类部门分类</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<p>部门分类</p>
+								</a>
+							</li>
+							<li>
+								<a href="">
+									<p>部门分类部门分类部门分类</p>
+								</a>
+							</li>
+
+
+						</ul>
+						<!-- 部门分类结束 -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			$(".classify-bab a").click(function(){
+				var Index = $(this).index();
+				$(this).addClass('on').siblings().removeClass('on');
+				$(".classify-bd ul").eq(Index).show().siblings().hide();
+			})
+		</script>
+	</body>
+</html>
