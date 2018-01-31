@@ -23,7 +23,8 @@
 				<div class="matter-head">
 					<div class="matter-head-left">
 						<div class="swiper-wrapper">
-							<div class="swiper-slide on">受理标准</div>
+							<div class="swiper-slide on">事项概况</div>
+							<div class="swiper-slide">受理标准</div>
 							<div class="swiper-slide">申请材料</div>
 							<div class="swiper-slide">办理流程</div>
 							<div class="swiper-slide">中介服务</div>
@@ -36,92 +37,137 @@
 				<!-- tab结束 -->
 				<!-- 内容开始 -->
 				<div class="matter-cont">
-					<!-- 受理标准 -->
+					<!-- 事项概况 -->
 					<div class="page1">
 						<div class="page1-item">
 							<p class="label">事项编码</p>
-							<p class="cont">A00000</p>
+							<p class="cont">{$list.tid}</p>
 						</div>
 						<div class="page1-item">
 							<p class="label">行使层级</p>
-							<p class="cont">A00000</p>
+							<p class="cont">{$list.hierarchy}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">事项编码</p>
-							<p class="cont">A00000</p>
+							<p class="label">事项类型</p>
+							<p class="cont">{$list.matter_type}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">行使层级</p>
-							<p class="cont">A00000</p>
+							<p class="label">实施机构</p>
+							<p class="cont">{$list.enforcement}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">事项编码</p>
-							<p class="cont">A00000</p>
+							<p class="label">法定办结时限</p>
+							<p class="cont">{$list.limitday}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">行使层级</p>
-							<p class="cont">A00000</p>
+							<p class="label">办事者到办事现场次数</p>
+							<p class="cont">{$list.number}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">事项编码</p>
-							<p class="cont">A00000</p>
+							<p class="label">联办机构</p>
+							<p class="cont">{$list.other_section}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">行使层级</p>
-							<p class="cont">A00000</p>
+							<p class="label">否进驻中心</p>
+							<p class="cont">{$list.intake}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">事项编码</p>
-							<p class="cont">A00000</p>
+							<p class="label">是否收费/收费标准</p>
+							<p class="cont">{$list.charge}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">行使层级</p>
-							<p class="cont">A00000</p>
+							<p class="label">服务对象</p>
+							<p class="cont">{$list.service_object}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">事项编码</p>
-							<p class="cont">A00000</p>
+							<p class="label">办件类型</p>
+							<p class="cont">{$list.handle_type}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">行使层级</p>
-							<p class="cont">A00000</p>
+							<p class="label">认证等级需求</p>
+							<p class="cont"> {$list.levels}</p>
 						</div>
 						<div class="page1-item">
-							<p class="label">事项编码</p>
-							<p class="cont">A00000</p>
+							<p class="label">服务内容</p>
+							<p class="cont">{$list.content}</p>
 						</div>
+						<div class="page1-item">
+							<p class="label">服务主题分类</p>
+							<p class="cont">{$list.theme}</p>
+						</div>
+						<div class="page1-item">
+							<p class="label">网上支付</p>
+							<p class="cont">{$list.online_pay}</p>
+						</div>
+						<div class="page1-item">
+							<p class="label">物流快递</p>
+							<p class="cont">{$list.express}</p>
+						</div>
+						<div class="page1-item">
+							<p class="label">办理时间</p>
+							<p class="cont">{$list.time}</p>
+						</div>
+						<div class="page1-item">
+							<p class="label">咨询电话</p>
+							<p class="cont">{$list.telephone}</p>
+						</div>
+						<div class="page1-item">
+							<p class="label">监督电话</p>
+							<p class="cont">{$list.sphone}</p>
+						</div>
+						<div class="page1-item">
+							<p class="label">运行系统</p>
+							<p class="cont">{$list.operation}</p>
+						</div>
+						<div class="page1-item">
+							<p class="label">办理地点</p>
+							<p class="cont">{$list.address}</p>
+						</div>
+					</div>
+					<!-- 事项概况 -->
+					<!-- 受理标准 -->
+					<div class="page2" style="display: none;">
+						<div class="page1-item">
+						{volist name="gscsetlist" key="k" id="v"} 
+                            <p class="label">{$v.name}</p>
+							<p class="cont">{$v.content}</p>
+                        {/volist} 
+							
+						</div>						
 					</div>
 					<!-- 受理标准 -->
 					<!-- 申请材料 -->
-					<div class="page-main page2 " style="display: none;">
+					<div class="page-main page3 " style="display: none;">
+					{volist name="datlist" id="v"}
 						<div class="page2-item">
 							<div class="tit">
-								<i>01</i>必要材料
+								<i>{$i}</i>必要材料
 							</div>
 							<div class="cont">
-								<p class="t">无特定材料要求</p>
+								<p class="t">{$v.title}</p>
 								<div class="c">
 									<span class="lab">材料类型:</span>
 									<div class="c-cont">
-										<span>纸质:1</span>
-										<span>电子:1</span>
+										<span>纸质:{$v.paper}</span>
+										<span>电子:{$v.electron}</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">示范文本材料样本:</span>
 									<div class="c-cont">
-										<span>1</span>
+										<span>{$v.dnumber}</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">材料说明:</span>
 									<div class="c-cont">
-										<span>原件1份</span>
+										<span>{$v.summary}</span>
 									</div>									
 								</div>
 							</div>
 						</div>
-						<div class="page2-item">
+						{/volist}
+						<!-- <div class="page2-item">
 							<div class="tit">
 								<i>02</i>必要材料
 							</div>
@@ -147,164 +193,101 @@
 									</div>									
 								</div>
 							</div>
-						</div>
+						</div> -->
 					</div>
 					<!-- 申请材料 -->
 					<!-- 办理流程 -->
-					<div class="page-main page3" style="display: none;">
+					<div class="page-main page4" style="display: none;">
+						{volist name="flowlimit"  id="v"}
 						<div class="page2-item">
 							<div class="tit">
-								<i>01</i>申请受理
+								<i>{$i}</i>{$v.flowlimit}
 							</div>
 							<div class="cont">
 								<div class="c">
 									<span class="lab">流程时限:</span>
 									<div class="c-cont">
-										<span>0个工作日</span>
+										<span>{$v.lctime}个工作日</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">预警天数:</span>
 									<div class="c-cont">
-										<span>0个工作日</span>
+										<span>{$v.yjtime}个工作日</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">转外时间:</span>
 									<div class="c-cont">
-										<span>0个工作日</span>
+										<span>{$v.wztime}个工作日</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">备　　注:</span>
 									<div class="c-cont">
-										<span>0个工作日</span>
+										<span>{$v.remark}</span>
 									</div>									
 								</div>
 							</div>
 						</div>
-						<div class="page2-item">
-							<div class="tit">
-								<i>02</i>审核
-							</div>
-							<div class="cont">
-								<div class="c">
-									<span class="lab">流程时限:</span>
-									<div class="c-cont">
-										<span>0个工作日</span>
-									</div>									
-								</div>
-								<div class="c">
-									<span class="lab">预警天数:</span>
-									<div class="c-cont">
-										<span>0个工作日</span>
-									</div>									
-								</div>
-								<div class="c">
-									<span class="lab">转外时间:</span>
-									<div class="c-cont">
-										<span>0个工作日</span>
-									</div>									
-								</div>
-								<div class="c">
-									<span class="lab">备　　注:</span>
-									<div class="c-cont">
-										<span>0个工作日</span>
-									</div>									
-								</div>
-							</div>
-						</div>
+						{/volist}
 					</div>
 					<!-- 办理流程 -->
 					<!-- 中介服务 -->
-					<div class="page4" style="display: none;">
+					<div class="page5" style="display: none;">
 						<p>无中介服务</p>
 					</div>
 					<!-- 中介服务 -->
 					<!-- 法定依据 -->
-					<div class="page-main page5 " style="display: none;">
+					<div class="page-main page6 " style="display: none;">
+					{volist name="warlist" key="k" id="v"}
 						<div class="page2-item">
 							<div class="cont">
-								<p class="t">中华人民共和国民办教育促进法</p>
+								<p class="t">{$v.title}</p>
 								<div class="c">
 									<span class="lab">种类:</span>
 									<div class="c-cont">
-										<span>法律</span>
+										<span>{$v.type}</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">文号:</span>
 									<div class="c-cont">
-										<span>主席令 第五十五号</span>
+										<span>{$v.proof}</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">条款:</span>
 									<div class="c-cont">
-										<span>第十五条</span>
+										<span>{$v.terms}</span>
 									</div>									
 								</div>
 								<div class="c">
 									<span class="lab">内容:</span>
 									<div class="c-cont">
-										<span>申请正式设立民办学校的，举办者应当向审批机关提交下列材料： （一）筹设批准书； （二）筹设情况报告； （三）学校章程、首届学校理事会、董事会或者其他决策机构组成人员名单； （四）学校资产的有效证明文件； （五）校长、教师、财会人员的资格证明文件。</span>
+										<span>{$v.content}</span>
 									</div>									
 								</div>
 							</div>
 						</div>
-						<div class="page2-item">
-							<div class="cont">
-								<p class="t">中华人民共和国民办教育促进法</p>
-								<div class="c">
-									<span class="lab">种类:</span>
-									<div class="c-cont">
-										<span>法律</span>
-									</div>									
-								</div>
-								<div class="c">
-									<span class="lab">文号:</span>
-									<div class="c-cont">
-										<span>主席令 第五十五号</span>
-									</div>									
-								</div>
-								<div class="c">
-									<span class="lab">条款:</span>
-									<div class="c-cont">
-										<span>第十五条</span>
-									</div>									
-								</div>
-								<div class="c">
-									<span class="lab">内容:</span>
-									<div class="c-cont">
-										<span>申请正式设立民办学校的</span>
-									</div>									
-								</div>
-							</div>
-						</div>
+						{/volist}
+						
 					</div>
 					<!-- 法定依据 -->
 					<!-- 常见问题 -->
-					<div class="page-main page6" style="display: none;">
+					<div class="page-main page7" style="display: none;">
 						<div class="page2-item">
-							<p class="w">
+						<p>无问题</p>
+							<!-- <p class="w">
 								<span class="w-t">问</span>
 								<span class="w-c">是否收费?</span>
 							</p>
 							<p class="w">
 								<span class="w-t">答</span>
 								<span class="w-c">无</span>
-							</p>
+							</p> -->
 						</div>
-						<div class="page2-item">
-							<p class="w">
-								<span class="w-t">问</span>
-								<span class="w-c">是否收费?</span>
-							</p>
-							<p class="w">
-								<span class="w-t">答</span>
-								<span class="w-c">是否收费?</span>
-							</p>
-						</div>
+						
 					</div>
 					<!-- 常见问题 -->
 				</div>

@@ -58,7 +58,7 @@ class Port{
 			return;
 		}
 	}
-	//获取个人服务的主题\部门
+	//获取个人服务的主题
 	public function category_theme(){
 		$url = 'http://202.61.88.206/sczw-iface/category';
 		$district = $this->district;//地区
@@ -91,7 +91,7 @@ class Port{
 			}
 		}
 	}
-	//获取个人服务的主题\部门
+	//获取个人服务的部门
 	public function category_section(){
 		$url = 'http://202.61.88.206/sczw-iface/category';
 		$district = $this->district;//地区

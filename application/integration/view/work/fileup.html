@@ -110,12 +110,12 @@
 			})
 			// 关闭预览
 			$("#off").click(function(e){
-				e.stopPropagation();
+				e.preventDefault();
 				$(".preview-file").fadeOut(100);
 			})
 			//删除照片
 			$("#delet").click(function(e){
-				e.stopPropagation();
+				e.preventDefault();
 				var id = $(".preview-file img").attr('data-id');
 				$(".key"+id+"").remove();
 				strFileNames.splice(id,1);
@@ -124,7 +124,7 @@
 			})
 			// 拍照
 			$(".photo").click(function(e){
-				e.stopPropagation();
+				e.preventDefault();
 				if(imgtype == 1){
 					imgtype = 0;//正在拍照不能点击
 					CaptureToFile();
@@ -132,7 +132,8 @@
 				return false;
 			})
 			// 提交上传
-			$(".succ").click(function(){
+			$(".succ").click(function(e){
+				e.preventDefault();
 				if(strFileNames.length <=0) return false;//如果没有参数不执行操作
 				$.ajax({
 					url: '{:url("work/fileload")}',

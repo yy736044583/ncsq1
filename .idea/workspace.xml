@@ -14,48 +14,89 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Work.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/integration/controller/Work.php">
+      <file leaf-file-name="Consultation.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/wechat/controller/Consultation.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="543">
-              <caret line="444" column="13" lean-forward="false" selection-start-line="444" selection-start-column="13" selection-end-line="444" selection-end-column="13" />
+            <state relative-caret-position="168">
+              <caret line="72" column="11" lean-forward="false" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="11" />
               <folding>
-                <element signature="e#68#83#0#PHP" expanded="true" />
+                <element signature="e#39#54#0#PHP" expanded="true" />
+                <element signature="e#171#2177#0#PHP" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Procedures.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/admin/controller/Procedures.php">
+      <file leaf-file-name="Question.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/admin/controller/Question.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="467">
+              <caret line="34" column="30" lean-forward="true" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
+              <folding>
+                <element signature="e#38#53#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="config.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/config.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="167">
-              <caret line="145" column="9" lean-forward="true" selection-start-line="145" selection-start-column="9" selection-end-line="145" selection-end-column="9" />
+              <caret line="216" column="36" lean-forward="true" selection-start-line="216" selection-start-column="36" selection-end-line="216" selection-end-column="36" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Communication.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/serverinter/controller/Communication.php">
+      <file leaf-file-name="Window.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/admin/controller/Window.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="letter.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/admin/view/procedures/letter.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="29" column="58" lean-forward="false" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
+            <state relative-caret-position="29">
+              <caret line="11" column="4" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="45" selection-end-column="5" />
               <folding>
-                <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#fieldset#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#script#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+                <element signature="e#187#1543#0#PHP" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/admin/view/Window/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="500">
+              <caret line="41" column="20" lean-forward="false" selection-start-line="41" selection-start-column="20" selection-end-line="46" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="answer.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/admin/view/question/answer.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="400">
+              <caret line="40" column="55" lean-forward="false" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/admin/view/question/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="125">
+              <caret line="20" column="16" lean-forward="false" selection-start-line="20" selection-start-column="16" selection-end-line="25" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="addled.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/application/admin/view/Led/addled.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="97" selection-end-column="7" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -75,7 +116,11 @@
       <find>数据错误</find>
       <find>test</find>
       <find>base</find>
+      <find>http://sms.scsmile.cn/inter/showunitinfo</find>
     </findStrings>
+    <replaceStrings>
+      <replace>http://sms.scsmile.cn/internc/showunitinfo</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,13 +128,46 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/application/admin/controller/Note.php" />
-        <option value="$PROJECT_DIR$/application/inter/controller/Take.php" />
         <option value="$PROJECT_DIR$/application/admin/controller/Workman.php" />
         <option value="$PROJECT_DIR$/application/serverinter/controller/Call.php" />
-        <option value="$PROJECT_DIR$/application/integration/controller/Work.php" />
         <option value="$PROJECT_DIR$/application/admin/view/procedures/letter.html" />
         <option value="$PROJECT_DIR$/application/admin/controller/Procedures.php" />
+        <option value="$PROJECT_DIR$/application/admin/controller/Note.php" />
+        <option value="$PROJECT_DIR$/application/inter/controller/Take.php" />
+        <option value="$PROJECT_DIR$/application/guide/view/map/index.html" />
+        <option value="$PROJECT_DIR$/application/integration/controller/Port.php" />
+        <option value="$PROJECT_DIR$/application/guide/controller/Video.php" />
+        <option value="$PROJECT_DIR$/application/integration/controller/Work.php" />
+        <option value="$PROJECT_DIR$/application/integration/view/work/index1.html" />
+        <option value="$PROJECT_DIR$/application/wechat/view/business/matter.html" />
+        <option value="$PROJECT_DIR$/application/wechat/view/business/mattershow.html" />
+        <option value="$PROJECT_DIR$/application/admin/controller/erminal.php" />
+        <option value="$PROJECT_DIR$/application/admin/view/terminal/index.html" />
+        <option value="$PROJECT_DIR$/application/admin/view/terminal/addtheme.html" />
+        <option value="$PROJECT_DIR$/application/admin/controller/Common.php" />
+        <option value="$PROJECT_DIR$/application/admin/view/terminal/uptheme.html" />
+        <option value="$PROJECT_DIR$/application/admin/controller/Terminal.php" />
+        <option value="$PROJECT_DIR$/application/admin/view/terminal/towns.html" />
+        <option value="$PROJECT_DIR$/application/admin/view/terminal/uptowns.html" />
+        <option value="$PROJECT_DIR$/application/admin/view/terminal/addtowns.html" />
+        <option value="$PROJECT_DIR$/application/wechat/view/business/govshow.html" />
+        <option value="$PROJECT_DIR$/application/wechat/view/business/index.html" />
+        <option value="$PROJECT_DIR$/application/wechat/controller/Business.php" />
+        <option value="$PROJECT_DIR$/application/wechat/view/business/govlist.html" />
+        <option value="$PROJECT_DIR$/application/wechat/controller/Common.php" />
+        <option value="$PROJECT_DIR$/application/wechat/controller/WeChat.php" />
+        <option value="$PROJECT_DIR$/application/common.php" />
+        <option value="$PROJECT_DIR$/application/wechat/view/consultation/address.html" />
+        <option value="$PROJECT_DIR$/application/wechat/view/consultation/question.html" />
+        <option value="$PROJECT_DIR$/application/wechat/view/consultation/index.html" />
+        <option value="$PROJECT_DIR$/application/wechat/view/consultation/myinfo.html" />
+        <option value="$PROJECT_DIR$/application/wechat/controller/Consultation.php" />
+        <option value="$PROJECT_DIR$/application/admin/view/question/index.html" />
+        <option value="$PROJECT_DIR$/application/admin/controller/Question.php" />
+        <option value="$PROJECT_DIR$/application/admin/view/question/answer.html" />
+        <option value="$PROJECT_DIR$/application/config.php" />
+        <option value="$PROJECT_DIR$/application/admin/view/Window/index.html" />
+        <option value="$PROJECT_DIR$/application/admin/controller/Window.php" />
       </list>
     </option>
   </component>
@@ -100,9 +178,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" interpreter_name="PHP" />
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="260" />
+    <option name="y" value="20" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -151,14 +229,68 @@
               <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
               <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="serverinter" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="view" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
               <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="serverinter" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="view" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Led" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="view" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="question" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="admin" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="view" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="Window" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wechat" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wechat" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="controller" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wechat" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="view" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wechat" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="view" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="business" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="ncsq" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ncsq" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="wechat" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="view" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="consultation" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
           <select />
@@ -169,8 +301,8 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.gitignore" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/application/admin/view" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
   </component>
   <component name="RunDashboard">
@@ -207,32 +339,37 @@
       <workItem from="1516352539143" duration="2517000" />
       <workItem from="1516518288831" duration="1144000" />
       <workItem from="1516582900102" duration="10467000" />
-      <workItem from="1516761065659" duration="13832000" />
+      <workItem from="1516761065659" duration="14557000" />
+      <workItem from="1517045250555" duration="246000" />
+      <workItem from="1517188317703" duration="21670000" />
+      <workItem from="1517282214328" duration="14259000" />
+      <workItem from="1517360224047" duration="14515000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28020000" />
+    <option name="totallyTimeSpent" value="79435000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18020834" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32908705" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32908705" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39915073" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39915073" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32908705" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -268,141 +405,224 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/inter/controller/Take.php">
+    <entry file="file://$PROJECT_DIR$/application/autotable2/controller/Introduction.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/controller/Note.php">
+    <entry file="file://$PROJECT_DIR$/application/autotable2/controller/Index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="850">
-          <caret line="34" column="34" lean-forward="true" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
-          <folding />
+        <state relative-caret-position="250">
+          <caret line="14" column="28" lean-forward="true" selection-start-line="14" selection-start-column="28" selection-end-line="14" selection-end-column="28" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/fromtable/controller/Index.php">
+    <entry file="file://$PROJECT_DIR$/application/autotable2/controller/Proposal.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1250">
-          <caret line="50" column="26" lean-forward="true" selection-start-line="50" selection-start-column="26" selection-end-line="50" selection-end-column="26" />
-          <folding />
+        <state relative-caret-position="350">
+          <caret line="18" column="34" lean-forward="true" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/controller/Note.php">
+    <entry file="file://$PROJECT_DIR$/application/integration/view/work/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="425">
+          <caret line="38" column="54" lean-forward="false" selection-start-line="38" selection-start-column="34" selection-end-line="38" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/inter/controller/Take.php">
+    <entry file="file://$PROJECT_DIR$/application/integration/view/work/index1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10900">
-          <caret line="436" column="13" lean-forward="true" selection-start-line="436" selection-start-column="13" selection-end-line="436" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="275">
+          <caret line="29" column="50" lean-forward="true" selection-start-line="29" selection-start-column="50" selection-end-line="29" selection-end-column="50" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/inter/controller/Call.php">
+    <entry file="file://$PROJECT_DIR$/application/guide/view/video/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="318">
-          <caret line="99" column="15" lean-forward="false" selection-start-line="99" selection-start-column="14" selection-end-line="99" selection-end-column="15" />
-          <folding />
+        <state relative-caret-position="350">
+          <caret line="20" column="24" lean-forward="true" selection-start-line="20" selection-start-column="24" selection-end-line="20" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/inter/controller/Cled.php">
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/business/mattershow.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="155" column="50" lean-forward="true" selection-start-line="155" selection-start-column="50" selection-end-line="155" selection-end-column="50" />
-          <folding />
+        <state relative-caret-position="200">
+          <caret line="41" column="48" lean-forward="true" selection-start-line="41" selection-start-column="48" selection-end-line="41" selection-end-column="48" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/take2/view/index/item.html">
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/business/matter.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
-          <caret line="39" column="34" lean-forward="true" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
+          <caret line="20" column="73" lean-forward="true" selection-start-line="20" selection-start-column="73" selection-end-line="20" selection-end-column="73" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/take2/controller/Index.php">
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Area.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="301" column="36" lean-forward="true" selection-start-line="301" selection-start-column="36" selection-end-line="301" selection-end-column="36" />
+        <state relative-caret-position="75">
+          <caret line="5" column="0" lean-forward="true" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/controller/Note.php">
+    <entry file="file://$PROJECT_DIR$/application/admin/view/News/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="3" column="30" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="106" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/integration/controller/Port.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="92" column="5" lean-forward="false" selection-start-line="92" selection-start-column="5" selection-end-line="92" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Dsnose.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3342">
+          <caret line="160" column="17" lean-forward="true" selection-start-line="160" selection-start-column="17" selection-end-line="160" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/integration/controller/Index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="34" column="34" lean-forward="false" selection-start-line="34" selection-start-column="34" selection-end-line="34" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/inter/controller/Take.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="246" column="0" lean-forward="true" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/controller/Workman.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="164" column="36" lean-forward="false" selection-start-line="164" selection-start-column="36" selection-end-line="164" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/view/Workman/upworkman.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-225">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/common.php">
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/News.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2400">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Take.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-525">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/inter/controller/Device.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="195" column="38" lean-forward="true" selection-start-line="195" selection-start-column="15" selection-end-line="195" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/terminal/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1350">
+          <caret line="54" column="37" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="75" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/terminal/addtheme.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="32" column="14" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="75" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/terminal/uptheme.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="27" column="8" lean-forward="false" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Common.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1800">
+          <caret line="77" column="32" lean-forward="false" selection-start-line="77" selection-start-column="32" selection-end-line="77" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/terminal/towns.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="41" column="23" lean-forward="true" selection-start-line="41" selection-start-column="23" selection-end-line="41" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/News/addnews.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="65" column="82" lean-forward="false" selection-start-line="65" selection-start-column="82" selection-end-line="65" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/terminal/uptowns.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="40" column="8" lean-forward="false" selection-start-line="40" selection-start-column="8" selection-end-line="51" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/terminal/addtowns.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="475">
-          <caret line="165" column="33" lean-forward="true" selection-start-line="165" selection-start-column="33" selection-end-line="165" selection-end-column="33" />
-          <folding />
+          <caret line="44" column="14" lean-forward="false" selection-start-line="44" selection-start-column="14" selection-end-line="44" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/serverinter/controller/Take.php">
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Terminal.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="341" column="40" lean-forward="true" selection-start-line="341" selection-start-column="40" selection-end-line="341" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/controller/Fromtable.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="278" column="39" lean-forward="false" selection-start-line="278" selection-start-column="39" selection-end-line="278" selection-end-column="39" />
+        <state relative-caret-position="142">
+          <caret line="201" column="13" lean-forward="true" selection-start-line="201" selection-start-column="13" selection-end-line="201" selection-end-column="13" />
           <folding>
-            <element signature="e#38#53#0#PHP" expanded="true" />
-            <marker date="1516267176514" expanded="true" signature="16259:16372" ph="..." />
+            <element signature="e#6#71#0#PHP" expanded="false" />
+            <element signature="e#104#117#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/thumb.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/business/govshow.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="28" column="45" lean-forward="true" selection-start-line="28" selection-start-column="45" selection-end-line="28" selection-end-column="45" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/phpunit.xml">
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/business/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/business/govlist.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="21" column="92" lean-forward="true" selection-start-line="21" selection-start-column="92" selection-end-line="21" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/controller/Business.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="592">
+          <caret line="154" column="34" lean-forward="false" selection-start-line="154" selection-start-column="34" selection-end-line="154" selection-end-column="34" />
+          <folding>
+            <element signature="e#40#53#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/controller/Wapbespoke.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -410,104 +630,183 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="20" column="28" lean-forward="false" selection-start-line="20" selection-start-column="28" selection-end-line="20" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.txt">
+    <entry file="file://$PROJECT_DIR$/application/wechat/controller/Wapindex.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/serverinter/controller/Call.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="462" column="26" lean-forward="false" selection-start-line="462" selection-start-column="26" selection-end-line="462" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/fromtable/controller/Index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" column="12" lean-forward="false" selection-start-line="5" selection-start-column="12" selection-end-line="5" selection-end-column="12" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/application/integration/controller/Work.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
-          <caret line="444" column="13" lean-forward="false" selection-start-line="444" selection-start-column="13" selection-end-line="444" selection-end-column="13" />
+        <state relative-caret-position="297">
+          <caret line="793" column="4" lean-forward="false" selection-start-line="793" selection-start-column="4" selection-end-line="804" selection-end-column="5" />
           <folding>
-            <element signature="e#68#83#0#PHP" expanded="true" />
+            <element signature="e#68#83#0#PHP" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/view/News/addnews.html">
+    <entry file="file://$PROJECT_DIR$/application/admin/view/Note/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1750">
-          <caret line="23" column="10" lean-forward="true" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
+        <state relative-caret-position="275">
+          <caret line="11" column="0" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/view/Thiscenter/index.html">
+    <entry file="file://$PROJECT_DIR$/application/admin/view/area/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="114" column="0" lean-forward="false" selection-start-line="114" selection-start-column="0" selection-end-line="114" selection-end-column="0" />
+        <state relative-caret-position="-8">
+          <caret line="9" column="70" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="79" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/view/procedures/letter.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="29" column="58" lean-forward="false" selection-start-line="29" selection-start-column="58" selection-end-line="29" selection-end-column="58" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#fieldset#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#script#0;n#div#0;n#div#0;n#form#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/admin/controller/Procedures.php">
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Queue.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="167">
-          <caret line="145" column="9" lean-forward="true" selection-start-line="145" selection-start-column="9" selection-end-line="145" selection-end-column="9" />
+          <caret line="10" column="28" lean-forward="true" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/serverinter/controller/Communication.php">
+    <entry file="file://$PROJECT_DIR$/application/wechat/controller/Common.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="60" column="0" lean-forward="true" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
+        <state relative-caret-position="225">
+          <caret line="9" column="34" lean-forward="false" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
+          <folding>
+            <element signature="e#39#60#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/controller/WeChat.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="42">
+          <caret line="41" column="9" lean-forward="true" selection-start-line="41" selection-start-column="9" selection-end-line="41" selection-end-column="9" />
+          <folding>
+            <element signature="e#121#174#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/consultation/address.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="33" column="96" lean-forward="false" selection-start-line="33" selection-start-column="96" selection-end-line="33" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/consultation/question.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="32" column="34" lean-forward="true" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/consultation/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="38" column="51" lean-forward="false" selection-start-line="38" selection-start-column="51" selection-end-line="38" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/view/consultation/myinfo.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="40" column="25" lean-forward="true" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/common.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="842">
+          <caret line="393" column="1" lean-forward="false" selection-start-line="393" selection-start-column="1" selection-end-line="393" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/wechat/controller/Consultation.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="72" column="11" lean-forward="false" selection-start-line="72" selection-start-column="11" selection-end-line="72" selection-end-column="11" />
+          <folding>
+            <element signature="e#39#54#0#PHP" expanded="true" />
+            <element signature="e#171#2177#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/Led/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="30" column="20" lean-forward="false" selection-start-line="30" selection-start-column="20" selection-end-line="41" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/Led/addled.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="97" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Question.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="467">
+          <caret line="34" column="30" lean-forward="true" selection-start-line="34" selection-start-column="30" selection-end-line="34" selection-end-column="30" />
+          <folding>
+            <element signature="e#38#53#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="216" column="36" lean-forward="true" selection-start-line="216" selection-start-column="36" selection-end-line="216" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/question/answer.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="40" column="55" lean-forward="false" selection-start-line="40" selection-start-column="55" selection-end-line="40" selection-end-column="55" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/question/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="20" column="16" lean-forward="false" selection-start-line="20" selection-start-column="16" selection-end-line="25" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/controller/Window.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="29">
+          <caret line="11" column="4" lean-forward="false" selection-start-line="11" selection-start-column="4" selection-end-line="45" selection-end-column="5" />
+          <folding>
+            <element signature="e#187#1543#0#PHP" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/admin/view/Window/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="41" column="20" lean-forward="false" selection-start-line="41" selection-start-column="20" selection-end-line="46" selection-end-column="26" />
           <folding />
         </state>
       </provider>

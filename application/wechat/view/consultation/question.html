@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title>选择事项</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/bscroll.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/layer_mobile/layer.js" ></script>
+	</head>
+	<body style="height: 100%;">
+		<div class="main-box" style="height: 100%;">
+			<div class="add-question">
+				<div class="add-top">在线回复时间：周一到周五(工作日) 上午9点到12点 下午2点到5点</div>
+				<div class="add-cont">
+					<div class="add-box">
+						<div class="add-address">
+							<div class="tit">提问对象</div>
+							<div class="cc">{$sname}</div>
+						</div>
+						<div class="add-content">
+							<div class="tit">提问内容</div>
+							<div class="text">
+								<textarea id="texts" placeholder="请在输入您想问的问题"></textarea>
+							</div>
+							<div class="gk">
+								<input type="checkbox" name="valid" id="r">
+								<label for="r">公开您的问题及回复</label>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="add-btn">
+					<a href="javascript:;">提交问题</a>
+				</div>
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			$(function(){
+				$(".add-btn a").click(function(){
+					if($("#texts").val() == ""){
+						layer.open({
+						    content: '请输入您的问题'
+						    ,skin: 'msg'
+						    ,time: 2 //2秒后自动关闭
+						});
+						return false;
+					}
+				})
+				
+			})
+			
+		</script>
+	</body>
+</html>

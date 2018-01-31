@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title>选择事项</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+		
+	</head>
+	<body>
+		<div class="main-box">
+			<div class="consultation">
+				<div class="consultation-top">
+					<a href="javascript:;" class="on">全部问题</a>
+					<a href="{:url('consultation/myinfo')}">我的问题</a>
+				</div>
+				<div class="consultation-cont scroll">
+
+					{volist name="list" id="v"}
+					<div class="consultation-itme">
+						<div class="item-tit">
+							<div class="photo">
+								<img src="{$v.icon}">
+							</div>
+							<div class="w-name">{$v.nickname}</div>
+							<div class="w-time">{$v.createtime|time_ago}</div>
+						</div>
+						<div class="item-cont">
+							{$v.question}
+						</div>
+						<div class="item-hf"><p>客服：{$v.answer}</p></div>
+					</div>
+					{/volist}
+					
+				</div>
+				<div class="consultation-footer">
+					<a href="{:url('consultation/address')}">我要提问</a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/myscroll.js" ></script>
+		<script type="text/javascript">
+			
+
+		</script>
+	</body>
+</html>

@@ -288,7 +288,7 @@ class Work extends \think\Controller{
         //拼接要存储的图片位置
         $path = ROOT_PATH.'public/uploads/idcard/'.$photo['idcard_IDCardNo'].'/';
         //将base64转成图片
-        $url = $this->base64up($path,$file,$photo['idcard_IDCardNo']);
+        $url = $this->base64up($path,$file);
         if(isset($url)){
             $url = '/uploads/idcard/'.$photo['idcard_IDCardNo'].'/'.$url;
         }
@@ -319,7 +319,7 @@ class Work extends \think\Controller{
          
         $url1 = Db::name('sys_peopleinfo')->where('id',$userid)->value('idcardData_PhotoFileName');
         $url1 = $path1.$url1;
-        $url = '/uploads/tempfile/'.$this->base64up($path,$url2,'');
+        $url = '/uploads/tempfile/'.$this->base64up($path,$url2);
         $url2 = $path1.$url;
         
         $data['image_url_1'] = $url1;
@@ -381,6 +381,7 @@ class Work extends \think\Controller{
                 array_keys($options['http']['header']),
                 $options['http']['header']));
         $context = stream_context_create($options);
+        
         $file = file_get_contents($url, false, $context );
         return $file;
         // echo($file);

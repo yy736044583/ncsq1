@@ -87,40 +87,42 @@
 				})
 			})
 			
-			
-			var map = new BMap.Map("baidu-map",{enableMapClick:false});    // 创建Map实例
-     		map.centerAndZoom(new BMap.Point(106.9469730000, 30.3428540000), 18);
-     		map.setCurrentCity("邻水县");
-     		map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-     		
-     		var point = new BMap.Point(106.9469730000, 30.3428540000);
-     		map.centerAndZoom(point, 18);
-     		var marker = new BMap.Marker(point);  // 创建标注
-			map.addOverlay(marker);               // 将标注添加到地图中
-			marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
-     		
-			function mapbus(start,end,str){
-				 var start = start ,end = end;
-				if(str=="bus"){
-//				公交
-					map.clearOverlays(); 
-					 map.enableScrollWheelZoom();				   
-				    var transit = new BMap.TransitRoute(map, {
-						renderOptions: {map: map, panel: "left-map"}, 
-						onResultsHtmlSet : function(){$("#left-map").show()}  	
-				    });
-				    transit.search(start,end);
-				}else{
-					//三种驾车策略：最少时间，最短距离，避开高速
-						var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME,BMAP_DRIVING_POLICY_LEAST_DISTANCE,BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];					
+			window.onload=function(){
+				var map = new BMap.Map("baidu-map",{enableMapClick:false});    // 创建Map实例
+	     		map.centerAndZoom(new BMap.Point({$set.map}), 18);
+	     		map.setCurrentCity("{$set.title}");
+	     		map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+	     		
+	     		var point = new BMap.Point({$set.map});
+	     		map.centerAndZoom(point, 18);
+	     		var marker = new BMap.Marker(point);  // 创建标注
+				map.addOverlay(marker);               // 将标注添加到地图中
+				marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+	     		
+				function mapbus(start,end,str){
+					 var start = start ,end = end;
+					if(str=="bus"){
+	//				公交
 						map.clearOverlays(); 
-						search(start,end,routePolicy[1]); 
-						function search(start,end,route){ 
-							var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true},policy: route});
-							driving.search(start,end);
-						}
+						 map.enableScrollWheelZoom();				   
+					    var transit = new BMap.TransitRoute(map, {
+							renderOptions: {map: map, panel: "left-map"}, 
+							onResultsHtmlSet : function(){$("#left-map").show()}  	
+					    });
+					    transit.search(start,end);
+					}else{
+						//三种驾车策略：最少时间，最短距离，避开高速
+							var routePolicy = [BMAP_DRIVING_POLICY_LEAST_TIME,BMAP_DRIVING_POLICY_LEAST_DISTANCE,BMAP_DRIVING_POLICY_AVOID_HIGHWAYS];					
+							map.clearOverlays(); 
+							search(start,end,routePolicy[1]); 
+							function search(start,end,route){ 
+								var driving = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: true},policy: route});
+								driving.search(start,end);
+							}
+					}
 				}
 			}
+
 		</script>
 	</body>
 </html>

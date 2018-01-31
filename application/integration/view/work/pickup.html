@@ -76,6 +76,7 @@
 	</div>
 	<script type="text/javascript">
 		_init_area();//初始化联动城市
+
 		$(document).ready(function(){
 			
 			$(".succ").click(function(){				
@@ -142,14 +143,19 @@
 			// 重新获取验证码
 			$(".newCode").click(function(event) {
 				event.stopPropagation();
-				$(this).text("");
+				event.preventDefault();
+
 				code();
 			});
 		})
 		// 获取验证码				
 		function code(){
 			var set;
-			var index = 60;		
+			var index = 60;
+			var Type = $("input[type='radio']:checked").val();
+			if(Type == 2) return false;
+			$(".newCode").text("取件码已发送");
+			$(".newCode").css({'color':'#909090'});		
 			$.ajax({
 				url: '{:url("work/msggetnum")}',
 				type: 'GET',
@@ -160,10 +166,13 @@
 						set = setInterval(function(){
 							index --;
 							index = index<10? ('0'+index) : index;
+							$(".newCode").unbind();
 							if(index == '00'){
-								$(".newCode").text("到时间未收到短信？请点击此处。").show();
+								$(".newCode").text("到时间未收到短信？请点击此处。");
+								$(".newCode").css({'color':'#237fe7'});	
 								clearInterval(set);
 								index = 60;
+								$(".newCode").bind('click', 1, code);
 							}
 							$("#ms").text(index+"秒");
 						},1000)

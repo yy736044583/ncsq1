@@ -19,10 +19,10 @@
 			<div class="govlist">
 				<!-- 搜索 -->
 				<div class="weui-search-bar" id="searchBar">
-		            <form class="weui-search-bar__form">
+		            <form class="weui-search-bar__form" action="{:url('business/govlist')}">
 		                <div class="weui-search-bar__box">
 		                    <i class="weui-icon-search"></i>
-		                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+		                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="" name="name" value="{$name}">
 		                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
 		                </div>
 		                <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
@@ -34,136 +34,30 @@
 		        </div>
 		        <!-- 搜索 -->
 		        <!-- 内容 -->
-				<div class="govlist-cont">
+				<div class="govlist-cont scroll">
 					<div class="title">
 						<p>便民服务中心列表</p>
 					</div>
 					<div class="content">
-						<a href="">
+						{volist name="list" id="v"}
+						<a href="{:url('business/govshow',['id'=>$v['id']])}">
 							<div class="govlist-item">
-								<img src="">
+								<img src="__PUBLIC__{$v.url}">
 								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
+									<p>{$v.name}</p>
+									<em>联系电话：{$v.telephone}</em>
 								</div>
 								<i></i>
 							</div>
 						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
-						<a href="">
-							<div class="govlist-item">
-								<img src="">
-								<div class="text">
-									<p>金台镇便民服务中心</p>
-									<em>联系电话：028-0000000</em>
-								</div>
-								<i></i>
-							</div>
-						</a>
+						{/volist}
+						
 					</div>
 				</div>
 		        <!-- 内容 -->
 			</div>
 		</div>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/myscroll.js" ></script>
 		<script type="text/javascript" class="searchbar js_show">
 		    $(function(){
 		        var $searchBar = $('#searchBar'),

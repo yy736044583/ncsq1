@@ -39,6 +39,12 @@
 				        </select>
 				      </div>
 				    </div>
+					<div class="layui-inline">
+						<label class="layui-form-label">编号：</label>
+						<div class="layui-input-inline">
+							<input type="text" name="num" lay-verify="title" autocomplete="off" class="layui-input" placeholder="编号" {if condition="empty($num) neq true"} value="{$num}" {/if}>
+						</div>
+					</div>
 				    <div class="layui-inline">
 				    	<button class="layui-btn">搜索</button>
 				    </div>

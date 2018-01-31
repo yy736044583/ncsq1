@@ -74,15 +74,15 @@ body{
 	.return{		
 		background: url(../img/back.png) no-repeat;
 		margin-right: 40px;
-		&:hover{
-			background: url(../img/back-hover.png) no-repeat;
-		}		
+		// &:hover{
+		// 	background: url(../img/back-hover.png) no-repeat;
+		// }		
 	}
 	.home{
 		background: url(../img/home.png) no-repeat;
-		&:hover{
-			background: url(../img/home-hover.png) no-repeat;
-		}
+		// &:hover{
+		// 	background: url(../img/home-hover.png) no-repeat;
+		// }
 	}
 }
 .cont{
@@ -259,10 +259,28 @@ body{
 	.footer-cont{
 		position: relative;
 		color: #fff;
-		font-size: 30px;
-		line-height: 100px;
+		font-size: 20px;
 		padding:0 40px;
 		z-index: 1;
+		.lf{
+			overflow:hidden;
+				img{
+				width: 100px;
+				height: 100px;
+				display: inline-block;
+			}
+			p{
+				display: inline-block;
+				line-height: 100px;
+				height: 100px;
+				margin-left: 10px;
+			}
+		}
+		
+		.lr{
+			font-size: 30px;
+			padding-top: 15px;
+		}
 	}
 }
 .cont_box{
@@ -415,9 +433,9 @@ body{
 					padding-left: 10px;
 					text-align: right;
 					cursor: pointer;
-					&:hover{
-						background: url(../img/search-hover.png) no-repeat left center;
-					}
+					// &:hover{
+					// 	background: url(../img/search-hover.png) no-repeat left center;
+					// }
 				}
 			}
 		}
@@ -492,15 +510,15 @@ body{
 	display: inline-block;
 	&.btn_look{
 		background: url(../img/xiangqing.png) no-repeat;
-		&:hover{
-			background: url(../img/xiangqing-hover.png) no-repeat;
-		}
+		// &:hover{
+		// 	background: url(../img/xiangqing-hover.png) no-repeat;
+		// }
 	}
 	&.btn_ban{
 		background: url(../img/banli.png) no-repeat;
-		&:hover{
-			background: url(../img/banli-hover.png) no-repeat;
-		}
+		// &:hover{
+		// 	background: url(../img/banli-hover.png) no-repeat;
+		// }
 	}
 }
 .theme{
@@ -722,7 +740,7 @@ body{
 			background-size: 180/1.2px 68/1.2px;
 			display: inline-block;
 			&:hover{
-				background: url(../img/Btn-form-hover.png) no-repeat;
+				// background: url(../img/Btn-form-hover.png) no-repeat;
 				width: 180/1.2px;
 				height: 68/1.2px;
 				display: inline-block;
@@ -779,9 +797,9 @@ body{
 			position: absolute;
 			top: 12px;
 			right: 20px;
-			&:hover{
-				background: url(../img/form-off-hover.png) no-repeat;
-			}
+			// &:hover{
+			// 	background: url(../img/form-off-hover.png) no-repeat;
+			// }
 		}
 		.con{
 			// position: absolute;
@@ -955,15 +973,15 @@ body{
 		text-align: center;
 		.succ{
 			background: url(../img/succ-hover.png) no-repeat;
-			&:hover{
-				background: url(../img/succ.png) no-repeat;
-			}
+			// &:hover{
+			// 	background: url(../img/succ.png) no-repeat;
+			// }
 		}
 		.erro{
 			background: url(../img/err-hover.png) no-repeat;
-			&:hover{
-				background: url(../img/err.png) no-repeat;
-			}
+			// &:hover{
+			// 	background: url(../img/err.png) no-repeat;
+			// }
 		}
 		a{
 			display: inline-block;text-align: center;
@@ -1072,9 +1090,9 @@ body{
 				}
 				.addfile{
 					background: url(../img/file.png) no-repeat;
-					&:hover{
-						background: url(../img/file-hover.png) no-repeat;
-					}
+					// &:hover{
+					// 	background: url(../img/file-hover.png) no-repeat;
+					// }
 					a{
 						display: block;
 						width: 100%;
@@ -1149,13 +1167,14 @@ body{
 }
 .preview-file{
 	width: 900px;
-	height: 720px;
+	// min-height: 720px;
 	position: absolute;
 	z-index: 99;
 	left: 50%;
 	top: 50%;
-	margin-top: -400px;
-	margin-left: -900/2px;
+	// margin-top: -400px;
+	// margin-left: -900/2px;
+	transform: translate(-50%,-50%;);
 	&:after{
 		content: "";
 		position: fixed;
@@ -1173,16 +1192,18 @@ body{
 		z-index: 1;
 		position: relative;
 		border-radius: 12px;
-		height: 720px;
+		// height: 720px;
 		overflow: hidden;
 	}
 	.preview-cont-img{
-		height: 580px;
+		// height: 580px;
 		background: #e5e5e5;
-		padding: 20px 25%;
+		padding: 20px 15%;
 		img{
 			width: 100%;
-			height: 100%;
+			display: block;
+			margin: 0 auto;
+			// height: 100%;
 		}
 	}
 	.preview-cont-btn{
@@ -1215,7 +1236,7 @@ body{
 		height: 68/1.1px;
 		background-size: 180/1.1px 68/1.1px;
 		&:hover{
-			background: url(../img/file-cont_success-hover.png) no-repeat;
+			// background: url(../img/file-cont_success-hover.png) no-repeat;
 			width: 180/1.1px;
 			height: 68/1.1px;
 			background-size: 180/1.1px 68/1.1px;
@@ -1263,15 +1284,15 @@ body{
 		.photo{
 			background: url(../img/video.png) no-repeat;
 			
-			&:hover{
-				background: url(../img/video-hover.png) no-repeat;
-			}
+			// &:hover{
+			// 	background: url(../img/video-hover.png) no-repeat;
+			// }
 		}
 		.succ{
 			background: url(../img/post-img.png) no-repeat;
-			&:hover{
-				background: url(../img/post-img-hover.png) no-repeat;
-			}
+			// &:hover{
+			// 	background: url(../img/post-img-hover.png) no-repeat;
+			// }
 		}
 	}
 	.right-img{
@@ -1408,15 +1429,15 @@ body{
 			}
 			.succ{
 				background: url(../img/succ.png) no-repeat;
-				&:hover{
-					background: url(../img/succ-hover.png) no-repeat;
-				}
+				// &:hover{
+				// 	background: url(../img/succ-hover.png) no-repeat;
+				// }
 			}
 			.err{
 				background: url(../img/err.png) no-repeat;
-				&:hover{
-					background: url(../img/err-hover.png) no-repeat;
-				}
+				// &:hover{
+				// 	background: url(../img/err-hover.png) no-repeat;
+				// }
 			}
 		}
 	}
@@ -1602,16 +1623,16 @@ body{
     				.btn-select{
     					background: url(../img/btn-select.png) no-repeat center;
     					height: 56px;
-    					&:hover{
-    						background: url(../img/btn-select-hover.png) no-repeat center;
-    					}
+    					// &:hover{
+    					// 	background: url(../img/btn-select-hover.png) no-repeat center;
+    					// }
     				}
     				.btn-yy{
     					background: url(../img/yy.png) no-repeat center;
     					height: 56px;
-    					&:hover{
-    						background: url(../img/yy-hover.png) no-repeat center;
-    					}
+    					// &:hover{
+    					// 	background: url(../img/yy-hover.png) no-repeat center;
+    					// }
     				}
 				}
 			}
@@ -1679,15 +1700,15 @@ body{
 				}
 				.succ{
 					background: url(../img/succ.png) no-repeat;
-					&:hover{
-						background: url(../img/succ-hover.png) no-repeat;
-					}
+					// &:hover{
+					// 	background: url(../img/succ-hover.png) no-repeat;
+					// }
 				}
 				.err{
 					background: url(../img/err.png) no-repeat;
-					&:hover{
-						background: url(../img/err-hover.png) no-repeat;
-					}
+					// &:hover{
+					// 	background: url(../img/err-hover.png) no-repeat;
+					// }
 				}
 			}
 		}
@@ -1768,9 +1789,9 @@ body{
 			border: none;
 			position: relative;
 			left: 128px;
-			&:hover{
-				background: url(../img/Button-Search-hover.png) no-repeat;
-			}
+			// &:hover{
+			// 	background: url(../img/Button-Search-hover.png) no-repeat;
+			// }
 		}
 	}
 }
@@ -1819,15 +1840,15 @@ body{
 .p-print{
 	.photo{
 		background: url(../img/p-photo.png) no-repeat !important;
-		&:hover{
-			background: url(../img/p-photo-hover.png) no-repeat !important;
-		}
+		// &:hover{
+		// 	background: url(../img/p-photo-hover.png) no-repeat !important;
+		// }
 	}
 	.succ{
 		background: url(../img/p-print.png) no-repeat !important;
-		&:hover{
-			background: url(../img/p-print-hover.png) no-repeat !important;
-		}
+		// &:hover{
+		// 	background: url(../img/p-print-hover.png) no-repeat !important;
+		// }
 	}
 }
 .letter{
@@ -1866,15 +1887,15 @@ body{
 			}
 			.succe{
 				background: url(../img/letter-s.png) no-repeat;
-				&:hover{
-					background: url(../img/letter-s-hover.png) no-repeat;
-				}
+				// &:hover{
+				// 	background: url(../img/letter-s-hover.png) no-repeat;
+				// }
 			}
 			.rest{
 				background: url(../img/letter-e.png) no-repeat;
-				&:hover{
-					background: url(../img/letter-e-hover.png) no-repeat;
-				}
+				// &:hover{
+				// 	background: url(../img/letter-e-hover.png) no-repeat;
+				// }
 			}
 		}
 	}
@@ -1932,4 +1953,11 @@ body{
 	.jSignature{
 		background: transparent !important;
 	}
+}
+.layui-layer-btn0{
+	font-size: 18px !important;
+	padding: 5px 20px !important;
+}
+.layui-layer-dialog .layui-layer-content{
+	font-size: 17px !important;
 }

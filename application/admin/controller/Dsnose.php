@@ -117,10 +117,11 @@ class Dsnose extends Common{
 	//删除视频或者轮播
 	public function dlbanner(){
 		$id = input('id');
+		
 		$url =  Db::name('ds_banner')->where('id',$id)->value('url');
 		if(Db::name('ds_banner')->where('id',$id)->delete()){
 			//删除之前的图片
-			$path = ROOT_PATH . 'public' . DS . 'uploads'.DS.$url;
+			$path = ROOT_PATH . 'public' .DS.$url;
 			if(file_exists($path)&&$url){
 				unlink($path);
 			}

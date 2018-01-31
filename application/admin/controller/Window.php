@@ -12,12 +12,20 @@ class Window extends Common{
 	public function index(){
 		$this->auth();
 		$sectionid = input('sectionid');
-		if($sectionid!=''){
-			$map['sectionid'] = $sectionid;
+		$num = input('num');
+		$map = [];
+		if($sectionid!=''||$num!=''){
+			if($sectionid){
+				$map['sectionid'] = $sectionid;
+			}
+            if($num){
+	            $map['fromnum'] = $num;
+            }
 			$data = DB::name('sys_window')->where('valid',1)->where($map)->order('name')->paginate(12,false,['query'=>array('sectionid'=>$sectionid)]);
 		}else{
 			$data = DB::name('sys_window')->where('valid',1)->order('name')->paginate(12);
 		}
+
 		$page = $data->render();
 		$list = $data->all();
 		foreach ($list as $k => $v) {
@@ -33,6 +41,7 @@ class Window extends Common{
 		$this->assign('sec',$section);
 		$this->assign('page',$page);
 		$this->assign('list',$list);
+		$this->assign('num',$num);
 		return $this->fetch();
 	}
 	//添加窗口

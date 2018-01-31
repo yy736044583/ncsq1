@@ -11,8 +11,8 @@
 	<div class="heater">
 		<h1 class="lf">自助服务系统</h1>
 		<div class="lr times">
-			<p class="time1">2017年12月17日 星期日</p>
-			<p class="time2">16:48</p>
+			<p class="time1">{$time|date="Y年m月d日",###} {$time|weekday}</p>
+			<p class="time2">{$time|date="H:i",###}</p>
 		</div>
 	</div>
 	<div class="cont">
@@ -151,8 +151,14 @@
 		</div>
 		<div class="footer ">
 			<div class="clearfix footer-cont">
-				<div class="lf">服务电话：028-000000000</div>
-				<div class="lr">技术支持：四川信宏翔科技有限公司</div>
+				<div class="lf">
+					<img src="__PUBLIC__integration/img/app.png" class="lf">
+					<p class="lf">顺庆政务APP</p>
+				</div>
+				<div class="lr">
+					<p>技术支持：四川信宏翔科技有限公司</p>
+					<p style="font-size: 25px;padding-left: 205px;">028-00000000</p>					
+				</div>
 			</div>
 		</div>
 	</div>

@@ -121,12 +121,12 @@
 			})
 			// 关闭预览
 			$("#off").click(function(e){
-				e.stopPropagation();
+				e.preventDefault();
 				$(".preview-file").fadeOut(100);
 			})
 			//删除照片
 			$("#delet").click(function(e){
-				e.stopPropagation();
+				e.preventDefault();
 				var id = $(".preview-file img").attr('data-id');
 				$(".key"+id+"").remove();
 				strFileNames.splice(id,1);
@@ -135,7 +135,7 @@
 			})
 			// 拍照
 			$(".photo").click(function(e){
-				e.stopPropagation();
+				e.preventDefault();
 				if(imgtype == 1){
 					imgtype = 0;//正在拍照不能点击
 					CaptureToFile();
@@ -145,7 +145,7 @@
 			// 打印
 			var prints = true;//打印
 			$(".succ").click(function(e){
-				e.stopPropagation();
+				e.preventDefault();
 				if(strFileNames.length == 0 || prints != true){
 					return false; //没有照片不打印
 				}

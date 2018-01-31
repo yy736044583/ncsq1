@@ -28,9 +28,9 @@ class Common extends \think\Controller{
 						$json = file_get_contents($TOKEN_URL);
 						$result = json_decode($json,true);
 						$openid = $result['openid'];
-
 					}
-					Session('openid',$openid);					
+					Session('openid',$openid);
+
 				}
 			}
 		}

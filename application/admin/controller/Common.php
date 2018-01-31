@@ -80,7 +80,7 @@ class Common extends \think\Controller{
 	    if(empty($type)){
 	    	$info = $file->move($path);
 	    }else{
-	    	$info = $file->validate(['ext'=>$type])->move($path);
+	    	$info = $file->validate(['size'=>104857600,'ext'=>$type])->move($path);
 	    }
 	    
 	    if($info){

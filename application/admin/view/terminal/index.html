@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>新闻</title>
+    <link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+    <link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+    <link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+    <script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+</head>
+
+
+<body>
+<div class="admin-main">
+    <blockquote class="layui-elem-quote">
+        <div class="layui-inline">
+            <a href="{:url('terminal/addtheme')}" class="layui-btn layui-btn-small" id="add">
+                <i class="layui-icon">&#xe608;</i> 添加
+            </a>
+        </div>
+        <div class="layui-inline">
+            <form class="layui-form" action="{:url('terminal/index')}" method="post">
+                <div class="layui-inline">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($title) neq true"} value="{$title}"{/if}>
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn">搜索</button>
+                </div>
+            </form>
+        </div>
+    </blockquote>
+    <fieldset class="layui-elem-field">
+        <legend>主题列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>主题</th>
+                    <th>个人/法人</th>
+                    <th style="width:120px">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" key="k" id="v"}
+                <tr>
+                    <td>{$k}</td>
+                    <td>{$v.tname}</td>
+                    <td>{$v.nid}</td>
+                    <td>
+                        <a href="{:url('terminal/uptheme')}?id={$v.id}" class="layui-btn layui-btn-mini">编辑</a>
+                        <a href="{:url('terminal/dltheme')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+    </fieldset>
+    {$page}
+</div>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+    });
+</script>
+</body>
+</html>

@@ -9,6 +9,8 @@ use think\Session;
 class Map extends \think\Controller{
 
     public function index(){
+    	$set = Db::name('ds_set')->find();
+     	$this->assign('set',$set);
         return  $this->fetch();
     }
 

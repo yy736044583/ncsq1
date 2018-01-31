@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>微信问答列表</title>
+    <link rel="stylesheet" href="__PUBLIC__static/plugins/layui/css/layui.css" media="all" />
+    <link rel="stylesheet" href="__PUBLIC__static/css/global.css" media="all">
+    <link rel="stylesheet" href="__PUBLIC__static/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="__PUBLIC__static/css/table.css" />
+    <link rel="stylesheet" href="__PUBLIC__static/css/page.css" />
+    <script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+    <script type="text/javascript" src="__PUBLIC__static/js/jquery-3.1.1.min.js"></script>
+</head>
+
+
+<body>
+<div class="admin-main">
+    <blockquote class="layui-elem-quote">
+        <div class="layui-inline">
+            <form class="layui-form" action="">
+                <div class="layui-inline">
+                    <label class="layui-form-label">问题：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="question" lay-verify="title" autocomplete="off" class="layui-input" placeholder="编号" {if condition="empty($question) neq true"} value="{$question}" {/if}>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">部门：</label>
+                    <div class="layui-input-inline">
+                        <select name="sectionid" lay-verify="required" lay-search="" >
+                            <option value="">请选择</option>
+                            {volist name="section" id="v"}
+                            <option value="{$v.id}" {if condition="$sectionid eq $v['id']"} selected="true" {/if}>{$v.name}</option>
+                            {/volist}
+                            <option value="">全部</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn">搜索</button>
+                </div>
+            </form>
+        </div>
+    </blockquote>
+
+    <fieldset class="layui-elem-field">
+        <legend>微信问答列表</legend>
+        <div class="layui-field-box">
+            <table class="site-table table-hover">
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>部门</th>
+                    <th>问题</th>
+                    <th>提问时间</th>
+                    <th>是否回答</th>
+                    <th>回答</th>
+                    <th>回答时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {volist name="list" key="k" id="v"}
+                <tr>
+                    <td>{$k}</td>
+                    <td>{$v.section}</td>
+                    <td>{$v.question|textlength=50}</td>
+                    <td>{$v.createtime|date="Y-m-d H:i",###}</td>
+                    <td>{$v.status}</td>
+                    <td>{$v.answer|textlength=50}</td>
+                    <td>{$v.createtime|date="Y-m-d H:i",###}</td>
+                    <td>
+                        <a href="{:url('question/answer')}?id={$v.id}" class="layui-btn layui-btn-mini">回复</a>
+                        <a href="{:url('question/dlquestion')}?id={$v.id}" data-id="1" data-opt="del" class="layui-btn layui-btn-danger layui-btn-mini">删除</a>
+                    </td>
+                </tr>
+                {/volist}
+                </tbody>
+            </table>
+    </fieldset>
+    {$page}
+</div>
+
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+    });
+</script>
+
+</body>
+</html>

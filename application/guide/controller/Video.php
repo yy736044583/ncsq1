@@ -1,6 +1,7 @@
 <?php
 namespace app\guide\controller;
 use think\Controller;
+use think\Request;
 use think\View;
 use think\Db;
 

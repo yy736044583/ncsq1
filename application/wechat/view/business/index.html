@@ -17,18 +17,22 @@
 	<body>
 		<div class="main-box">
 			<div class="top">
-				<a href="" class="on">个人办事</a>
-				<a href="">法人办事</a>
+				<a href="{:url('business/index',['nid'=>1])}" {if $nid eq 1} class="on" {/if}>个人办事</a>
+				<a href="{:url('business/index',['legal'=>1])}" {if $legal eq 1} class="on" {/if}>法人办事</a>
 			</div>
 			<div class="baner">
 				<img src="__PUBLIC__weixin/images/bus-banner.jpg">
 			</div>
+			
 			<div class="b-searce">
+				<form action="{:url('business/matter')}">
 				<div class="b-searce-box">
-					<input type="text" name="" placeholder="请输入关键词搜索">
+					<input type="text" name="name" placeholder="请输入关键词搜索">
 					<button>搜索</button>
 				</div>
+				</form>
 			</div>
+			
 			<div class="classify">
 				<div class="classify-box">
 					<div class="classify-bab">
@@ -37,114 +41,26 @@
 					</div>
 					<div class="classify-bd border">
 						<!-- 主题分类开始 -->
-						<ul class="clearfix">
+						<ul class="clearfix" style="position: relative;z-index: 1">
+							{volist name="themelist" id="v"}
 							<li>
-								<a href="">
+								<a href="{:url('business/matter',['theme'=>$v['tname']])}">
 									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
+									<p>{$v.tname}</p>
 								</a>
 							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<img src="__PUBLIC__weixin/images/icon1/1_05.png">
-									<p>户籍办理</p>
-								</a>
-							</li>
+							{/volist}
 						</ul>
 						<!-- 主题分类结束 -->
 						<!-- 部门分类开始 -->
-						<ul class="clearfix bm" style="display: none;">
+						<ul class="clearfix bm" style="display: none;position: relative;z-index: 1">
+							{volist name="sectionlist" id="v"}
 							<li>
-								<a href="">
-									<p>部门分类</p>
+								<a href="{:url('business/matter',['deptid'=>$v['tid']])}">
+									<p>{$v.tname}</p>
 								</a>
 							</li>
-							<li>
-								<a href="">
-									<p>部门分类部门分类部门分类</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<p>部门分类</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<p>部门分类部门分类部门分类</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<p>部门分类</p>
-								</a>
-							</li>
-							<li>
-								<a href="">
-									<p>部门分类部门分类部门分类</p>
-								</a>
-							</li>
-
+							{/volist}
 
 						</ul>
 						<!-- 部门分类结束 -->
