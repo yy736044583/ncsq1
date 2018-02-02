@@ -7,7 +7,7 @@
 		<meta content="black" name="apple-mobile-web-app-status-bar-style">
 		<meta content="telephone=no" name="format-detection">
 		<meta content="email=no" name="format-detection">
-		<title>选择事项</title>
+		<title>提交问题</title>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/css.css"/>
@@ -19,7 +19,7 @@
 	<body style="height: 100%;">
 		<div class="main-box" style="height: 100%;">
 			<div class="add-question">
-				<div class="add-top">在线回复时间：周一到周五(工作日) 上午9点到12点 下午2点到5点</div>
+				<div class="add-top">在线回复时间:周一到周五(工作日)上午9点到12点 下午2点到5点</div>
 				<div class="add-cont">
 					<div class="add-box">
 						<div class="add-address">
@@ -32,7 +32,7 @@
 								<textarea id="texts" placeholder="请在输入您想问的问题"></textarea>
 							</div>
 							<div class="gk">
-								<input type="checkbox" name="valid" id="r">
+								<input type="checkbox" name="valid" value="1" id="r">
 								<label for="r">公开您的问题及回复</label>
 							</div>
 						</div>
@@ -57,6 +57,45 @@
 						});
 						return false;
 					}
+					var valid = $(".gk input:checked").val() == 1 ?1:2;
+					$.ajax({
+						url: '{:url("Consultation/upquestion")}',
+						type: 'POST',
+						data: {sectionid: '{$sid}',question:$("#texts").val(),valid:valid},
+						success:function(data){
+							console.log(data)
+							if(data == 1){
+								layer.open({
+								    content: '提交成功'
+								    ,btn: '确定'
+								    ,shadeClose: false
+								    ,yes:function(){
+								    	window.location.href='{:url("Consultation/index")}'
+								    }
+								});
+							}else if(data == 3){
+								layer.open({
+								    content: '提交失败!提交次数过多'
+								    ,skin: 'msg'
+								    ,time: 2 //2秒后自动关闭
+								});
+							}else {
+								layer.open({
+								    content: '提交失败'
+								    ,skin: 'msg'
+								    ,time: 2 //2秒后自动关闭
+								});
+							}
+						},
+						error:function(){
+							layer.open({
+							    content: '服务器问题正在修复中'
+							    ,skin: 'msg'
+							    ,time: 2 //2秒后自动关闭
+							});
+						}
+					})
+					
 				})
 				
 			})

@@ -42,7 +42,8 @@
 					 var clientHeight = $(this).height();    //当前可视的页面高度
 					 if(scrollHeight <= clientHeight) return false;//如果没有更多数据不执行  
 					 if(scrollTop + clientHeight >= scrollHeight-50){   //距离顶部+当前高度 >=文档总高度 即代表滑动到底部  
-					 $(".matter-list").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>正在加载中...</p>"); 
+					 $(".matter-list").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>正在加载中...</p>");
+					 Isscroll = false; 
 				     	$.ajax({
 								url: '{:url("business/matterlist")}',
 								type: 'GET',
@@ -67,7 +68,7 @@
 										Isscroll = false;
 										return false;
 									}
-									
+									Isscroll = true;
 								}
 							});
 							pageindex++;					
@@ -79,39 +80,7 @@
 					  
 					 }  
 				}); 
-				// scroll.on('pullingUp', function(e){
-				// 	$(".wrapper .content").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>正在加载中...</p>");					
-				// 	$.ajax({
-				// 		url: '{:url("business/matterlist")}',
-				// 		type: 'GET',
-				// 		dataType: 'json',
-				// 		data: {theme: '{$theme}',deptid:'{$deptid}',pageindex:pageindex,pagesize:pagesize},
-				// 		success:function(data){
-				// 			console.log(data)
-				// 			$(".wrapper .content>p").remove();
-				// 			for(var i=0;i<=data.length-1; i++){
-				// 				var Html = '<a href="{:url("business/mattershow")}?id='+data[i].id+'">'
-				// 					Html +=	'<div class="matter-item">'
-				// 					Html +=		'<div class="tit">'
-				// 					Html +=			'<p>'+data[i].tname+'</p>'
-				// 					Html +=			'<em></em>'
-				// 					Html +=		'</div>'
-				// 					Html +=		'<div class="tel"> 咨询电话：'+data[i].telephone+'</div>'
-				// 					Html +=	'</div>'
-				// 					Html +='</a>'
-				// 					$(".wrapper .content").append(Html);
-				// 			}
-				// 			scroll.refresh();
-				// 			if(data.length<pagesize){
-				// 				$(".wrapper .content").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>没有更多数据</p>");
-				// 				// $(".wrapper .content>p").text('没有更多数据');
-				// 				// return false;
-				// 			}
-							
-				// 		}
-				// 	});
-				// 	pageindex++;					
-				// })
+				
 			}
 			
 		</script>

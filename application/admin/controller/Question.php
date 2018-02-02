@@ -32,6 +32,8 @@ class Question extends Common{
 		return $this->fetch();
 	}
 
+
+	//回复
 	public function  answer(){
 		if(request()->isPost()){
 			$data = input('post.');
@@ -52,6 +54,11 @@ class Question extends Common{
 	}
 
 	public function  dlquestion(){
-
+		$id = input('id');
+		if(Db::name('wx_qa')->where('id',$id)->delete()){
+			$this->success('删除成功','question/index');
+		}else{
+			$this->error('删除失败');
+		}
 	}
 }

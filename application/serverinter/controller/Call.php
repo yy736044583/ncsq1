@@ -425,10 +425,11 @@ class Call{
 		$time = date('Y-m-d H:i:s',time());
 		$today = date('Ymd',time());
 
-			//如果没有oldid 则将该窗口当天之前的排号状态改为完成
+		//如果没有oldid 则将该窗口当天之前的排号状态改为完成
 		Db::name('ph_queue')->where("today='$today' and windowid='$wid'")->whereIn('style','1,2,3')->update(['status'=>'3','style'=>'4','endtime'=>$time]);
 
-
+		// 根据窗口id查询窗口编号
+		$windownum = Db::name('sys_window')->where('id',$wid)->value('fromnum');
 		//根据窗口id查询业务范围
 		$busid = Db::name('sys_winbusiness')->where('windowid',$wid)->value('businessid');
 
@@ -477,7 +478,59 @@ class Call{
 
 			//等候人数-1
 			Db::name('sys_business')->where('id',$que['businessid'])->setDec('waitcount');
-			
+			// 短信开关 1开 0关
+			$set = Db::name('dx_set')->where('id',1)->find();
+			$messageoff = $set['messageoff'];// 短信总开关
+			$calloff = $set['calloff'];	//临近短信开关
+			$callnowoff = $set['callnowoff']; //叫号短信开关
+
+			// 如果叫号短信开关和总开关打开则发送临近叫号短信
+			if($messageoff==1&&$callnowoff==1){
+				$this->callmessage($que['flownum'],$windownum,$que['mobile'],$set['sign'],$set['username']);
+			}
+
+			// 如果临近短信开关和总开关打开则发送临近叫号短信
+			if($messageoff==1&&$calloff==1){
+				// 查询等候人数 如果等于XX人时发送短信
+				$count = Db::name('sys_business')->where('id',$que['businessid'])->value('waitcount');
+
+				// 判断是否有人数 如果有才判断进行短信发送
+				if(!empty($set['nearmessage1'])){
+					// 查询当前办理号后面的10个号码
+					$wait = Db::name('ph_queue')->field('id,flownum,mobile,message')->where($map)->order('ordernumber desc,taketime')->limit($set['nearmessage1'])->select();
+
+					// 取第set['nearmessage1']个号码  如果电话不为空则发送短信
+					$num = $set['nearmessage1'];
+					if(!empty($wait[$num])){
+						$nearwait = $wait[$num];
+						if(!empty($nearwait['mobile'])&&$nearwait['message']!=1){
+
+							// 调用发送短信接口
+							$this->countmessage($nearwait['flownum'],$set['nearmessage1'],$nearwait['mobile'],$set['sign'],$set['username']);
+							// 短信发送完成 则该条不再发送
+							Db::name('ph_queue')->where('id',$nearwait['id'])->update(['message'=>1]);
+						}
+					}
+				}
+				// 判断是否有人数 如果有才判断进行短信发送
+				if(!empty($set['nearmessage2'])){
+					// 查询当前办理号后面的10个号码
+					$wait = Db::name('ph_queue')->field('id,flownum,mobile,message')->where($map)->order('ordernumber desc,taketime')->limit($set['nearmessage1'])->select();
+
+					// 取第set['nearmessage2']个号码  如果电话不为空则发送短信
+					$num = $set['nearmessage2'];
+					if(!empty($wait[$num])){
+						$nearwait = $wait[$num];
+						if(!empty($nearwait['mobile'])&&$nearwait['message']!=2){
+							// 调用发送短信接口
+							$this->countmessage($nearwait['flownum'],$set['nearmessage2'],$nearwait['mobile'],$set['sign'],$set['username']);
+							// 短信发送完成 则该条不再发送
+							Db::name('ph_queue')->where('id',$nearwait['id'])->update(['message'=>2]);
+						}
+					}
+
+				}
+			}
 			// 叫号插入队列
 			cachequeue($wid,$qid,$que['flownum'],$que['businessid']);
 			
@@ -516,10 +569,20 @@ class Call{
 		 $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
 		
 		if(Db::name('ph_queue')->where('id',$id)->update(['style'=>'1'])){
-			$flownum = Db::name('ph_queue')->where('id',$id)->value('flownum');
+			$que = Db::name('ph_queue')->where('id',$id)->field('flownum,mobile')->find();
+			$flownum = $que['flownum'];
 			// 叫号插入队列
 			cachequeue($wid,$id,$flownum);
-
+			// 根据窗口id查询窗口编号
+			$windownum = Db::name('sys_window')->where('id',$wid)->value('fromnum');
+			// 短信开关 1开 0关
+			$set = Db::name('dx_set')->where('id',1)->find();
+			$messageoff = $set['messageoff']; // 总开关
+			$callagainoff = $set['callagainoff']; //叫号短信开关
+			// 如果重呼短信开关和总开关打开则发送临近叫号短信
+			if($messageoff==1&&$callagainoff==1){
+				$this->callmessage($flownum,$windownum,$que['mobile'],$set['sign'],$set['username']);
+			}
 			//添加队列到排号队列表中
 			//窗口设备
 //			 if($lid){
@@ -596,7 +659,8 @@ class Call{
 		if(empty($lid)){
 			$lid = Db::name('ph_hardwareled')->where('windowid',$wid)->value('id');
 		}
-
+		// 根据窗口id查询窗口编号
+		$windownum = Db::name('sys_window')->where('id',$wid)->value('fromnum');
 		//根据窗口id查询集中显示屏的设备id集
 		 $clid = Db::name('ph_cledwindow')->where('windowid','like',"%,$wid,%")->whereor('windowid','like',"%,$wid")->whereor('windowid','like',"$wid,%")->column('cledid');
 
@@ -623,6 +687,56 @@ class Call{
 			// 叫号插入队列
 			cachequeue($wid,$qid,$que['flownum'],$que['businessid']);
 			deleteoldid($id);
+			// 短信开关 1开 0关
+			$set = Db::name('dx_set')->where('id',1)->find();
+			$messageoff = $set['messageoff'];
+			$calloff = $set['calloff'];
+			$callnowoff = $set['callnowoff']; //叫号短信开关
+
+			// 如果叫号短信开关和总开关打开则发送临近叫号短信
+			if($messageoff==1&&$callnowoff==1){
+				$this->callmessage($que['flownum'],$windownum,$que['mobile'],$set['sign'],$set['username']);
+			}
+
+			if($messageoff==1&&$calloff==1){
+				// 查询等候人数 如果等于XX人时发送短信
+				$count = Db::name('sys_business')->where('id',$que['businessid'])->value('waitcount');
+				// 判断是否有人数 如果有才判断进行短信发送
+				if(!empty($set['nearmessage1'])){
+					// 查询当前办理号后面的10个号码
+					$wait = Db::name('ph_queue')->field('id,flownum,mobile,message')->where($map)->order('ordernumber desc,taketime')->limit($set['nearmessage1'])->select();
+
+					// 取第十个号码  如果电话不为空则发送短信
+					$num = $set['nearmessage1'];
+					if(!empty($wait[$num])){
+						$nearwait = $wait[$num];
+						if(!empty($nearwait['mobile'])&&$nearwait['message']!=1){
+							// 调用发送短信接口
+							$this->countmessage($nearwait['flownum'],$set['nearmessage1'],$nearwait['mobile'],$set['sign'],$set['username']);
+							// 短信发送完成 则该条不再发送
+							Db::name('ph_queue')->where('id',$nearwait['id'])->update(['message'=>1]);
+						}
+					}
+				}
+				// 判断是否有人数 如果有才判断进行短信发送
+				if(!empty($set['nearmessage2'])){
+					// 查询当前办理号后面的10个号码
+					$wait = Db::name('ph_queue')->field('id,flownum,mobile,message')->where($map)->order('ordernumber desc,taketime')->limit($set['nearmessage1'])->select();
+
+					// 取第十个号码  如果电话不为空则发送短信
+					$num = $set['nearmessage2']-2;
+					if(!empty($wait[$num])){
+						$nearwait = $wait[$num];
+						if(!empty($nearwait['mobile'])&&$nearwait['message']!=2){
+							// 调用发送短信接口
+							$this->countmessage($nearwait['flownum'],$set['nearmessage2'],$nearwait['mobile'],$set['sign'],$set['username']);
+							// 短信发送完成 则该条不再发送
+							Db::name('ph_queue')->where('id',$nearwait['id'])->update(['message'=>2]);
+						}
+					}
+
+				}
+			}
 			//添加队列到排号队列表中
 			//窗口设备
 //			 if($lid){
@@ -896,5 +1010,57 @@ class Call{
 		}
 		echo json_encode(['data'=>['count'=>$count],'code'=>'200','message'=>'成功'],JSON_UNESCAPED_UNICODE);
 		return;
+	}
+
+	/**
+	 * [takemessage 临近短信提醒]
+	 * @param  [type] $flownum  [description]
+	 * @param  [type] $count    [description]
+	 * @param  [type] $phone    [description]
+	 * @return [type]           [description]
+	 */
+	public function countmessage($flownum,$count,$phone,$sign,$username){
+
+		$json = ['flownum'=>$flownum,'count'=>$count];
+		// 短信模板编号
+		$code = Db::name('dx_template')->where('type',3)->value('code');
+
+		$data1 = [
+			'data'		=> $json,
+			'template'	=> $code,
+			'phone'		=> $phone,
+			'sign'		=> $sign,
+			'action'	=> 'sendSms',
+			'username'	=> $username,
+		];
+		$url = 'http://sms.scsmile.cn/internc/index';
+		// $url = 'http://192.168.0.10:8076/smileSMS/index.php/inter/index';
+		// url方式提交
+		$httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
+	}
+	/**
+	 * [takemessage 叫号短信提醒]
+	 * @param  [type] $flownum  [description]
+	 * @param  [type] $count    [description]
+	 * @param  [type] $phone    [description]
+	 * @return [type]           [description]
+	 */
+	public function callmessage($flownum,$window,$phone,$sign,$username){
+
+		$json = ['flownum'=>$flownum,'window'=>$window];
+		// 短信模板编号
+		$code = Db::name('dx_template')->where('type',4)->value('code');
+
+		$data1 = [
+			'data'		=> $json,
+			'template'	=> $code,
+			'phone'		=> $phone,
+			'sign'		=> $sign,
+			'action'	=> 'sendSms',
+			'username'	=> $username,
+		];
+		$url = 'http://sms.scsmile.cn/internc/index';
+		// url方式提交
+		$httpstr = http($url, $data1, 'GET', array("Content-type: text/html; charset=utf-8"));
 	}
 }

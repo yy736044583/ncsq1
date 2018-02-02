@@ -147,26 +147,28 @@ function cachequeue($wid,$qid,$flownum,$businessid=''){
 			//如果窗口屏/呼叫器编号不为空就赋值给数组  并且计算当前排队人数
 			if(!empty($lednumber)){
 				$led['lednumber'] = $lednumber;
-				$led['count'] = $count;								
-				$led['time'] = $time;								
+				$led['count'] = $count;
+				$led['time'] = $time;
+				if($wid==$v['windowid']){
+					$led['qid'] = $qid;
+					$led['flownum'] = $flownum;
+				}else{
+					$led['qid'] = '';
+					$led['flownum'] = '';
+				}
 			}
 
 			if(!empty($callnumber)){
 				$call['callnumber'] = $callnumber;
 				$call['count'] = $count;
 				$call['time'] = $time;
-			}
-
-			if($wid==$v['windowid']){
-				$led['qid'] = $qid;
-				$call['qid'] = $qid;
-				$led['flownum'] = $flownum;
-				$call['flownum'] = $flownum;
-			}else{
-				$led['qid'] = '';
-				$call['qid'] = '';
-				$led['flownum'] = '';
-				$call['flownum'] = '';
+				if($wid==$v['windowid']){
+					$call['qid'] = $qid;
+					$call['flownum'] = $flownum;
+				}else{
+					$call['qid'] = '';
+					$call['flownum'] = '';
+				}
 			}
 			// dump($led);
 			empty($led)?'':Db::name('ph_cachequeue')->insert($led);

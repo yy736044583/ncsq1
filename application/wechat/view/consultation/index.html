@@ -7,7 +7,7 @@
 		<meta content="black" name="apple-mobile-web-app-status-bar-style">
 		<meta content="telephone=no" name="format-detection">
 		<meta content="email=no" name="format-detection">
-		<title>选择事项</title>
+		<title>全部问题</title>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/css.css"/>
@@ -36,7 +36,9 @@
 						<div class="item-cont">
 							{$v.question}
 						</div>
+						{if empty($v['answer']) neq true}
 						<div class="item-hf"><p>客服：{$v.answer}</p></div>
+						{/if}
 					</div>
 					{/volist}
 					
@@ -48,8 +50,61 @@
 		</div>
 		<script type="text/javascript" src="__PUBLIC__weixin/js/myscroll.js" ></script>
 		<script type="text/javascript">
-			
-
+			var pageindex = 2;
+			var pagesize = 6;
+			var Isscroll = true;
+			window.onload=function(){
+				$(".scroll").scroll(function(){  
+      				if(!Isscroll) return false;
+					 var scrollTop = $(this).scrollTop();    //滚动条距离顶部的高度  
+					 var scrollHeight = document.querySelector('.scroll').scrollHeight;   //当前页面的总高度  
+					 var clientHeight = $(this).height();    //当前可视的页面高度
+					 // alert(scrollTop+","+scrollHeight+","+clientHeight);
+					 if(scrollHeight <= clientHeight) return false;//如果没有更多数据不执行  
+					 if(scrollTop + clientHeight >= scrollHeight-50){   //距离顶部+当前高度 >=文档总高度 即代表滑动到底部  
+					 $(".consultation-cont").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>正在加载中...</p>"); 
+					 	Isscroll = false;
+				     	$.ajax({
+								url: '{:url("consultation/questionlist")}',
+								type: 'GET',
+								dataType: 'json',
+								data: {pageindex:pageindex,pagesize:pagesize},
+								success:function(data){
+									$(".consultation-cont>p").remove();
+									for(var i=0;i<=data.length-1; i++){
+										var Html = '<div class="consultation-itme">'
+											Html +=			'<div class="item-tit">'
+											Html +=				'<div class="photo">'
+											Html +=					'<img src="'+data[i].icon+'">'
+											Html +=				'</div>'
+											Html +=				'<div class="w-name">'+data[i].nickname+'</div>'
+											Html +=				'<div class="w-time">'+data[i].createtime+'</div>'
+											Html +=			'</div>'
+											Html +=			'<div class="item-cont">'+data[i].question+'</div>'
+											if(data[i].answer !=""){
+											Html +=			'<div class="item-hf"><p>客服：'+data[i].answer+'</p></div>'
+											}
+											Html +=		'</div>'
+											$(".consultation-cont").append(Html);
+									}
+									if(data.length<pagesize){
+										$(".consultation-cont").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>没有更多数据</p>");
+										Isscroll = false;
+										return false;
+									}
+								Isscroll = true;	
+								}
+							});
+							pageindex++;					
+					
+					 }else {  
+					    //滚动条到达顶部  
+					     // alert(4)  
+					 //滚动条距离顶部的高度小于等于0 TODO  
+					  
+					 }  
+				});
+			}
 		</script>
 	</body>
 </html>

@@ -388,12 +388,11 @@ class Take{
 			
 			// 根据业务id查询可办理的窗口id集合
 			$wids = Db::name('sys_winbusiness')->where('businessid','like',"%,$businessid,%")->whereor('businessid','like',"%,$businessid")->whereor('businessid','like',"$businessid,%")->column('windowid');
-			//查询窗口的窗口编号 并进行排序
-			$data1['windows'] = $this->winname($wids);
 
-		
 			// 等候人数+1  调用方法
 			$this->waitcount($businessid);
+			//查询窗口的窗口编号 并进行排序
+			$data1['windows'] = $this->winname($wids);
 
 			// 返回的data数据
 			// 返回的数据 排队人数 业务编号 排队编号 当日序号

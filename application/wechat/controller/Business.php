@@ -6,7 +6,7 @@ use think\Request;
 use app\wechat\Controller\Common;
 
 class Business extends Common{
-	// 首页
+    // 首页
     public function index(){
         $nid = input('nid');
         $legal = input('legal');
@@ -17,13 +17,13 @@ class Business extends Common{
         $map1 = array();
         // 根据前端的值查询部门表或者主题表
         //个人办事
-	    if($nid)$map['nid'] = 1;
+        if($nid)$map['nid'] = 1;
         //法人办事
-	    if($legal)$map['nid'] = 2;
+        if($legal)$map['nid'] = 2;
         $themelist = Db::name('gra_theme')->where($map)->select();
 
         //个人办事
-	    if($nid)$map1['nid'] = 1;
+        if($nid)$map1['nid'] = 1;
         //法人办事
         if($legal)$map1['legal'] = 1;
         $sectionlist = Db::name('gra_section')->where($map1)->select();
@@ -37,49 +37,49 @@ class Business extends Common{
     }
     //选择事项
     public function matter(){
-	    $theme = input('theme');//主题名称
-	    $deptid = input('deptid');//部门id
-	    $name = input('name');//搜索事项标题
-	    $map = array();
-	    if($theme){
-	    	$map['theme'] = $theme;
-	    }
-	    if($deptid){
-	    	$map['deptid'] = $deptid;
-	    }
-	    if($name){
-	    	$map['tname'] = ['like',"%$name%"];
-	    }
-	    $data = Db::name('gra_matter')->where($map)->field('id,tname,telephone')->paginate(12);
-	    $list = $data->all();
-	    $page = $data->render();
-	    $this->assign('list',$list);
-	    $this->assign('page',$page);
-	    $this->assign('theme',$theme);
-	    $this->assign('deptid',$deptid);
+        $theme = input('theme');//主题名称
+        $deptid = input('deptid');//部门id
+        $name = input('name');//搜索事项标题
+        $map = array();
+        if($theme){
+            $map['theme'] = $theme;
+        }
+        if($deptid){
+            $map['deptid'] = $deptid;
+        }
+        if($name){
+            $map['tname'] = ['like',"%$name%"];
+        }
+        $data = Db::name('gra_matter')->where($map)->field('id,tname,telephone')->paginate(12);
+        $list = $data->all();
+        $page = $data->render();
+        $this->assign('list',$list);
+        $this->assign('page',$page);
+        $this->assign('theme',$theme);
+        $this->assign('deptid',$deptid);
         return  $this->fetch();
     }
     //ajax请求数据 进行分页
     public  function  matterlist(){
-	    $theme = input('theme');//主题名称
-	    $deptid = input('deptid');//部门id
-	    $pageindex = input('pageindex');
-	    $pagesize = input('pagesize');
-	    $map = array();
-	    if($theme){
-		    $map['theme'] = $theme;
-	    }
-	    if($deptid){
-		    $map['deptid'] = $deptid;
-	    }
-	    $data = Db::name('gra_matter')->where($map)->field('id,tname,telephone')->page($pageindex,$pagesize)->select();
-	    echo json_encode($data);
+        $theme = input('theme');//主题名称
+        $deptid = input('deptid');//部门id
+        $pageindex = input('pageindex');
+        $pagesize = input('pagesize');
+        $map = array();
+        if($theme){
+            $map['theme'] = $theme;
+        }
+        if($deptid){
+            $map['deptid'] = $deptid;
+        }
+        $data = Db::name('gra_matter')->where($map)->field('id,tname,telephone')->page($pageindex,$pagesize)->select();
+        echo json_encode($data);
     }
     //事项详情
     public function mattershow(Request $request){
-     	$id = input('id');
-     	$list =  Db::name('gra_matter')->where('id',$id)->find();
-     	//应交材料
+        $id = input('id');
+        $list =  Db::name('gra_matter')->where('id',$id)->find();
+        //应交材料
         $datlist = Db::name('gra_datum')->where("matterid",$list['id'])->order('sort')->select();
         foreach ($datlist as $k => $v) {
             if($v['nullurl']){
@@ -136,7 +136,7 @@ class Business extends Common{
             }
         }
 
-	    $this->assign('warlist',$warlist); 
+        $this->assign('warlist',$warlist); 
         $this->assign('gscsetlist',$gscsetlist);  
         $this->assign('datlist',$datlist);       
         $this->assign('flowlimit',$flowlimit);
@@ -147,14 +147,14 @@ class Business extends Common{
     
     // 乡镇政务中心
     public function govlist(){
-    	$name = input('name');
-    	$map = array();
-    	if($name){
-    		$map['name'] = ['like',"%$name%"];
-	    }
-     	$list = Db::name('gra_towns')->where($map)->select();
-     	$this->assign('list',$list);
-     	$this->assign('name',$name);
+        $name = input('name');
+        $map = array();
+        if($name){
+            $map['name'] = ['like',"%$name%"];
+        }
+        $list = Db::name('gra_towns')->where($map)->select();
+        $this->assign('list',$list);
+        $this->assign('name',$name);
         return  $this->fetch();
 
     }
@@ -162,17 +162,18 @@ class Business extends Common{
     public function govshow(){
         $id = input('id');
         $list = Db::name('gra_towns')->where('id',$id)->find();
-	    $this->assign('list',$list);
+        $this->assign('list',$list);
         // 调用微信公众号
         $jssdk = $this->weisdk();
-        dupm($jssdk);
+        // dump($jssdk);
+        $this->assign('jssdk',$jssdk);
         return  $this->fetch();
 
     }
     // 调用微信公众号
     public function weisdk(){
         $appId = 'wx71c245013bbb9567';
-        $appsecret = '0de31bc94bd9560fa8bf9b66ac58eb10';
+        $appsecret = 'bcb3ed342b58ee44faa2c00f92ebb34e';
         $timestamp = time();
         $jsapi_ticket = $this->make_ticket($appId,$appsecret);
         $nonceStr = $this->make_nonceStr();
@@ -187,17 +188,20 @@ class Business extends Common{
     }
 
     public function make_ticket($appId,$appsecret) {
-        // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
-        $data = json_decode(file_get_contents("http://".$_SERVER['HTTP_HOST']."/ncsq/access_token.json"));
+        $http = "access_token.json";
+        $dat1 = file_get_contents($http);
+        $data = json_decode($dat1);
+
         if ($data->expire_time < time()) {
             $TOKEN_URL="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appId."&secret=".$appsecret;
             $json = file_get_contents($TOKEN_URL);
             $result = json_decode($json,true);
+            
             $access_token = $result['access_token'];
             if ($access_token) {
                 $data->expire_time = time() + 7000;
                 $data->access_token = $access_token;
-                $fp = fopen("http://".$_SERVER['HTTP_HOST']."/ncsq/access_token.json", "w");
+                $fp = fopen("access_token.json", "w");
                 fwrite($fp, json_encode($data));
                 fclose($fp);
             }
@@ -214,7 +218,7 @@ class Business extends Common{
             if ($ticket) {
                 $data->expire_time = time() + 7000;
                 $data->jsapi_ticket = $ticket;
-                $fp = fopen("http://".$_SERVER['HTTP_HOST']."/ncsq/jsapi_ticket.json", "w");
+                $fp = fopen("jsapi_ticket.json", "w");
                 fwrite($fp, json_encode($data));
                 fclose($fp);
             }

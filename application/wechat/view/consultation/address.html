@@ -7,7 +7,7 @@
 		<meta content="black" name="apple-mobile-web-app-status-bar-style">
 		<meta content="telephone=no" name="format-detection">
 		<meta content="email=no" name="format-detection">
-		<title>选择事项</title>
+		<title>选择部门</title>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
 		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/css.css"/>
@@ -20,10 +20,10 @@
 			<div class="whiet-address">
 				<!-- 搜索 -->
 				<div class="weui-search-bar" id="searchBar">
-		            <form class="weui-search-bar__form">
+		            <form class="weui-search-bar__form" action="{:url('consultation/address')}">
 		                <div class="weui-search-bar__box">
 		                    <i class="weui-icon-search"></i>
-		                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="">
+		                    <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="搜索" required="" name="name">
 		                    <a href="javascript:" class="weui-icon-clear" id="searchClear"></a>
 		                </div>
 		                <label class="weui-search-bar__label" id="searchText" style="transform-origin: 0px 0px 0px; opacity: 1; transform: scale(1, 1);">
@@ -39,68 +39,13 @@
 					{volist name="list" id="v"}
 		        	<a href="{:url('consultation/question',['id'=>$v['id']])}">
 		        		<div class="l">
-		        			<h2>{$v.name}</h2>
+		        			<h2>{$v.tname}</h2>
 		        			<!--<p>联系电话：0258-00000</p>-->
 		        		</div>
 		        		<div class="r"></div>		        		
 		        	</a>
 					{/volist}
-		        	<!--<a href="{:url('consultation/question')}">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
-		        	<!--<a href="{:url('consultation/question')}">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
-		        	<!--<a href="{:url('consultation/question')}">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
-		        	<!--<a href="{:url('consultation/question')}">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
-		        	<!--<a href="{:url('consultation/question')}">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
-		        	<!--<a href="">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
-		        	<!--<a href="">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
-		        	<!--<a href="">-->
-		        		<!--<div class="l">-->
-		        			<!--<h2>金台便民服务中心</h2>-->
-		        			<!--<p>联系电话：0258-00000</p>-->
-		        		<!--</div>-->
-		        		<!--<div class="r"></div>		        		-->
-		        	<!--</a>-->
+		        	
 		        </div>
 		        <!-- 乡镇便民服务中心 -->
 			</div>
@@ -149,6 +94,56 @@
 		            $searchInput.blur();
 		        });
 		    });
+
+		    var pageindex = 2;
+			var pagesize = 12;
+			var Isscroll = true;
+			window.onload=function(){
+				$(".address-list").scroll(function(){  
+      				if(!Isscroll) return false;
+					 var scrollTop = $(this).scrollTop();    //滚动条距离顶部的高度  
+					 var scrollHeight = document.querySelector('.address-list').scrollHeight;   //当前页面的总高度  
+					 var clientHeight = $(this).height();    //当前可视的页面高度
+					 if(scrollHeight <= clientHeight) return false;//如果没有更多数据不执行  
+					 if(scrollTop + clientHeight >= scrollHeight){   //距离顶部+当前高度 >=文档总高度 即代表滑动到底部  
+					 $(".address-list").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>正在加载中...</p>");
+					 Isscroll = false; 
+				     	$.ajax({
+								url: '{:url("consultation/addresslist")}',
+								type: 'GET',
+								dataType: 'json',
+								data: {name: '{$name}',pageindex:pageindex,pagesize:pagesize},
+								success:function(data){
+									
+									$(".address-list>p").remove();
+									for(var i=0;i<=data.length-1; i++){
+										var Html = '<a href="{:url("consultation/question")}?id='+data[i].id+'">'
+										    Html+=    		'<div class="l">'
+										    Html+=    			'<h2>'+data[i].tname+'</h2>'
+										    Html+=    		'</div>'
+										    Html+=    		'<div class="r"></div>'		        		
+										    Html+=    	'</a>'
+											$(".address-list").append(Html);
+									}
+									if(data.length<pagesize){
+										$(".address-list").append("<p style='text-align:center;font-size:14px;padding:5px 0;'>没有更多数据</p>");
+										Isscroll = false;
+										return false;
+									}
+									Isscroll = true;
+								}
+							});
+							pageindex++;					
+					
+					 }else {  
+					    //滚动条到达顶部  
+					     // alert(4)  
+					 //滚动条距离顶部的高度小于等于0 TODO  
+					  
+					 }  
+				}); 
+				
+			}
 		</script>
 	</body>
 </html>

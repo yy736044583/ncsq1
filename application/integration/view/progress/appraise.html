@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="__PUBLIC__integration/css/sytle.css">
+	<script type="text/javascript" src="__PUBLIC__integration/js/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/js/slid.js"></script>
+	<script type="text/javascript" src="__PUBLIC__integration/layer/layer.js"></script>
+</head>
+<body class="box">
+	<div class="heater">
+		<h1 class="lf">自助服务系统</h1>
+		<div class="lr">
+			<a href="javascript:window.history.back();" class="return">返回</a>
+			<a href="{:url('index/index')}" class="home">首页</a>
+		</div>
+	</div>
+	<div class="cont cont_box">
+		<div class="Navigation">
+			<span class="label">当前位置：</span>
+			<a href="">首页</a><span> > </span>
+			<a href="">我要评价</a>
+		</div>
+		<div class="cont_container dw jd-box">
+			<div class="dw-cont">
+				<div class="right-cont yy-search progress" id="pj">
+					<div class="tit"></div>
+					<div class="con">
+						<form>
+							<div class="input-row clearfix">
+								<label for="">评价主题</label>
+								<div class="phone-row">
+									<select>
+										<option>对工作人员作评价</option>
+										<option>对窗口作评价</option>
+										<option>对事项作评价</option>
+									</select>
+								</div>
+							</div>
+							<div class="input-row clearfix">
+								<label for="">评价内容</label>
+								<div class="phone-row">
+									<textarea id="pj-text" placeholder="请在次处输入评价内容"></textarea>
+								</div>
+							</div>
+							<button type="button" id="postjp"></button>
+						</form>
+					</div> 	
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			$("#postjp").click(function(){
+				if($("#pj-text").val() == ""){
+					$("#pj-text").focus();
+					return false;
+				}
+				$.ajax({
+					url: '{:url("Progress/upevl")}',
+					type: 'default GET (Other values: POST)',
+					dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+					data: {param1: 'value1'},
+				})
+				
+				layer.alert('提交成功',{
+					icon:1,
+					yes:function(){
+						window.location.href="{:url('index/index')}";							
+					},
+					cancel:function(){
+						window.location.reload();
+					}
+				})
+			})
+		})
+	</script>
+</body>
+</html>

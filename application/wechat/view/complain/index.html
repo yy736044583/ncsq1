@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta content="email=no" name="format-detection">
+		<title>提交投诉</title>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/lib/weui.min.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/style.css"/>
+		<link rel="stylesheet" type="text/css" href="__PUBLIC__weixin/css/css.css"/>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/lib/zepto.min.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/index.js" ></script>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/layer_mobile/layer.js" ></script>
+	</head>
+	<body>
+		<div class="main-box">
+			<div class="consultation">
+				<div class="consultation-top">
+					<a href="javascript:;" class="on">提交投诉</a>
+					<a href="{:url('complain/myinfo')}">我的投诉</a>
+				</div>
+				<div class="consultation-cont scroll">
+					<div class="complain-row">
+						<label>投诉标题：</label>
+						<input type="text" name="" id="title">
+					</div>
+					<div class="complain-row textarea">
+						<label>投诉内容：</label>
+						<textarea id="content"></textarea>						
+					</div>
+					<div class="complain-row">
+						<label>姓　　名：</label>
+						<input type="text" name="" id="upname">
+					</div>
+					<div class="complain-row">
+						<label>电　　话：</label>
+						<input type="text" name="" id="telphone">
+					</div>
+					<div class="complain-row">
+						<label>身份证号：</label>
+						<input type="text" name="" id="idcard">
+					</div>
+
+				</div>
+				<div class="consultation-footer">
+					<a href="javascript:;">提交投诉</a>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript" src="__PUBLIC__weixin/js/myscroll.js" ></script>
+		<script type="text/javascript">
+			var myreg=/^[1][3,4,5,7,8][0-9]{9}$/;
+			var Cord = /^(\d{18}|\d{17}x)$/;
+			var title = $("#title");
+			var content = $("#content");
+			var upname = $("#upname");
+			var telphone = $("#telphone");
+			var idcard = $("#idcard");
+			$(function(){
+				$(".consultation-footer a").click(function(e){
+					e.preventDefault();
+					if(title.val()=="" || content.val()=="" || upname.val()=="" || telphone.val()=="" || idcard.val()==""){
+						Alert('请填写完整信息');
+						return false;
+					}
+					if(!myreg.test(telphone.val())){
+						Alert('请填写有效手机号');
+						return false;
+					}
+					if(!Cord.test(idcard.val())){
+						Alert('请填写有效身份证号');
+						return false;
+					}
+					$.ajax({
+						url: '{:url("complain/upcomplain")}',
+						type: 'POST',
+						data: {title: title.val(),content:content.val(),upname:upname.val(),telphone:telphone.val(),idcard:idcard.val()},
+						success:function(data){
+							if(data == 1){
+								layer.open({
+								    content: '提交成功'
+								    ,btn: '确定'
+								    ,shadeClose: false
+								    ,yes:function(){
+								    	window.location.href='{:url("complain/myinfo")}'
+								    }
+								});
+							}else if(data == 3){
+								Alert('提交失败!提交次数过多');
+							}else {
+								Alert('提交失败');
+							}
+						},
+						error:function(){
+							Alert('服务器错误');
+						}
+					})
+					
+				})
+			})
+			function Alert(str) {
+				layer.open({
+				    content: str
+				    ,skin: 'msg'
+				    ,time: 2 //2秒后自动关闭
+				});
+			}
+		</script>
+	</body>
+</html>

@@ -314,12 +314,12 @@ class Index extends \think\Controller{
         $data['idcard'] = input("idcard");
         $data['tel'] = input("tel");
         $isnumber = Db::table('ph_take')->where("number = '$devicenum'")->find();//查询是否可身份证或者手机取号
-        if($isnumber['phone'] == 1 && !empty(input("idcard")) && empty(input("tel"))){
-            //查询上次扫描身份证所留手机号
-            $tel = Db::table('sys_peoples')->where("idcard = '$idcard'")->value('phone');
-            $data['tel'] = $tel;
-            
-        }
+//        if($isnumber['phone'] == 1 && !empty(input("idcard")) && empty(input("tel"))){
+//            //查询上次扫描身份证所留手机号
+//            $tel = Db::table('sys_peoples')->where("idcard = '$idcard'")->value('phone');
+//            $data['tel'] = $tel;
+//
+//        }
         $this->assign('info',$data);
         $this->assign('isnumber',$isnumber);
         return $this->fetch();
