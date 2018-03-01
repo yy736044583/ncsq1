@@ -437,7 +437,7 @@ class Call{
 		$map['today'] = $today;
 		$map['style'] = '0';
 		//根据条件查询业务范围内下一个排号id
-		$que = Db::name('ph_queue')->field('id,businessid,flownum')->where($map)->order('ordernumber desc,taketime')->find();
+		$que = Db::name('ph_queue')->field('id,businessid,flownum,mobile')->where($map)->order('ordernumber desc,taketime')->find();
 		$qid = $que['id'];
 		//如果没有查找到id则返回
 		if(!$qid){

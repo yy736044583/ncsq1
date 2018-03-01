@@ -105,7 +105,10 @@ class Note extends Common{
 					break;	
 				case '6':
 					$list[$k]['type'] = '取件码通知短信';
-					break;	
+					break;
+				case '7':
+					$list[$k]['type'] = '取件柜取件通知短信';
+					break;
 				default:
 					$list[$k]['type'] = '未同步';
 					break;
@@ -354,5 +357,6 @@ class Note extends Common{
 		$this->assign('list',$list);		
 		return $this->fetch();
 	}
+
 
 }

@@ -13,12 +13,16 @@ class Matter extends Common{
 		$this->auth();
 		$title = input('title');
 		$id = input('matterid');
-		if($title!=''||$id!=''){
+		$sectionid = input('sectionid');
+		if($title!=''||$id!=''||$sectionid!=''){
 			if($title){
 				$map['tname'] = ['like',"%$title%"];
 			}
 			if($id){
 				$map['id'] = $id;
+			}
+			if($sectionid){
+				$map['deptid'] = $sectionid;
 			}
 			$data = Db::name('gra_matter')->where($map)->order('sort desc')->paginate(12,false,['query'=>array('title'=>$title)]);
 			$this->assign('title',$title);
@@ -37,6 +41,7 @@ class Matter extends Common{
 		$this->assign('page',$page);
 		$this->assign('title',$title);
 		$this->assign('matterid',$id);
+		$this->assign('sectionid',$sectionid);
 		return $this->fetch();
 	}
 

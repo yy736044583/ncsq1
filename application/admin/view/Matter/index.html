@@ -31,6 +31,18 @@
 			        	<input type="text" name="matterid" lay-verify="title" autocomplete="off" class="layui-input" {if condition="empty($matterid) neq true"} value="{$matterid}"{/if}>
 			      	</div>
 			    </div>
+				<div class="layui-inline">
+					<label class="layui-form-label">部门名称</label>
+					<div class="layui-input-inline">
+						<select name="sectionid" lay-verify="required" lay-search="">
+							<option value="">全部</option>
+							{volist name="sec" id="v"}
+							<option value="{$v.tid}" {if condition="$sectionid eq $v['tid']"} selected="true" {/if}>{$v.tname}</option>
+							{/volist}
+							<option value="">全部</option>
+						</select>
+					</div>
+				</div>
 			    <div class="layui-inline">
 			    	<button class="layui-btn">搜索</button>
 			    </div>
@@ -76,3 +88,12 @@
 		{$page}
 	</div>
 </html>
+<script type="text/javascript" src="__PUBLIC__static/plugins/layui/layui.js"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function() {
+        var form = layui.form(),
+            layer = layui.layer,
+            layedit = layui.layedit,
+            laydate = layui.laydate;
+    });
+</script>

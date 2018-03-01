@@ -516,7 +516,7 @@ class Work extends \think\Controller{
                     unlink($dlurl);
                 }
             }
-                    }
+        }
         $data1 = input('post.');
         $userid = $data1['userid'];
         $datumid = $data1['datumid'];

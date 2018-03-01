@@ -135,13 +135,16 @@ class Communication{
 	// 删除队列 id队列id集合  字符串拼接
 	// 更新排号表中的叫号状态
 	public function deletequeue($id,$qid){
+		
 		if(Db::name('ph_cachequeue')->delete($id)){
-			Db::name('ph_queue')->whereIn('id',$qid)->setField(['style'=>2,'status'=>1]);
-			echo 'ok';
-			return;
+			if($qid){
+				Db::name('ph_queue')->whereIn('id',$qid)->setField(['style'=>2,'status'=>1]);
+			}
+			echo 'ok';return;
+			
 		}else{
-			echo 'error';
-			return; 
+			echo 'error';return; 
+			
 		}
 	}
 
